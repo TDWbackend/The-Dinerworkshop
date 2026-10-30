@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Signature Claypot Rice · The Dinerworkshop</title>
+<meta name="description" content="Our crown jewel: Signature Claypot Rice, an homage to Po Po’s foundational recipe, elevated with a subtle Japanese nuance. Available for private takeaway.">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   THE DINERWORKSHOP
+   Parchment cream, aged-wood brown, a single deep red.
+   Serif for the headings, a light geometric sans for the rest.
+   ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #f1eadf;
+  --cream-2: #e8dfcf;
+  --paper: #f6f1e8;
+  --ink: #2a1d16;
+  --brown: #24190f;
+  --brown-2: #19110b;
+  --red: #7a2320;
+  --red-2: #641b19;
+  --gold: #b5925c;
+  --gold-2: #d4b57c;
+  --muted: #6d5c4f;
+  --line: rgba(42, 29, 22, .14);
+  --pad: clamp(22px, 5vw, 80px);
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--ink); background: var(--cream); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+h1, h2, h3, .serif { font-family: var(--serif); font-weight: 500; line-height: 1.05; letter-spacing: -.01em; }
+h2 { font-size: clamp(38px, 4.6vw, 64px); }
+h3 { font-size: clamp(24px, 2.2vw, 30px); }
+p { max-width: 58ch; }
+.eyebrow { display: inline-flex; align-items: center; gap: 14px; max-width: none; white-space: nowrap; font-size: 11px; font-weight: 400; letter-spacing: .34em; text-transform: uppercase; color: var(--gold); }
+.eyebrow::after { content: ""; width: 44px; height: 1px; background: var(--gold); }
+.lead { margin-top: 20px; font-size: 17px; color: var(--muted); }
+.btn { display: inline-flex; align-items: center; gap: 12px; padding: 15px 30px; background: var(--ink); color: var(--cream); font-size: 14px; font-weight: 400; letter-spacing: .04em; border: 1px solid var(--ink); transition: background .35s, color .35s, border-color .35s, transform .45s var(--ease), box-shadow .45s var(--ease); }
+.btn:hover { background: var(--gold); border-color: var(--gold); color: var(--brown-2); transform: translateY(-3px); box-shadow: 0 16px 34px rgba(42, 29, 22, .22); }
+.btn svg { width: 16px; height: 16px; transition: transform .35s var(--ease); }
+.btn:hover svg { transform: translateX(3px); }
+.btn--ghost { background: transparent; color: var(--ink); border-color: rgba(42, 29, 22, .35); }
+.btn--ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.btn--gold { background: transparent; color: var(--gold-2); border-color: var(--gold); }
+.btn--gold:hover { background: var(--gold-2); border-color: var(--gold-2); color: var(--brown-2); }
+/* on dark sections and over the dark hero the main button turns cream */
+[data-dark] .btn:not(.btn--ghost):not(.btn--gold), .nav.on-dark:not(.open) .btn { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+[data-dark] .btn:not(.btn--ghost):not(.btn--gold):hover, .nav.on-dark:not(.open) .btn:hover { background: var(--gold-2); border-color: var(--gold-2); color: var(--brown-2); }
+.link { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--red); border-bottom: 1px solid var(--red); padding-bottom: 2px; transition: gap .3s; }
+.link:hover { gap: 16px; }
+.inner { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad); }
+section { position: relative; }
+.pad { padding: clamp(80px, 10vw, 140px) 0; }
+
+/* reveal on scroll */
+.rv { opacity: 0; transform: translateY(36px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
+.rv.in { opacity: 1; transform: none; }
+.rv.d1 { transition-delay: .12s; } .rv.d2 { transition-delay: .24s; } .rv.d3 { transition-delay: .36s; } .rv.d4 { transition-delay: .48s; }
+
+/* ══════════════ nav ══════════════ */
+.nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px var(--pad); transition: background .4s, padding .4s, box-shadow .4s; }
+.nav.scrolled { padding: 14px var(--pad); }
+.nav__logo { position: relative; display: block; height: 66px; aspect-ratio: 320 / 332; transition: height .4s var(--ease); }
+.nav__logo img { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity .35s; }
+.nav__logo .on-light { opacity: 1; } .nav__logo .on-darkbg { opacity: 0; }
+.nav.on-dark .nav__logo .on-light { opacity: 0; } .nav.on-dark .nav__logo .on-darkbg { opacity: 1; }
+.nav.scrolled .nav__logo { height: 52px; }
+.foot__logo { display: block; height: 56px; width: auto; }
+.nav__links { display: flex; gap: clamp(18px, 2.6vw, 38px); font-size: 14px; }
+.nav__links a { position: relative; padding: 4px 0; }
+.nav__links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--red); transition: width .3s; }
+.nav__links a:hover::after { width: 100%; }
+.nav__right { display: flex; align-items: center; gap: 26px; }
+.nav__right .bar { width: 1px; height: 22px; background: rgba(42, 29, 22, .25); }
+.nav .btn { padding: 11px 24px; }
+.nav.on-dark { color: var(--cream); }
+.nav.on-dark .nav__right .bar { background: rgba(241, 234, 223, .3); }
+.nav.on-dark .nav__links a::after { background: var(--gold); }
+.burger { display: none; width: 40px; height: 40px; place-items: center; }
+.burger span { display: block; width: 22px; height: 1px; background: currentColor; box-shadow: 0 7px 0 currentColor, 0 -7px 0 currentColor; transition: transform .3s, box-shadow .3s; }
+.nav.open .burger span { transform: rotate(45deg); box-shadow: none; }
+@media (max-width: 860px) {
+  .nav { padding: 16px var(--pad); }
+  .nav__logo { height: 50px; }
+  .nav.scrolled .nav__logo { height: 44px; }
+  .nav__right { gap: 10px; }
+  .nav__right .bar { display: none; }
+  .nav .btn { padding: 9px 14px; font-size: 13px; }
+  .burger { display: grid; }
+  .nav__links { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; gap: 0; background: var(--cream); padding: 6px var(--pad) 18px; box-shadow: 0 24px 40px rgba(0, 0, 0, .14); }
+  .nav.open .nav__links { display: flex; }
+  .nav.open { background: var(--cream); }
+  .nav.open.on-dark { color: var(--ink); }
+  .nav.open.on-dark .nav__logo .on-light { opacity: 1; } .nav.open.on-dark .nav__logo .on-darkbg { opacity: 0; }
+  .nav__links a { padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .leaf { display: none; }
+  .hero__side { display: none; }
+}
+
+
+/* ══════════════ claypot page ══════════════ */
+.nav__links a.is-current::after { width: 100%; }
+.pre { font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--red); max-width: none; }
+
+/* opening: the pot turns slowly on a dark wood ground */
+.cp-hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden; color: var(--ink);
+  background: radial-gradient(ellipse 46% 60% at 72% 52%, rgba(255, 251, 244, .95), rgba(255, 251, 244, 0) 70%), linear-gradient(180deg, #ebe4d7 0%, #e3dbcc 55%, #e9e2d5 100%); }
+.cp-hero__pot { position: absolute; right: -4vw; top: 52%; width: min(88vh, 58vw); aspect-ratio: 1; transform: translateY(-50%); }
+.cp-hero__pot img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 36px 46px rgba(42, 29, 22, .3)); animation: cp-spin 120s linear infinite; }
+@keyframes cp-spin { to { transform: rotate(360deg); } }
+.cp-hero__inner { position: relative; z-index: 2; width: 100%; padding-top: 130px; padding-bottom: 90px; }
+.cp-hero h1 { font-size: clamp(56px, 7.4vw, 112px); line-height: .96; max-width: 8ch; }
+.cp-hero h1 em { font-style: italic; font-weight: 400; color: var(--gold); }
+.cp-hero .crown { margin-top: 26px; max-width: 30ch; font-family: var(--serif); font-style: italic; font-size: clamp(22px, 2.1vw, 28px); line-height: 1.3; color: var(--muted); }
+.cp-hero__cta { margin-top: 36px; display: flex; gap: 14px; flex-wrap: wrap; }
+@media (max-width: 900px) {
+  .cp-hero { align-items: flex-end; }
+  .cp-hero__pot { right: 50%; top: 96px; width: min(82vw, 52svh); transform: translateX(50%); }
+  .cp-hero__inner { padding-top: calc(110px + min(82vw, 52svh)); padding-bottom: 64px; }
+}
+
+/* the ingredients, set around the pot */
+.cp-ing { background: var(--cream); overflow: hidden; }
+.cp-ing__head { max-width: 860px; margin: 0 auto; text-align: center; }
+.cp-ing__lead { margin-top: 16px; font-family: var(--serif); font-size: clamp(26px, 2.7vw, 38px); line-height: 1.28; color: var(--ink); }
+.cp-ing__stage { margin-top: clamp(50px, 7vw, 90px); display: grid; grid-template-columns: 1fr minmax(280px, 430px) 1fr; gap: clamp(30px, 4vw, 64px); align-items: center; }
+.cp-ing__col { display: grid; gap: clamp(26px, 3.4vw, 46px); }
+.cp-ing__col--l { text-align: right; }
+.ing { position: relative; }
+.ing__n { font-family: var(--serif); font-size: 16px; letter-spacing: .14em; color: var(--red); }
+.ing h3 { margin-top: 6px; font-size: clamp(24px, 2.1vw, 31px); line-height: 1.1; }
+.ing p { margin-top: 6px; font-size: 14.5px; color: var(--muted); }
+.ing::after { content: ""; position: absolute; top: 30px; width: clamp(18px, 2.6vw, 44px); height: 1px; background: rgba(122, 35, 32, .45); }
+.cp-ing__col--l .ing::after { right: calc(-1 * clamp(26px, 3.4vw, 56px)); }
+.cp-ing__col--r .ing::after { left: calc(-1 * clamp(26px, 3.4vw, 56px)); }
+.cp-ing__pot { position: relative; text-align: center; }
+.cp-ing__pot img { width: 100%; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 34px 44px rgba(42, 29, 22, .32)); transform: rotate(var(--r, 0deg)); }
+.cp-ing__pot figcaption { margin-top: 18px; font-family: var(--serif); font-style: italic; font-size: 20px; color: var(--muted); }
+@media (max-width: 900px) {
+  .cp-ing__stage { grid-template-columns: 1fr 1fr; }
+  .cp-ing__pot { grid-column: 1 / -1; order: -1; max-width: 360px; margin: 0 auto; }
+  .cp-ing__col--l { text-align: left; }
+  .ing::after { display: none; }
+}
+@media (max-width: 560px) { .cp-ing__stage { grid-template-columns: 1fr; } }
+
+/* why it is special */
+.cp-why { background: var(--cream-2); }
+.cp-why h2 { margin-top: 8px; }
+.cp-why__grid { margin-top: 50px; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.why { padding: 40px 34px 44px; border-right: 1px solid var(--line); }
+.why:last-child { border-right: 0; }
+.why__n { font-family: var(--serif); font-size: 44px; line-height: 1; color: var(--red); }
+.why h3 { margin-top: 20px; font-size: clamp(25px, 2.1vw, 30px); }
+.why p { margin-top: 12px; font-size: 15.5px; color: var(--muted); }
+.why p em { font-family: var(--serif); font-size: 1.12em; color: var(--ink); }
+.cp-quote { margin: clamp(56px, 7vw, 90px) auto 0; max-width: 820px; text-align: center; }
+.cp-quote p { font-family: var(--serif); font-style: italic; font-size: clamp(32px, 3.6vw, 50px); line-height: 1.15; color: var(--ink); }
+.cp-quote cite { display: block; margin-top: 16px; font-style: normal; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+@media (max-width: 900px) { .cp-why__grid { grid-template-columns: 1fr; } .why { border-right: 0; border-bottom: 1px solid var(--line); } .why:last-child { border-bottom: 0; } }
+
+/* takeaway order */
+.cp-order { background: var(--brown); color: var(--cream); }
+.cp-order__grid { display: grid; grid-template-columns: 1fr 1.08fr; gap: clamp(36px, 6vw, 100px); align-items: start; }
+.cp-order .pre { color: var(--gold-2); font-size: 22px; }
+.cp-order h2 { margin-top: 12px; font-size: clamp(38px, 4.2vw, 60px); }
+.cp-order__intro > p { margin-top: 20px; color: rgba(241, 234, 223, .75); max-width: 44ch; }
+.cp-order__intro img { margin-top: 36px; width: min(300px, 64%); filter: drop-shadow(0 30px 44px rgba(0, 0, 0, .5)); animation: cp-spin 90s linear infinite reverse; }
+.order { padding: clamp(26px, 3vw, 40px); background: var(--paper); color: var(--ink); border: 1px solid rgba(42, 29, 22, .2); }
+.order__label { display: block; font-family: var(--serif); font-size: 19px; }
+.order__eds { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.order__eds input, .order__keep input { position: absolute; opacity: 0; pointer-events: none; }
+.order__eds label { position: relative; display: block; padding: 20px 20px 22px; border: 1px solid rgba(42, 29, 22, .2); background: rgba(255, 255, 255, .3); cursor: pointer; transition: border-color .3s, background .3s; }
+.order__eds label:hover { border-color: rgba(122, 35, 32, .5); }
+.order__eds b { display: block; font-family: var(--serif); font-weight: 500; font-size: 23px; line-height: 1.15; }
+.order__eds small { display: block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+.order__eds .price { display: block; margin-top: 14px; font-family: var(--serif); font-size: 30px; color: var(--red); }
+.order__eds input:checked + label { border-color: var(--red); background: rgba(122, 35, 32, .05); box-shadow: inset 0 0 0 1px var(--red); }
+.order__eds input:focus-visible + label, .order__keep input:focus-visible + label { outline: 2px solid var(--red); outline-offset: 2px; }
+.order__row { margin-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.order__count { display: grid; grid-template-columns: 48px 64px 48px; border: 1px solid rgba(42, 29, 22, .3); }
+.order__count button { height: 48px; display: grid; place-items: center; background: none; border: 0; color: var(--ink); cursor: pointer; }
+.order__count button:disabled { color: rgba(42, 29, 22, .25); cursor: default; }
+.order__count button svg { width: 16px; height: 16px; }
+.order__count output { display: grid; place-items: center; font-family: var(--serif); font-size: 21px; border-left: 1px solid rgba(42, 29, 22, .3); border-right: 1px solid rgba(42, 29, 22, .3); }
+.order__keep { margin-top: 20px; }
+.order__keep label { display: flex; gap: 12px; align-items: flex-start; font-size: 14.5px; line-height: 1.5; cursor: pointer; }
+.order__keep .box { flex: none; width: 20px; height: 20px; margin-top: 1px; border: 1px solid rgba(42, 29, 22, .4); display: grid; place-items: center; color: transparent; transition: background .3s, border-color .3s; }
+.order__keep .box svg { width: 12px; height: 12px; }
+.order__keep input:checked + label .box { background: var(--red); border-color: var(--red); color: #f6ecdf; }
+.order__field { display: block; margin-top: 20px; }
+.order__field input { display: block; width: 100%; margin-top: 8px; padding: 12px 14px; font: inherit; font-size: 16px; color: var(--ink); background: rgba(255, 255, 255, .4); border: 1px solid rgba(42, 29, 22, .22); border-radius: 0; outline: none; }
+.order__field input:focus { border-color: var(--red); background: rgba(255, 255, 255, .7); }
+.order__two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.order__field .err { display: none; margin-top: 6px; font-size: 13px; color: var(--red); }
+.order__field.is-bad input { border-color: var(--red); }
+.order__field.is-bad .err { display: block; }
+.order__total { margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: baseline; }
+.order__total span { font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--muted); }
+.order__total strong { font-family: var(--serif); font-weight: 500; font-size: 34px; color: var(--red); }
+.order .btn { margin-top: 18px; width: 100%; justify-content: center; font-size: 15px; padding: 17px 30px; }
+.order__fine { margin-top: 12px; text-align: center; font-size: 13px; color: var(--muted); }
+.order__sent { display: none; margin-top: 14px; padding: 14px 16px; background: rgba(122, 35, 32, .06); border-left: 2px solid var(--red); font-size: 14px; }
+.order__sent.on { display: block; }
+.order__sent a { color: var(--red); text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 900px) { .cp-order__grid { grid-template-columns: 1fr; } }
+@media (max-width: 480px) { .order__eds, .order__two { grid-template-columns: 1fr; } }
+@media (prefers-reduced-motion: reduce) { .cp-hero__pot img, .cp-order__intro img { animation: none; } }
+.cp-why h2 em { font-style: italic; font-weight: 400; color: var(--red); }
+
+/* menu: Book Now beside the links */
+.nav__links a.is-current::after { width: 100%; }
+.nav__wa--menu { display: none; }
+.nav__wa svg { width: 16px; height: 16px; }
+.nav .btn--ghost { padding: 10px 18px; }
+.nav.on-dark:not(.open) .btn--ghost { background: transparent; color: var(--cream); border-color: rgba(241, 234, 223, .45); }
+.nav.on-dark:not(.open) .btn--ghost:hover { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+@media (max-width: 860px) {
+  .nav__wa--bar { display: none; }
+  .nav__links .nav__wa--menu { display: inline-flex; align-self: flex-start; margin-top: 16px; padding: 10px 18px; font-size: 13px; border-bottom: 1px solid rgba(42, 29, 22, .35); }
+}
+</style>
+<link rel="stylesheet" href="assets/foot.css">
+<script>
+/* arriving from the homepage's claypot fly-through: the pot is already in place, the rest fades in */
+try { if (sessionStorage.getItem("potFly")) { sessionStorage.removeItem("potFly"); document.documentElement.classList.add("pot-arrive"); } } catch (_) {}
+</script>
+<style>
+@keyframes potArrive { from { opacity: 0; } to { opacity: 1; } }
+.pot-arrive .nav { animation: potArrive .9s .15s both; }
+
+/* guest endorsements: one quote at a time on a dark stage, fading in; a slim line fills, then the next voice */
+.say { background: var(--brown-2); color: var(--cream); padding: clamp(90px, 12vw, 160px) 0; overflow: hidden; }
+.say__inner { max-width: 960px; text-align: center; }
+.say__label { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--gold-2); max-width: none; }
+.say__stage { display: grid; margin-top: clamp(28px, 4vw, 48px); }
+.say__item { grid-area: 1 / 1; margin: 0; opacity: 0; transform: translateY(14px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); pointer-events: none; }
+.say__item.is-on { opacity: 1; transform: none; pointer-events: auto; }
+.say__item.is-off { opacity: 0; transform: translateY(-10px); transition-duration: .6s; }
+.say__item blockquote { margin: 0; }
+.say__item p { max-width: none; font-family: var(--serif); font-size: clamp(22px, 2.6vw, 36px); line-height: 1.32; color: var(--cream); }
+.say__item figcaption { margin-top: 26px; font-size: 12px; letter-spacing: .26em; text-transform: uppercase; color: var(--gold-2); opacity: 0; transform: translateY(8px); transition: opacity .8s var(--ease) .6s, transform .8s var(--ease) .6s; }
+.say__item.is-on figcaption { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .say__item, .say__item figcaption { transition: none; } }
+</style>
+<link rel="stylesheet" href="assets/book.css">
+</head>
+<body>
+
+<!-- ─────────────── nav ─────────────── -->
+<header class="nav" id="nav">
+  <a class="nav__logo" href="index.html" aria-label="The Dinerworkshop, home"><img class="on-light" src="assets/logo-ink.png" alt="The Dinerworkshop"><img class="on-darkbg" src="assets/logo-cream.png" alt=""></a>
+  <nav class="nav__links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="dining.html">Dining</a>
+    <a href="claypot.html" class="is-current" aria-current="page">Claypot</a>
+    <a href="classes.html">Classes</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
+  <div class="nav__right">
+    <a class="btn" href="contact.html#book">Book Now</a>
+    <button class="burger" id="burger" type="button" aria-label="Menu"><span></span></button>
+  </div>
+</header>
+
+<!-- ─────────────── opening ─────────────── -->
+<section class="cp-hero" id="top">
+  <div class="cp-hero__pot" aria-hidden="true">
+    <img src="assets/dishes/claypot.webp" alt="">
+  </div>
+  <div class="inner cp-hero__inner">
+    <h1 class="rv">Signature <em>Claypot Rice</em></h1>
+    <p class="crown rv d1">Our crown jewel: an homage to Po Po’s foundational recipe, elevated with a subtle Japanese nuance.</p>
+    <div class="cp-hero__cta rv d2">
+      <a class="btn" href="#order">Order Takeaway <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--ghost" href="#ingredients">The Ingredients</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── the ingredients ─────────────── -->
+<section class="cp-ing pad" id="ingredients">
+  <div class="inner">
+    <div class="cp-ing__head">
+      <p class="pre rv">The Ingredients</p>
+      <p class="cp-ing__lead rv d1">Premium Thai Hom Mali rice is slow-simmered in Banko-yaki earthenware alongside tender boneless chicken thighs, braised shiitake mushrooms, Japanese ebi, rich liver sausage, and XO pork sausages.</p>
+    </div>
+    <div class="cp-ing__stage">
+      <div class="cp-ing__col cp-ing__col--l">
+        <div class="ing rv"><div class="ing__n">01</div><h3>Premium Thai Hom Mali Rice</h3></div>
+        <div class="ing rv d1"><div class="ing__n">02</div><h3>Fresh Sakura Chicken</h3><p>Tender boneless chicken thighs</p></div>
+        <div class="ing rv d2"><div class="ing__n">03</div><h3>Braised Shiitake Mushrooms</h3></div>
+      </div>
+      <figure class="cp-ing__pot rv">
+        <img id="ingPot" src="assets/dishes/claypot.webp" alt="Overhead view of the signature chicken claypot rice" loading="lazy">
+        <figcaption>Slow-simmered in Banko-yaki earthenware</figcaption>
+      </figure>
+      <div class="cp-ing__col cp-ing__col--r">
+        <div class="ing rv"><div class="ing__n">04</div><h3>Japanese Ebi</h3></div>
+        <div class="ing rv d1"><div class="ing__n">05</div><h3>Rich Liver Sausage</h3></div>
+        <div class="ing rv d2"><div class="ing__n">06</div><h3>XO Pork Sausages</h3></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── why it is special ─────────────── -->
+<section class="cp-why pad">
+  <div class="inner">
+    <h2 class="rv">Our <em>crown jewel.</em></h2>
+    <div class="cp-why__grid">
+      <article class="why rv"><div class="why__n">I</div><h3>Po Po’s Foundational Recipe</h3><p>The undisputed matriarch of the family, his maternal grandmother (“Po Po”), passed down her legendary claypot rice and slow-braised meats through the traditional Hainanese method of <em>watch, taste, and learn</em>.</p></article>
+      <article class="why rv d1"><div class="why__n">II</div><h3>A Subtle Japanese Nuance</h3><p>Premium Thai Hom Mali rice is slow-simmered in Banko-yaki earthenware alongside Japanese ebi.</p></article>
+      <article class="why rv d2"><div class="why__n">III</div><h3>A Golden, Delicate Bottom Crust</h3><p>The result is an exquisite harmony of smoky aromatics, rich umami, and a golden, delicate bottom crust.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── guest endorsements: one voice at a time, centre stage ─────────────── -->
+<section class="say" data-dark aria-label="Guest Endorsements">
+  <div class="inner say__inner">
+    <p class="say__label rv">Guest Endorsements</p>
+    <div class="say__stage rv d1" id="say">
+      <figure class="say__item is-on">
+        <blockquote><p>“This was my first private dining experience. What a delightful one! From the deco of the place to the plating to the wall paintings, everything was fabulous. The attentive wait staff and the beautiful presentations of the food served were overshadowed by the teasing of our tastebuds. The food was divine in every course. Thank you for sharing your love for food. We’ll be back.”</p></blockquote>
+        <figcaption>Sook Wai, Private Dining Guest</figcaption>
+      </figure>
+      <figure class="say__item">
+        <blockquote><p>“An exquisite evening. Dining in a historical 1923 Black &amp; White estate while Ian shared the heritage behind every dish was deeply memorable. The Claypot Rice is unmatched.”</p></blockquote>
+        <figcaption>David L., Corporate Host</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── takeaway order ─────────────── -->
+<section class="cp-order pad" id="order" data-dark>
+  <div class="inner cp-order__grid">
+    <div class="cp-order__intro">
+      <p class="pre rv">Claypot Rice Takeaway · The Party@Home Series</p>
+      <h2 class="rv d1">Bring the culinary warmth of The Dinerworkshop into your home.</h2>
+      <p class="rv d2">Our signature Chicken Claypot Rice is available for private takeaway in two sizes.</p>
+      <img class="rv d3" src="assets/dishes/claypot.webp" alt="" loading="lazy">
+    </div>
+
+    <form class="order rv d1" id="orderForm" novalidate>
+      <span class="order__label">Choose your edition</span>
+      <div class="order__eds">
+        <input type="radio" name="edition" id="edTasting" value="The 'Tasting' Edition" data-price="80" checked>
+        <label for="edTasting"><b>The ‘Tasting’ Edition</b><small>Serves 2–4 guests</small><span class="price">$80</span></label>
+        <input type="radio" name="edition" id="edGrand" value="The 'Grand' Edition" data-price="160">
+        <label for="edGrand"><b>The ‘Grand’ Edition</b><small>Serves 6–8 guests</small><span class="price">$160</span></label>
+      </div>
+
+      <div class="order__row">
+        <span class="order__label">Number of pots</span>
+        <div class="order__count" role="group" aria-label="Number of pots">
+          <button type="button" id="qMinus" aria-label="One fewer pot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 8h10"/></svg></button>
+          <output id="qty" aria-live="polite">1</output>
+          <button type="button" id="qPlus" aria-label="One more pot"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 8h10M8 3v10"/></svg></button>
+        </div>
+      </div>
+
+      <div class="order__keep">
+        <input type="checkbox" id="keepPot" name="keep">
+        <label for="keepPot"><span class="box"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></span><span>Inquire about our exclusive Limited-Edition <strong>“Keep The Pot”</strong> release, prepared and delivered in an authentic Japanese Ginpo Donabe.</span></label>
+      </div>
+
+      <label class="order__field" id="fDate">
+        <span class="order__label">Preferred collection date</span>
+        <input type="date" name="date" id="oDate" required>
+        <em class="err">Please choose a date.</em>
+      </label>
+      <div class="order__two">
+        <label class="order__field" id="fName">
+          <span class="order__label">Your name</span>
+          <input type="text" name="name" autocomplete="name" required>
+          <em class="err">Please tell us your name.</em>
+        </label>
+        <label class="order__field" id="fPhone">
+          <span class="order__label">WhatsApp number</span>
+          <input type="tel" name="phone" autocomplete="tel" inputmode="tel" required>
+          <em class="err">Please add a number we can reach you on.</em>
+        </label>
+      </div>
+
+      <div class="order__total"><span>Total</span><strong id="oTotal">$80</strong></div>
+      <button class="btn" type="submit">Order on WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+      <p class="order__fine">Ian will confirm your order personally on WhatsApp.</p>
+      <p class="order__sent" id="oSent">Your order is ready in WhatsApp. Press send there to reach Ian. WhatsApp didn’t open? <a id="oAgain" href="#" target="_blank" rel="noopener">Try again</a>.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="inner foot__top">
+    <div class="foot__brand">
+      <a href="index.html" aria-label="The Dinerworkshop, home"><img class="foot__logo" src="assets/logo-ink.png" alt="The Dinerworkshop"></a>
+      <div class="foot__social">
+        <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://facebook.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot__pages" aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="dining.html">Dining</a>
+      <a href="claypot.html" aria-current="page">Claypot Rice</a>
+      <a href="classes.html">Classes</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </div>
+  <div class="inner foot__base">
+    <span>Singapore &nbsp;|&nbsp; Where Heritage Meets Culinary Curiosity</span>
+    <span>© 2026 The Dinerworkshop</span>
+  </div>
+</footer>
+
+<script>
+/* nav: compact when scrolled, light text over dark sections */
+const nav = document.getElementById("nav");
+const darks = [...document.querySelectorAll("[data-dark]")];
+function navState() {
+  nav.classList.toggle("scrolled", scrollY > 60);
+  const probe = 40;
+  nav.classList.toggle("on-dark", darks.some(s => { const r = s.getBoundingClientRect(); return r.top <= probe && r.bottom >= probe; }));
+}
+addEventListener("scroll", navState, { passive: true });
+navState();
+document.getElementById("burger").addEventListener("click", () => nav.classList.toggle("open"));
+nav.querySelectorAll(".nav__links a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+/* the ingredients pot turns a little as you scroll past it */
+const ingPot = document.getElementById("ingPot");
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  let ticking = false;
+  addEventListener("scroll", () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => {
+      const r = ingPot.getBoundingClientRect();
+      const p = (innerHeight - r.top) / (innerHeight + r.height);
+      ingPot.style.setProperty("--r", (Math.max(0, Math.min(1, p)) * 90 - 45).toFixed(2) + "deg");
+      ticking = false;
+    });
+  }, { passive: true });
+}
+
+/* takeaway order: builds a WhatsApp message to Ian (the site has no server) */
+(() => {
+  const form = document.getElementById("orderForm");
+  const $ = id => document.getElementById(id);
+  let qty = 1;
+  const MAX = 10;
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const tomorrow = () => { const d = new Date(); d.setDate(d.getDate() + 1); return iso(d); };
+  $("oDate").min = tomorrow();
+
+  // a link like claypot.html?edition=grand#order or ?keep=1 preselects
+  const qs = new URLSearchParams(location.search);
+  if (qs.get("edition") === "grand") $("edGrand").checked = true;
+  if (qs.get("keep")) $("keepPot").checked = true;
+
+  function total() {
+    const price = +form.querySelector("input[name=edition]:checked").dataset.price;
+    $("qty").textContent = qty;
+    $("qMinus").disabled = qty <= 1;
+    $("qPlus").disabled = qty >= MAX;
+    $("oTotal").textContent = "$" + price * qty;
+  }
+  $("qMinus").addEventListener("click", () => { qty = Math.max(1, qty - 1); total(); });
+  $("qPlus").addEventListener("click", () => { qty = Math.min(MAX, qty + 1); total(); });
+  form.addEventListener("change", total);
+  form.addEventListener("input", e => { const f = e.target.closest(".order__field"); if (f) f.classList.remove("is-bad"); });
+  total();
+
+  const flag = (id, bad) => { $(id).classList.toggle("is-bad", bad); return !bad; };
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+    const okD = flag("fDate", !form.date.value || form.date.value < tomorrow());
+    const okN = flag("fName", !form.name.value.trim());
+    const okP = flag("fPhone", form.phone.value.replace(/\D/g, "").length < 8);
+    if (!(okD && okN && okP)) { const bad = form.querySelector(".order__field.is-bad input"); if (bad) bad.focus(); return; }
+    const ed = form.querySelector("input[name=edition]:checked");
+    const [y, m, d] = form.date.value.split("-").map(Number);
+    const when = new Date(y, m - 1, d).toLocaleDateString("en-SG", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+    const lines = [
+      "Hi Ian, I'd like to order the Signature Claypot Rice for takeaway.",
+      "",
+      `Edition: ${ed.value} x ${qty}`,
+      `Total: $${+ed.dataset.price * qty}`,
+      `Preferred collection date: ${when}`
+    ];
+    if (form.keep.checked) lines.push("I'd also like to enquire about the Limited-Edition \"Keep The Pot\" release.");
+    lines.push("", "Name: " + form.name.value.trim(), "WhatsApp: " + form.phone.value.trim());
+    const url = "https://wa.me/6580710506?text=" + encodeURIComponent(lines.join("\n"));
+    $("oAgain").href = url;
+    $("oSent").classList.add("on");
+    window.open(url, "_blank", "noopener");
+  });
+})();
+
+/* guest endorsements: each quote fades in, holds long enough to be read, then the next */
+(() => {
+  const stage = document.getElementById("say");
+  if (!stage) return;
+  const items = [...stage.querySelectorAll(".say__item")];
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (items.length < 2 || still) return;
+  let i = 0, t0 = 0, raf = 0, paused = false, dur = 0, done = 0;
+  const hold = el => 3500 + el.textContent.trim().split(/\s+/).length * 65;   // reading time, by length
+  function show(n) {
+    items[i].classList.remove("is-on"); items[i].classList.add("is-off");
+    const prev = items[i];
+    setTimeout(() => prev.classList.remove("is-off"), 700);
+    i = n; items[i].classList.add("is-on");
+    dur = hold(items[i]); t0 = performance.now();
+  }
+  function tick(now) {
+    if (!paused) {
+      done = Math.min(1, (now - t0) / dur);
+      if (done >= 1) show((i + 1) % items.length);
+    } else t0 = now - done * dur;
+    raf = requestAnimationFrame(tick);
+  }
+  stage.addEventListener("mouseenter", () => { paused = true; });
+  stage.addEventListener("mouseleave", () => { paused = false; });
+  // only run while on screen
+  new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { if (!raf) { dur = hold(items[i]); t0 = performance.now() - done * dur; raf = requestAnimationFrame(tick); } }
+    else { cancelAnimationFrame(raf); raf = 0; }
+  }), { threshold: .3 }).observe(stage);
+})();
+</script>
+<script src="assets/book.js"></script>
+<script src="assets/wa.js"></script>
+</body>
+</html>

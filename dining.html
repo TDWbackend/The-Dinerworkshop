@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dining · The Dinerworkshop</title>
+<meta name="description" content="The Bespoke Dining Experience at The Dinerworkshop, Sembawang: the evening, how the personalized omakase works, the estate, prices, group size and booking.">
+<link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-logo.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ─────────────────────────────────────────────────────────────
+   THE DINERWORKSHOP
+   Parchment cream, aged-wood brown, a single deep red.
+   Serif for the headings, a light geometric sans for the rest.
+   ───────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --cream: #f1eadf;
+  --cream-2: #e8dfcf;
+  --paper: #f6f1e8;
+  --ink: #2a1d16;
+  --brown: #24190f;
+  --brown-2: #19110b;
+  --red: #7a2320;
+  --red-2: #641b19;
+  --gold: #b5925c;
+  --gold-2: #d4b57c;
+  --muted: #6d5c4f;
+  --line: rgba(42, 29, 22, .14);
+  --pad: clamp(22px, 5vw, 80px);
+  --serif: "Cormorant Garamond", "Times New Roman", serif;
+  --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); font-weight: 300; font-size: 16px; line-height: 1.7; color: var(--ink); background: var(--cream); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+h1, h2, h3, .serif { font-family: var(--serif); font-weight: 500; line-height: 1.05; letter-spacing: -.01em; }
+h2 { font-size: clamp(38px, 4.6vw, 64px); }
+h3 { font-size: clamp(24px, 2.2vw, 30px); }
+p { max-width: 58ch; }
+.eyebrow { display: inline-flex; align-items: center; gap: 14px; max-width: none; white-space: nowrap; font-size: 11px; font-weight: 400; letter-spacing: .34em; text-transform: uppercase; color: var(--gold); }
+.eyebrow::after { content: ""; width: 44px; height: 1px; background: var(--gold); }
+.lead { margin-top: 20px; font-size: 17px; color: var(--muted); }
+.btn { display: inline-flex; align-items: center; gap: 12px; padding: 15px 30px; background: var(--ink); color: var(--cream); font-size: 14px; font-weight: 400; letter-spacing: .04em; border: 1px solid var(--ink); transition: background .35s, color .35s, border-color .35s, transform .45s var(--ease), box-shadow .45s var(--ease); }
+.btn:hover { background: var(--gold); border-color: var(--gold); color: var(--brown-2); transform: translateY(-3px); box-shadow: 0 16px 34px rgba(42, 29, 22, .22); }
+.btn svg { width: 16px; height: 16px; transition: transform .35s var(--ease); }
+.btn:hover svg { transform: translateX(3px); }
+.btn--ghost { background: transparent; color: var(--ink); border-color: rgba(42, 29, 22, .35); }
+.btn--ghost:hover { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.btn--gold { background: transparent; color: var(--gold-2); border-color: var(--gold); }
+.btn--gold:hover { background: var(--gold-2); border-color: var(--gold-2); color: var(--brown-2); }
+/* on dark sections and over the dark hero the main button turns cream */
+[data-dark] .btn:not(.btn--ghost):not(.btn--gold), .nav.on-dark:not(.open) .btn { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+[data-dark] .btn:not(.btn--ghost):not(.btn--gold):hover, .nav.on-dark:not(.open) .btn:hover { background: var(--gold-2); border-color: var(--gold-2); color: var(--brown-2); }
+.link { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--red); border-bottom: 1px solid var(--red); padding-bottom: 2px; transition: gap .3s; }
+.link:hover { gap: 16px; }
+.inner { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad); }
+section { position: relative; }
+.pad { padding: clamp(80px, 10vw, 140px) 0; }
+
+/* reveal on scroll */
+.rv { opacity: 0; transform: translateY(36px); transition: opacity 1.1s var(--ease), transform 1.1s var(--ease); }
+.rv.in { opacity: 1; transform: none; }
+.rv.d1 { transition-delay: .12s; } .rv.d2 { transition-delay: .24s; } .rv.d3 { transition-delay: .36s; } .rv.d4 { transition-delay: .48s; }
+
+/* ══════════════ nav ══════════════ */
+.nav { position: fixed; inset: 0 0 auto 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 22px var(--pad); transition: background .4s, padding .4s, box-shadow .4s; }
+.nav.scrolled { padding: 14px var(--pad); }
+.nav__logo { position: relative; display: block; height: 66px; aspect-ratio: 320 / 332; transition: height .4s var(--ease); }
+.nav__logo img { position: absolute; inset: 0; width: 100%; height: 100%; transition: opacity .35s; }
+.nav__logo .on-light { opacity: 1; } .nav__logo .on-darkbg { opacity: 0; }
+.nav.on-dark .nav__logo .on-light { opacity: 0; } .nav.on-dark .nav__logo .on-darkbg { opacity: 1; }
+.nav.scrolled .nav__logo { height: 52px; }
+.nav__links { display: flex; gap: clamp(18px, 2.6vw, 38px); font-size: 14px; }
+.nav__links a { position: relative; padding: 4px 0; }
+.nav__links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 0; height: 1px; background: var(--red); transition: width .3s; }
+.nav__links a:hover::after { width: 100%; }
+.nav__right { display: flex; align-items: center; gap: 26px; }
+.nav__right .bar { width: 1px; height: 22px; background: rgba(42, 29, 22, .25); }
+.nav .btn { padding: 11px 24px; }
+.nav.on-dark { color: var(--cream); }
+.nav.on-dark .nav__right .bar { background: rgba(241, 234, 223, .3); }
+.nav.on-dark .nav__links a::after { background: var(--gold); }
+.burger { display: none; width: 40px; height: 40px; place-items: center; }
+.burger span { display: block; width: 22px; height: 1px; background: currentColor; box-shadow: 0 7px 0 currentColor, 0 -7px 0 currentColor; transition: transform .3s, box-shadow .3s; }
+.nav.open .burger span { transform: rotate(45deg); box-shadow: none; }
+@media (max-width: 860px) {
+  .nav { padding: 16px var(--pad); }
+  .nav__logo { height: 50px; }
+  .nav.scrolled .nav__logo { height: 44px; }
+  .nav__right { gap: 10px; }
+  .nav__right .bar { display: none; }
+  .nav .btn { padding: 9px 14px; font-size: 13px; }
+  .burger { display: grid; }
+  .nav__links { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; gap: 0; background: var(--cream); padding: 6px var(--pad) 18px; box-shadow: 0 24px 40px rgba(0, 0, 0, .14); }
+  .nav.open .nav__links { display: flex; }
+  .nav.open { background: var(--cream); }
+  .nav.open.on-dark { color: var(--ink); }
+  .nav.open.on-dark .nav__logo .on-light { opacity: 1; } .nav.open.on-dark .nav__logo .on-darkbg { opacity: 0; }
+  .nav__links a { padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .leaf { display: none; }
+}
+
+/* ══════════════ philosophy + experience ══════════════ */
+.philo { background: var(--cream-2); }
+.philo__grid { margin-top: 50px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.philo__item { padding: 40px 34px 44px; border-right: 1px solid var(--line); }
+.philo__item:last-child { border-right: 0; }
+.philo__item .num { font-family: var(--serif); font-size: 15px; letter-spacing: .2em; color: var(--gold); }
+.philo__item h3 { margin-top: 18px; }
+.philo__item p { margin-top: 12px; font-size: 15px; color: var(--muted); }
+.sourcing { margin-top: 56px; display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start; }
+.sourcing ul { list-style: none; display: grid; gap: 12px; }
+.sourcing li { display: flex; gap: 16px; align-items: baseline; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 15.5px; }
+.sourcing li::before { content: "✦"; color: var(--gold); font-size: 11px; }
+.sourcing p { color: var(--muted); font-size: 15.5px; margin-top: 12px; }
+@media (max-width: 900px) { .philo__grid { grid-template-columns: 1fr; } .philo__item { border-right: 0; border-bottom: 1px solid var(--line); } .philo__item:last-child { border-bottom: 0; } .sourcing { grid-template-columns: 1fr; } }
+
+.exp { background: var(--cream); }
+/* the evening: four photo cards on one level, wiped in left to right as you scroll */
+.exp__track { position: relative; height: 380vh; }
+.exp__pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.exp__pin > .inner { height: 100%; display: flex; flex-direction: column; padding-top: clamp(100px, 13vh, 140px); padding-bottom: clamp(28px, 7vh, 72px); }
+.exp__head h2 { margin-top: 16px; text-wrap: balance; }
+.exp__row { flex: 1; min-height: 0; margin-top: clamp(22px, 4vh, 46px); display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.4vw, 20px); }
+.ecard { --e: 0; position: relative; align-self: end; height: 100%; max-height: 620px; overflow: hidden; background: var(--brown-2); color: var(--cream);
+  clip-path: inset(0 calc((1 - var(--e)) * 100%) 0 0); will-change: clip-path; }
+.ecard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.82) sepia(.1);
+  transform: translateX(calc((1 - var(--e)) * -10%)) scale(1.1); }
+.ecard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .94) 0%, rgba(25, 17, 11, .72) 40%, rgba(25, 17, 11, .1) 76%, rgba(25, 17, 11, .25) 100%); }
+.ecard__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(20px, 2vw, 30px);
+  opacity: calc((var(--e) - .55) * 2.4); transform: translateX(calc((1 - var(--e)) * -28px)); }
+.ecard__n { font-family: var(--serif); font-size: clamp(30px, 2.6vw, 40px); line-height: 1; color: var(--gold-2); }
+.ecard h3 { margin-top: 12px; font-size: clamp(24px, 2vw, 30px); color: var(--cream); }
+.ecard p { margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: rgba(241, 234, 223, .82); }
+@media (max-width: 900px) {
+  .exp__track { height: auto; padding: clamp(80px, 12vw, 120px) 0; }
+  .exp__pin { position: static; height: auto; overflow: visible; }
+  .exp__pin > .inner { padding-top: 0; padding-bottom: 0; }
+  .exp__row { grid-template-columns: 1fr 1fr; margin-top: 36px; }
+  .ecard { --e: 1; height: 420px; clip-path: inset(0 0 0 0); }
+  .ecard.rv { opacity: 1; transform: none; }
+  .ecard.rv::before { content: ""; position: absolute; inset: -1px; z-index: 2; background: var(--cream); transform-origin: 100% 50%; transition: transform 1.3s var(--ease); }
+  .ecard.rv.d2::before { transition-delay: .24s; }
+  .ecard.rv.in::before { transform: scaleX(0); }
+  .ecard.rv img { transform: translateX(-10%) scale(1.1); transition: transform 1.6s var(--ease); }
+  .ecard.rv.in img { transform: scale(1.04); }
+}
+@media (max-width: 560px) { .exp__row { grid-template-columns: 1fr; } .ecard { height: 400px; } }
+@media (prefers-reduced-motion: reduce) { .ecard { --e: 1 !important; } }
+.exp--how .how { margin-top: 0; padding-top: 0; border-top: 0; }
+.how { margin-top: clamp(70px, 8vw, 110px); padding-top: clamp(50px, 6vw, 80px); border-top: 1px solid var(--line); }
+.how__head { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; }
+.how__head h2 { font-style: italic; font-weight: 400; }
+.how__grid { margin-top: 50px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.how__card { padding: 36px 32px 40px; background: var(--paper); border: 1px solid var(--line); }
+.how__card .num { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.how__card h3 { margin-top: 16px; font-size: 27px; }
+.how__card p { margin-top: 12px; font-size: 15px; color: var(--muted); }
+@media (max-width: 900px) { .how__head, .how__grid { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { .eyebrow { white-space: normal; } .eyebrow::after { display: none; } }
+
+/* ══════════════ the place ══════════════ */
+.place { background: var(--cream); }
+.place__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(30px, 6vw, 100px); align-items: center; }
+.place h2 { margin-top: 18px; }
+.place__text p { margin-top: 18px; color: var(--muted); }
+.place__text p:first-of-type { margin-top: 22px; font-family: var(--serif); font-size: 23px; line-height: 1.35; color: var(--ink); }
+.place__art { position: relative; }
+.place__art img { width: 100%; mix-blend-mode: multiply; filter: sepia(.2); }
+.place__art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 50%, var(--cream) 85%); }
+.facts { margin-top: clamp(60px, 8vw, 100px); display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: var(--paper); }
+.fact { padding: 34px 30px; border-right: 1px solid var(--line); }
+.fact:last-child { border-right: 0; }
+.fact .k { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.fact .v { margin-top: 12px; font-family: var(--serif); font-size: 32px; line-height: 1.1; }
+.fact .s { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+@media (max-width: 900px) { .place__grid { grid-template-columns: 1fr; } .place__art { max-width: 460px; margin: 0 auto; } .facts { grid-template-columns: 1fr 1fr; } .fact:nth-child(2) { border-right: 0; } .fact:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+@media (max-width: 560px) { .facts { grid-template-columns: 1fr; } .fact { border-right: 0; border-bottom: 1px solid var(--line); } .fact:last-child { border-bottom: 0; } }
+
+/* ══════════════ investment ══════════════ */
+.invest { background: var(--cream-2); }
+.invest__grid { margin-top: 50px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.card { padding: 38px 34px 42px; background: var(--paper); border: 1px solid var(--line); }
+.card .k { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.card h3 { margin-top: 16px; font-size: 28px; }
+.card .big { margin-top: 10px; font-family: var(--serif); font-size: 38px; color: var(--red); line-height: 1.1; }
+.card .big small { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-left: 6px; letter-spacing: .04em; }
+.card p { margin-top: 12px; font-size: 15px; color: var(--muted); }
+.card ul { list-style: none; margin-top: 14px; display: grid; gap: 8px; font-size: 15px; }
+.card li { display: flex; gap: 12px; }
+.card li::before { content: "✦"; font-size: 11px; color: var(--gold); }
+@media (max-width: 900px) { .invest__grid { grid-template-columns: 1fr; } }
+
+/* ══════════════ booking + policy + faq ══════════════ */
+.booking { background: var(--cream-2); }
+.booking__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px, 6vw, 100px); }
+.booking h2 { margin-top: 18px; }
+.ol { list-style: none; margin-top: 40px; counter-reset: s; }
+.ol li { counter-increment: s; display: grid; grid-template-columns: 54px 1fr; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); }
+.ol li::before { content: counter(s, decimal-leading-zero); font-family: var(--serif); font-size: 26px; color: var(--red); line-height: 1; }
+.ol li strong { display: block; font-family: var(--serif); font-weight: 500; font-size: 24px; }
+.ol li span { display: block; margin-top: 4px; color: var(--muted); font-size: 15px; }
+.policy { margin-top: 40px; }
+.policy .row { display: grid; grid-template-columns: 1fr 1.5fr; gap: 20px; padding: 18px 0; border-top: 1px solid var(--line); font-size: 15px; }
+.policy .row strong { font-weight: 500; letter-spacing: .04em; }
+.policy .row span { color: var(--muted); }
+.booking .side h3 { font-size: 30px; margin-top: 14px; }
+.faq { margin-top: clamp(70px, 8vw, 110px); padding-top: clamp(50px, 6vw, 80px); border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr 2fr; gap: clamp(30px, 5vw, 90px); }
+.faq h2 { margin-top: 14px; font-size: clamp(34px, 3.6vw, 48px); }
+details { border-top: 1px solid var(--line); }
+details:last-child { border-bottom: 1px solid var(--line); }
+summary { list-style: none; cursor: pointer; padding: 22px 0; display: flex; justify-content: space-between; align-items: center; gap: 20px; font-family: var(--serif); font-size: 23px; font-weight: 500; }
+summary::-webkit-details-marker { display: none; }
+summary i { width: 30px; height: 30px; border: 1px solid var(--gold); border-radius: 50%; position: relative; flex: none; transition: transform .4s var(--ease); }
+summary i::before, summary i::after { content: ""; position: absolute; left: 50%; top: 50%; background: var(--red); transform: translate(-50%, -50%); }
+summary i::before { width: 12px; height: 1px; } summary i::after { width: 1px; height: 12px; }
+details[open] summary i { transform: rotate(45deg); }
+details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
+@media (max-width: 900px) { .booking__grid, .faq { grid-template-columns: 1fr; } }
+
+/* ══════════════ contact / cta ══════════════ */
+.contact { background: var(--brown); color: var(--cream); overflow: hidden; }
+.contact .leaf { opacity: .18; color: #c9a37a; }
+.contact__grid { position: relative; display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(30px, 6vw, 100px); align-items: center; }
+.contact h2 { margin-top: 18px; font-size: clamp(42px, 5.4vw, 72px); }
+.contact h2 em { font-style: italic; font-weight: 400; color: var(--gold-2); }
+.contact p.lead { color: rgba(241, 234, 223, .75); }
+.contact__cta { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; }
+.contact__list { display: grid; gap: 0; border-top: 1px solid rgba(241, 234, 223, .14); }
+.contact__list div { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid rgba(241, 234, 223, .14); font-size: 15px; }
+.contact__list dt { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold-2); padding-top: 4px; }
+.contact__list dd a { border-bottom: 1px solid rgba(212, 181, 124, .5); }
+@media (max-width: 900px) { .contact__grid { grid-template-columns: 1fr; } }
+
+
+
+/* ══════════════ dining page ══════════════ */
+.nav__links a.is-current::after { width: 100%; }
+.pre { font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--red); max-width: none; }
+
+/* hero: full photo of the table, story set over it */
+.d-hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--brown-2); color: var(--cream); }
+.d-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; filter: saturate(.82) sepia(.1); transform: scale(1.06); animation: d-settle 2.4s var(--ease) forwards; }
+@keyframes d-settle { to { transform: scale(1); } }
+.d-hero::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(25, 17, 11, .92) 0%, rgba(25, 17, 11, .62) 38%, rgba(25, 17, 11, .18) 70%, rgba(25, 17, 11, .38) 100%),
+              linear-gradient(90deg, rgba(25, 17, 11, .55) 0%, rgba(25, 17, 11, 0) 60%); }
+.d-hero__inner { position: relative; z-index: 2; width: 100%; padding-top: 140px; padding-bottom: clamp(56px, 9vh, 110px); }
+.d-hero h1 { font-size: clamp(48px, 6.6vw, 104px); line-height: .98; max-width: 12ch; }
+.d-hero .sub { margin-top: 18px; font-family: var(--serif); font-style: italic; font-size: clamp(21px, 2vw, 28px); color: var(--gold-2); max-width: none; }
+.d-hero p.body { margin-top: 22px; max-width: 58ch; font-size: 17px; color: rgba(241, 234, 223, .82); }
+.d-hero__cta { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
+.d-hero .btn--ghost { color: var(--cream); border-color: rgba(241, 234, 223, .45); }
+.d-hero .btn--ghost:hover { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+
+/* the evening: four photo cards */
+.ev { background: var(--cream); }
+.ev h2 { margin-top: 8px; }
+.ev__grid { margin-top: clamp(40px, 5vw, 60px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.evc { position: relative; height: clamp(420px, 52vh, 520px); overflow: hidden; color: var(--cream); background: var(--brown-2); }
+.evc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.82) sepia(.1); transform: scale(1.08); transition: transform 1.6s var(--ease); }
+.evc:hover img { transform: scale(1); }
+.evc::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .94) 0%, rgba(25, 17, 11, .72) 40%, rgba(25, 17, 11, .1) 76%, rgba(25, 17, 11, .25) 100%); }
+.evc__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(20px, 2vw, 28px); }
+.evc__n { font-family: var(--serif); font-size: clamp(28px, 2.4vw, 36px); line-height: 1; color: var(--gold-2); }
+.evc h3 { margin-top: 12px; font-size: clamp(23px, 1.8vw, 27px); color: var(--cream); }
+.evc p { margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: rgba(241, 234, 223, .82); }
+@media (max-width: 900px) { .ev__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .ev__grid { grid-template-columns: 1fr; } }
+
+/* sections that came from the homepage */
+.d-how { background: var(--cream-2); }
+.d-how .how { margin-top: 0; padding-top: 0; border-top: 0; }
+.d-src { background: var(--cream); }
+.d-src .sourcing { margin-top: 0; }
+.booking__cta { margin-top: 34px; }
+
+/* menu: Book Now beside the links */
+.nav__links a.is-current::after { width: 100%; }
+.nav__wa--menu { display: none; }
+.nav__wa svg { width: 16px; height: 16px; }
+.nav .btn--ghost { padding: 10px 18px; }
+.nav.on-dark:not(.open) .btn--ghost { background: transparent; color: var(--cream); border-color: rgba(241, 234, 223, .45); }
+.nav.on-dark:not(.open) .btn--ghost:hover { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+@media (max-width: 860px) {
+  .nav__wa--bar { display: none; }
+  .nav__links .nav__wa--menu { display: inline-flex; align-self: flex-start; margin-top: 16px; padding: 10px 18px; font-size: 13px; border-bottom: 1px solid rgba(42, 29, 22, .35); }
+}
+
+/* visual gallery: a mosaic of Ian's photos, tap one to see it large */
+.gal { background: var(--cream); }
+.gal h2 { margin-top: 8px; }
+.gal__lanes { margin-top: clamp(36px, 5vw, 56px); display: grid; gap: 14px; overflow: hidden; }
+.gal__lane { overflow: hidden; }
+.gal__strip { display: flex; gap: 14px; width: max-content; animation: gal-drift 70s linear infinite; }
+.gal__lane--back .gal__strip { animation-direction: reverse; animation-duration: 82s; }
+.gal__lane:hover .gal__strip { animation-play-state: paused; }
+@keyframes gal-drift { to { transform: translateX(-50%); } }
+.gal__item { position: relative; display: block; flex: none; width: clamp(240px, 24vw, 380px); height: clamp(180px, 18vw, 280px); overflow: hidden; background: var(--cream-2); }
+.gal__item img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.86) sepia(.1) contrast(1.02); transform: scale(1.02); transition: transform 1.2s var(--ease), filter .6s; }
+.gal__item:hover img { transform: scale(1.07); filter: saturate(.95) sepia(.06); }
+.gal__item::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(42, 29, 22, .08); pointer-events: none; }
+@media (max-width: 600px) { .gal__item { width: 220px; height: 165px; } .gal__strip { gap: 10px; } .gal__lanes { gap: 10px; } }
+@media (prefers-reduced-motion: reduce) { .gal__strip { animation: none; } .gal__lane { overflow-x: auto; } }
+
+/* lightbox */
+.lb { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 24px; background: rgba(25, 17, 11, .92); opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s .4s; }
+.lb.is-open { opacity: 1; visibility: visible; transition: opacity .4s ease; }
+.lb__fig { max-width: min(1100px, 100%); max-height: 100%; margin: 0; text-align: center; }
+.lb__fig img { display: block; max-width: 100%; max-height: calc(100vh - 110px); max-height: calc(100svh - 110px); margin: 0 auto; object-fit: contain; box-shadow: 0 40px 90px rgba(0, 0, 0, .5); transform: scale(.96); transition: transform .5s var(--ease); }
+.lb.is-open .lb__fig img { transform: none; }
+.lb__fig figcaption { margin-top: 14px; font-family: var(--serif); font-style: italic; font-size: 18px; color: rgba(241, 234, 223, .75); }
+.lb__close, .lb__nav { position: absolute; display: grid; place-items: center; background: none; border: 1px solid rgba(241, 234, 223, .25); border-radius: 50%; color: var(--cream); cursor: pointer; transition: background .3s, border-color .3s; }
+.lb__close:hover, .lb__nav:hover { background: rgba(241, 234, 223, .12); border-color: rgba(241, 234, 223, .5); }
+.lb__close { top: 18px; right: 18px; width: 44px; height: 44px; }
+.lb__close svg { width: 16px; height: 16px; }
+.lb__nav { top: 50%; width: 52px; height: 52px; transform: translateY(-50%); }
+.lb__nav svg { width: 22px; height: 22px; }
+.lb__nav--prev { left: 18px; } .lb__nav--next { right: 18px; }
+@media (max-width: 600px) { .lb { padding: 12px; } .lb__nav { width: 42px; height: 42px; top: auto; bottom: 16px; transform: none; } .lb__nav--prev { left: 16px; } .lb__nav--next { right: 16px; } .lb__fig img { max-height: calc(100svh - 150px); } }
+html.lb-lock { overflow: hidden; }
+</style>
+<link rel="stylesheet" href="assets/book.css">
+<link rel="stylesheet" href="assets/foot.css">
+</head>
+<body>
+
+<header class="nav" id="nav">
+  <a class="nav__logo" href="index.html" aria-label="The Dinerworkshop, home"><img class="on-light" src="assets/logo-ink.png" alt="The Dinerworkshop"><img class="on-darkbg" src="assets/logo-cream.png" alt=""></a>
+  <nav class="nav__links">
+    <a href="index.html">Home</a>
+    <a href="about.html">About Us</a>
+    <a href="dining.html" class="is-current" aria-current="page">Dining</a>
+    <a href="claypot.html">Claypot</a>
+    <a href="classes.html">Classes</a>
+    <a href="contact.html">Contact Us</a>
+  </nav>
+  <div class="nav__right">
+    <a class="btn" href="contact.html#book">Book Now</a>
+    <button class="burger" id="burger" type="button" aria-label="Menu"><span></span></button>
+  </div>
+</header>
+
+<!-- ─────────────── hero ─────────────── -->
+<section class="d-hero" id="top" data-dark>
+  <img class="d-hero__img" src="assets/experience/binchotan.jpg" alt="Chef Ian turning scallops over binchotan charcoal">
+  <div class="inner d-hero__inner">
+    <h1 class="rv">The Bespoke Dining Experience</h1>
+    <p class="sub rv d1">An evening that proceeds entirely at your pace.</p>
+    <p class="body rv d2">Set within a historic 1923 Black &amp; White colonial estate in Sembawang, The Dinerworkshop offers an exclusive, single-sitting private dining retreat for discerning guests who appreciate authentic culinary heritage, absolute privacy, and uncompromised ingredient quality.</p>
+    <div class="d-hero__cta rv d3">
+      <a class="btn" href="#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="btn btn--ghost" href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp +65 8071 0506</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── the evening ─────────────── -->
+<section class="ev pad" id="evening">
+  <div class="inner">
+    <p class="pre rv">The Evening</p>
+    <h2 class="rv d1">From arrival to the last course.</h2>
+    <div class="ev__grid">
+      <article class="evc rv"><img src="assets/experience/arrival.jpg" alt="A colonial house set in a lush tropical garden" loading="lazy"><div class="evc__body"><h3>The Arrival</h3><p>Step off the beaten path and into our 1924 colonial sanctuary surrounded by verdant greenery.</p></div></article>
+      <article class="evc rv d1"><img src="assets/experience/drinks.jpg" alt="Guests raising handcrafted cocktails" loading="lazy"><div class="evc__body"><h3>Pre-Dinner Drinks</h3><p>Unwind in our living hall with handcrafted aperitifs.</p></div></article>
+      <article class="evc rv d2"><img src="assets/experience/table.jpg" alt="A long dining table set for dinner" loading="lazy"><div class="evc__body"><h3>The Omakase Table</h3><p>Transition to your private dining room for a multi-course, custom-curated culinary experience.</p></div></article>
+      <article class="evc rv d3"><img src="assets/experience/evening.jpg" alt="Guests sharing a candlelit dinner" loading="lazy"><div class="evc__body"><h3>Unhurried Elegance</h3><p>With only a single sitting hosted per evening, the night proceeds entirely at your group's desired pace.</p></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── how the personalized omakase works ─────────────── -->
+<section class="d-how pad">
+  <div class="inner">
+    <div class="how">
+      <div class="how__head">
+        <div class="rv">
+          <p class="pre">How the Personalized Omakase Works</p>
+          <h2 style="margin-top:14px">No two evenings at The Dinerworkshop are ever identical.</h2>
+        </div>
+        <p class="rv d1" style="color:var(--muted)">Because every menu is fully bespoke, we seamlessly accommodate vegetarian, pescatarian, gluten-free, or specific dietary requirements with advance consultation.</p>
+      </div>
+      <div class="how__grid">
+        <div class="how__card rv"><div class="num">Step 1</div><h3>The Culinary Discovery Assessment</h3><p>Upon inquiry, we guide you through a preference assessment to understand your palate, dietary nuances, occasion, and preferred budget. We recommend at least 3 weeks in advance to avoid disappointment.</p></div>
+        <div class="how__card rv d1"><div class="num">Step 2</div><h3>Artisanal Sourcing</h3><p>Ian personally selects the week's finest seasonal seafood, prime meats, and local botanicals exclusively for your booking.</p></div>
+        <div class="how__card rv d2"><div class="num">Step 3</div><h3>The Omakase Unveiling</h3><p>Arrive to a bespoke menu tailored precisely around your group's tastes.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── visual gallery: dishes from past evenings ─────────────── -->
+<section class="gal pad" id="gallery">
+  <div class="inner">
+    <p class="pre rv">Visual Gallery</p>
+    <h2 class="rv d1">Dishes from past evenings.</h2>
+  </div>
+  <div class="gal__lanes" id="galLanes">
+    <div class="gal__lane">
+      <div class="gal__strip">
+        <a class="gal__item" href="assets/gallery/g01.jpg" data-alt="Prawn noodle bowl with greens and fried shallots" data-i="0"><img src="assets/gallery/g01.jpg" alt="Prawn noodle bowl with greens and fried shallots" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g02.jpg" data-alt="Lamb chops and sliced steak with charred greens on a board" data-i="1"><img src="assets/gallery/g02.jpg" alt="Lamb chops and sliced steak with charred greens on a board" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g03.jpg" data-alt="Prawn and noodle salad in a glass bowl" data-i="2"><img src="assets/gallery/g03.jpg" alt="Prawn and noodle salad in a glass bowl" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g04.jpg" data-alt="Pancake topped with spring onions and shallots" data-i="3"><img src="assets/gallery/g04.jpg" alt="Pancake topped with spring onions and shallots" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g05.jpg" data-alt="The table set with small sharing plates" data-i="4"><img src="assets/gallery/g05.jpg" alt="The table set with small sharing plates" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g06.jpg" data-alt="Steamed fish with spring onion and soy" data-i="5"><img src="assets/gallery/g06.jpg" alt="Steamed fish with spring onion and soy" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g07.jpg" data-alt="Fish with cherry tomatoes and fresh herbs" data-i="6"><img src="assets/gallery/g07.jpg" alt="Fish with cherry tomatoes and fresh herbs" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g08.jpg" data-alt="Greens with crispy shallots" data-i="7"><img src="assets/gallery/g08.jpg" alt="Greens with crispy shallots" loading="lazy"></a>
+      </div>
+    </div>
+    <div class="gal__lane gal__lane--back">
+      <div class="gal__strip">
+        <a class="gal__item" href="assets/gallery/g09.jpg" data-alt="Meatballs with lettuce and fried shallots" data-i="8"><img src="assets/gallery/g09.jpg" alt="Meatballs with lettuce and fried shallots" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g10.jpg" data-alt="Slow-braised meat with potatoes in an orange dish" data-i="9"><img src="assets/gallery/g10.jpg" alt="Slow-braised meat with potatoes in an orange dish" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g11.jpg" data-alt="Roasted potatoes with tomatoes and herbs" data-i="10"><img src="assets/gallery/g11.jpg" alt="Roasted potatoes with tomatoes and herbs" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g12.jpg" data-alt="A baked dish under a green herb crust" data-i="11"><img src="assets/gallery/g12.jpg" alt="A baked dish under a green herb crust" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g13.jpg" data-alt="Grilled octopus skewers on a clay plate" data-i="12"><img src="assets/gallery/g13.jpg" alt="Grilled octopus skewers on a clay plate" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g14.jpg" data-alt="Cherry tomatoes in a green herb sauce" data-i="13"><img src="assets/gallery/g14.jpg" alt="Cherry tomatoes in a green herb sauce" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g15.jpg" data-alt="Sliced seared steak" data-i="14"><img src="assets/gallery/g15.jpg" alt="Sliced seared steak" loading="lazy"></a>
+        <a class="gal__item" href="assets/gallery/g16.jpg" data-alt="Seared beef topped with salmon roe" data-i="15"><img src="assets/gallery/g16.jpg" alt="Seared beef topped with salmon roe" loading="lazy"></a>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<div class="lb" id="lb" aria-hidden="true">
+  <button class="lb__close" type="button" aria-label="Close"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
+  <button class="lb__nav lb__nav--prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <figure class="lb__fig"><img id="lbImg" src="" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button class="lb__nav lb__nav--next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg></button>
+</div>
+
+<!-- ─────────────── ingredient sourcing ─────────────── -->
+<section class="d-src pad">
+  <div class="inner">
+    <div class="sourcing">
+      <div class="rv">
+        <p class="pre">Ingredient Sourcing &amp; Integrity</p>
+        <p>Purity is non-negotiable. We partner directly with boutique importers and local artisanal purveyors to source:</p>
+      </div>
+      <ul>
+        <li class="rv d1">Air-flown seasonal seafood and wild-caught delicacies.</li>
+        <li class="rv d2">Heritage-breed hormone free meats.</li>
+        <li class="rv d3">Organic local micro-greens and fresh regional botanicals.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── the dining estate ─────────────── -->
+<section class="place pad" id="place">
+  <div class="inner">
+    <div class="place__grid">
+      <div class="place__text">
+        <p class="pre rv">The Dining Estate</p>
+        <h2 class="rv d1">Old-world Singapore charm.</h2>
+        <p class="rv d2">Tucked away in the serene greenery of Sembawang, our 1923 Black &amp; White estate offers an atmosphere of old-world Singapore charm.</p>
+        <p class="rv d3">Spacious high ceilings, lush outdoor views, and curated interior furnishings offer an intimate alternative to commercial luxury dining.</p>
+        <p class="rv d3">A single sitting per evening: the entire estate hall is exclusively reserved for your group from 7:00 PM until late.</p>
+      </div>
+      <div class="place__art rv d2"><img src="assets/logo.jpg" alt="Line drawing of the 1923 Black and White estate"></div>
+    </div>
+    <div class="facts">
+      <div class="fact rv"><div class="k">Minimum Group Size</div><div class="v">6 guests</div><div class="s">Group Size &amp; Dining Exclusivity</div></div>
+      <div class="fact rv d1"><div class="k">Maximum Capacity</div><div class="v">10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
+      <div class="fact rv d2"><div class="k">Operating Days</div><div class="v">Mon – Sun</div><div class="s">By at least 2 weeks advance reservation only</div></div>
+      <div class="fact rv d3"><div class="k">Time</div><div class="v">7:00 PM til late</div><div class="s">One sitting per evening</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── investment & packages ─────────────── -->
+<section class="invest pad" id="investment">
+  <div class="inner">
+    <p class="pre rv">Investment &amp; Packages</p>
+    <h2 class="rv d1">Tailored to your ingredient selections.</h2>
+    <div class="invest__grid">
+      <div class="card rv"><div class="k">Bespoke Omakase Dinners</div><div class="big">$150+ – $250+<small>per guest</small></div><p>Tailored to ingredient selections.</p></div>
+      <div class="card rv d1"><div class="k">Corkage &amp; Cakeage Policy</div><h3>Complimentary BYOB</h3><ul><li>Complimentary BYOB for the first bottle.</li><li>No cakeage fee (we love celebration!)</li></ul></div>
+      <div class="card rv d2"><div class="k">Dietary Tailoring &amp; Allergies</div><h3>Fully bespoke menus</h3><p>Because every menu is fully bespoke, we seamlessly accommodate vegetarian, pescatarian, gluten-free, or specific dietary requirements with advance consultation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── booking, policy, faq ─────────────── -->
+<section class="booking pad" id="booking">
+  <div class="inner">
+    <div class="booking__grid">
+      <div>
+        <p class="pre rv">Booking &amp; Reservation Process</p>
+        <h2 class="rv d1">Inquire. Consultation. Confirmation.</h2>
+        <ol class="ol">
+          <li class="rv"><div><strong>Inquire</strong><span>Submit your preferred date and group size via our concierge page or WhatsApp 8071 0506 (at least 2 weeks in advance).</span></div></li>
+          <li class="rv d1"><div><strong>Consultation</strong><span>Complete our brief Culinary Discovery Assessment.</span></div></li>
+          <li class="rv d2"><div><strong>Confirmation</strong><span>A full payment secures your exclusive evening on the calendar.</span></div></li>
+        </ol>
+        <div class="booking__cta rv d3" id="book"><a class="btn" href="#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      </div>
+      <div class="side">
+        <p class="pre rv">Reservation Policy</p>
+        <div class="policy">
+          <div class="row rv"><strong>14+ Days Notice</strong><span>Full refund.</span></div>
+          <div class="row rv d1"><strong>7–13 Days Notice</strong><span>Payment credited toward a rescheduled date within 60 days.</span></div>
+          <div class="row rv d2"><strong>Under 7 Days</strong><span>50% non-refundable due to bespoke fresh ingredient sourcing.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq">
+      <div class="rv"><p class="pre">FAQ</p><h2>Frequently Asked Questions</h2></div>
+      <div>
+        <details class="rv" open><summary>May we bring our personal wine collection?<i></i></summary><p>Absolutely. We offer complimentary corkage along with proper wine service and glassware.</p></details>
+        <details class="rv d1"><summary>Is private parking available?<i></i></summary><p>Yes, 2 private parking spaces are available within our estate grounds.</p></details>
+        <details class="rv d2"><summary>May we request rare or premium ingredients?<i></i></summary><p>Certainly. During your menu discovery consultation, we can incorporate specific luxury delicacies into your customized menu.</p></details>
+        <details class="rv d3"><summary>Are pets welcome at The Dinerworkshop?<i></i></summary><p>Yes, absolutely! As proud pawparents to a rescued dog and cat, our home and estate grounds are warmly open to your well-behaved furry family members. Please let us know in advance so we can ensure a comfortable setup for them as well.</p></details>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────── reserve ─────────────── -->
+<section class="contact pad" id="enquire" data-dark>
+  <div class="inner">
+    <div class="contact__grid">
+      <div>
+        <h2 class="rv">Reserve your <em>private sitting.</em></h2>
+        <p class="lead rv d1">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance. We recommend at least 3 weeks to avoid disappointment.</p>
+        <div class="contact__cta rv d2">
+          <a class="btn" href="#book" data-book>Reserve Your Private Sitting <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn--gold" href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp +65 8071 0506</a>
+        </div>
+      </div>
+      <dl class="contact__list rv d2">
+        <div><dt>Location</dt><dd>Sembawang Colonial Enclave, Singapore (Near Sembawang Park)</dd></div>
+        <div><dt>Reservations</dt><dd><a href="tel:+6580710506">+65 8071 0506</a></dd></div>
+        <div><dt>Email</dt><dd><a href="mailto:thedinerworkshop@gmail.com">thedinerworkshop@gmail.com</a></dd></div>
+        <div><dt>Pet Policy</dt><dd>Proudly Pet-Friendly (Pawparents to a rescued dog and cat)</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="inner foot__top">
+    <div class="foot__brand">
+      <a href="index.html" aria-label="The Dinerworkshop, home"><img class="foot__logo" src="assets/logo-ink.png" alt="The Dinerworkshop"></a>
+      <div class="foot__social">
+        <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://facebook.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a>
+      </div>
+    </div>
+    <nav class="foot__pages" aria-label="Pages">
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="dining.html" aria-current="page">Dining</a>
+      <a href="claypot.html">Claypot Rice</a>
+      <a href="classes.html">Classes</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </div>
+  <div class="inner foot__base">
+    <span>Singapore &nbsp;|&nbsp; Where Heritage Meets Culinary Curiosity</span>
+    <span>© 2026 The Dinerworkshop</span>
+  </div>
+</footer>
+
+<script>
+/* nav: compact when scrolled, light text over dark sections */
+const nav = document.getElementById("nav");
+const darks = [...document.querySelectorAll("[data-dark]")];
+function navState() {
+  nav.classList.toggle("scrolled", scrollY > 60);
+  const probe = 40;
+  nav.classList.toggle("on-dark", darks.some(s => { const r = s.getBoundingClientRect(); return r.top <= probe && r.bottom >= probe; }));
+}
+addEventListener("scroll", navState, { passive: true });
+navState();
+document.getElementById("burger").addEventListener("click", () => nav.classList.toggle("open"));
+nav.querySelectorAll(".nav__links a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
+
+/* reveal on scroll */
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+}), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+
+/* gallery lightbox */
+(() => {
+  const lb = document.getElementById("lb"), img = document.getElementById("lbImg"), cap = document.getElementById("lbCap");
+  // each lane repeats its photos once so the drift loops without a gap
+  document.querySelectorAll(".gal__strip").forEach(s => { const c = s.cloneNode(true); [...c.children].forEach(el => { el.setAttribute("aria-hidden", "true"); el.tabIndex = -1; }); s.append(...c.children); });
+  const items = [...document.querySelectorAll(".gal__item")].filter(a => !a.hasAttribute("aria-hidden"));
+  let i = 0, last = null;
+  function show(n) { i = (n + items.length) % items.length; img.src = items[i].href; img.alt = cap.textContent = items[i].dataset.alt || ""; }
+  function open(n) { last = document.activeElement; show(n); lb.classList.add("is-open"); lb.setAttribute("aria-hidden", "false"); document.documentElement.classList.add("lb-lock"); lb.querySelector(".lb__close").focus(); }
+  function close() { lb.classList.remove("is-open"); lb.setAttribute("aria-hidden", "true"); document.documentElement.classList.remove("lb-lock"); if (last) last.focus(); }
+  document.querySelectorAll(".gal__item").forEach(a => a.addEventListener("click", e => { e.preventDefault(); open(+a.dataset.i); }));
+  lb.querySelector(".lb__close").addEventListener("click", close);
+  lb.querySelector(".lb__nav--prev").addEventListener("click", () => show(i - 1));
+  lb.querySelector(".lb__nav--next").addEventListener("click", () => show(i + 1));
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", e => {
+    if (!lb.classList.contains("is-open")) return;
+    if (e.key === "Escape") close(); else if (e.key === "ArrowLeft") show(i - 1); else if (e.key === "ArrowRight") show(i + 1);
+  });
+  // swipe on phones
+  let x0 = null;
+  lb.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
+})();
+</script>
+<script src="assets/book.js"></script>
+<script src="assets/wa.js"></script>
+</body>
+</html>

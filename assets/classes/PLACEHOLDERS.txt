@@ -1,0 +1,6 @@
+Placeholder stock photos (Unsplash, free licence). Replace with Ian's own class photos before launch.
+hero.jpg        https://unsplash.com/photos/a-group-of-people-standing-around-a-table-making-dough-5a3RXo1zmRY
+level-1.jpg     https://unsplash.com/photos/a-little-girl-is-making-a-doughnut-on-a-counter-zeVzC63jTjc
+level-2.jpg     https://unsplash.com/photos/mother-and-daughter-preparing-salad-in-the-kitchen  (photo-1758874961000-d8b11690ce22)
+level-3.jpg     https://unsplash.com/photos/a-young-child-wearing-a-chefs-hat-and-holding-a-spoon-3rFt6f3oWjc
+philosophy.jpg  https://unsplash.com/photos/girl-in-white-and-black-striped-long-sleeve-shirt-standing-beside-girl-in-white-and-black-c6mdgjKg_hE
