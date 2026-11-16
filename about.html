@@ -182,7 +182,9 @@ section { position: relative; }
 /* why */
 .a-why { background: var(--cream); }
 .a-why--solo { text-align: center; }
-.a-why--solo p { margin-left: auto; margin-right: auto; }
+.a-why.a-why--solo p { margin-left: auto; margin-right: auto; text-align: center; }
+.a-host { padding-bottom: clamp(30px, 4vw, 60px); }
+.a-why--solo { padding-top: clamp(40px, 5vw, 70px); }
 .a-host__lead { font-weight: 300; }
 .a-open__tag { margin-top: 22px; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .a-open__tag::before { content: "["; } .a-open__tag::after { content: "]"; }
@@ -324,6 +326,14 @@ section { position: relative; }
   </div>
 </section>
 
+<!-- ─────────────── why the dinerworkshop: straight after Chef Ian ─────────────── -->
+<section class="a-why a-why--solo pad" id="why">
+  <div class="inner">
+    <h2 class="rv">Why The Dinerworkshop?</h2>
+    <p id="whyWords">At <strong>The Dinerworkshop</strong>, cherished family recipes passed down through generations are not merely repeated. They are studied, perfected, and elevated. Here, the warmth of a historic home merges with culinary precision to create an intimate dining journey.</p>
+  </div>
+</section>
+
 <!-- ─────────────── culinary philosophy ─────────────── -->
 <section class="philo a-philo pad">
   <div class="inner">
@@ -380,14 +390,6 @@ section { position: relative; }
         <div class="ch__text"><h3>The Dinerworkshop</h3><p>In late 2026, after much encouragement from dining friends, The Dinerworkshop was finally created to share this intimate private dining journey with more diners.</p></div>
       </article>
     </div>
-  </div>
-</section>
-
-<!-- ─────────────── why the dinerworkshop: after the story of how it began ─────────────── -->
-<section class="a-why a-why--solo pad" id="why">
-  <div class="inner">
-    <h2 class="rv">Why “The Dinerworkshop”?</h2>
-    <p id="whyWords">At <strong>The Dinerworkshop</strong>, cherished family recipes passed down through generations are not merely repeated. They are studied, perfected, and elevated. Here, the warmth of a historic home merges with culinary precision to create an intimate dining journey.</p>
   </div>
 </section>
 
