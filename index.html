@@ -126,7 +126,7 @@ section { position: relative; }
 .hero.is-sketch .hero__copy p.lead { color: rgba(42, 29, 22, .78); }
 .hero .btn { transition: background .9s, border-color .9s, color .9s, transform .45s var(--ease), box-shadow .45s; }
 .hero__shade { position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, rgba(20, 13, 8, .92) 0%, rgba(20, 13, 8, .8) 26%, rgba(20, 13, 8, .4) 46%, rgba(20, 13, 8, 0) 64%),
+  background: linear-gradient(90deg, rgba(20, 13, 8, .92) 0%, rgba(20, 13, 8, .82) 30%, rgba(20, 13, 8, .55) 50%, rgba(20, 13, 8, 0) 70%),
               linear-gradient(to top, rgba(20, 13, 8, .72) 0%, rgba(20, 13, 8, 0) 46%),
               linear-gradient(to bottom, rgba(20, 13, 8, .5) 0%, rgba(20, 13, 8, 0) 22%); }
 .hero__copy { position: relative; z-index: 3; width: 100%; padding: 0 var(--pad); }
@@ -159,7 +159,8 @@ section { position: relative; }
 .hero__says { position: relative; }
 .hero__say { transition: opacity .8s var(--ease), transform .9s var(--ease); }
 .hero.is-sketch .hero__say--real, .hero:not(.is-sketch) .hero__say--sketch { position: absolute; left: 0; right: 0; top: 0; opacity: 0; transform: translateY(18px); pointer-events: none; }
-.hero__sub--long { max-width: 52ch; font-size: 16px; line-height: 1.65; }
+.hero__sub.hero__sub--long { max-width: 66ch; font-size: 16px; line-height: 1.6; }
+.hero__copy > .hero__says { max-width: 780px; }
 /* the two buttons share one line, close under the words */
 .hero__copy .hero__cta { margin-top: 26px; max-width: none; flex-wrap: nowrap; }
 @media (max-width: 700px) { .hero__copy .hero__cta { flex-wrap: wrap; } }
@@ -267,7 +268,7 @@ section { position: relative; }
 
 .exp { background: var(--cream); }
 /* the evening: four photo cards on one level, wiped in left to right as you scroll */
-.exp__track { position: relative; height: 380vh; }
+.exp__track { position: relative; height: 220vh; }
 .exp__pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .exp__pin > .inner { height: 100%; display: flex; flex-direction: column; padding-top: clamp(100px, 13vh, 140px); padding-bottom: clamp(28px, 7vh, 72px); }
 .exp__head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
@@ -434,6 +435,31 @@ a.edition:hover { border-color: rgba(122, 35, 32, .45); transform: translateY(-4
 
 /* ══════════════ closing band ══════════════ */
 .cta { background: var(--cream-2); text-align: center; }
+/* the reserve scene: scrolling walks the camera from the living room to the dining table, then the invitation comes out */
+.tour__track { position: relative; height: 300vh; }
+.tour__stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; isolation: isolate; display: grid; place-items: center; text-align: center; background: #1c130c; color: var(--cream); }
+.tour__video { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.tour__shade { position: absolute; inset: 0; z-index: -1; pointer-events: none; background-color: rgba(20, 13, 8, 0); transition: background-color 1s ease;
+  background-image: linear-gradient(to bottom, rgba(20, 13, 8, .5) 0%, rgba(20, 13, 8, 0) 24%); }
+.tour__stage.is-told .tour__shade { background-color: rgba(20, 13, 8, .56); }
+.tour__words > * { opacity: 0; transform: translateY(30px); transition: opacity .9s var(--ease), transform 1.1s var(--ease); }
+.tour__stage.is-told .tour__words > * { opacity: 1; transform: none; }
+.tour__stage.is-told .tour__words > :nth-child(2) { transition-delay: .12s; }
+.tour__stage.is-told .tour__words > :nth-child(3) { transition-delay: .24s; }
+.tour__words h2 { font-size: clamp(42px, 5.4vw, 72px); line-height: 1.02; color: var(--cream); }
+.tour__words h2 em { color: inherit; }
+.tour__words .lead { margin: 24px auto 0; max-width: 46ch; color: rgba(241, 234, 223, .86); }
+.tour__words .cta__btns { margin-top: 30px; display: flex; justify-content: center; }
+@media (prefers-reduced-motion: reduce) { .tour__track { height: auto; } .tour__stage { position: relative; } }
+/* the essentials, under the booking */
+.tour-facts { background: var(--cream); padding: clamp(50px, 6vw, 84px) 0; }
+.tour-facts .facts { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: var(--paper); }
+.tour-facts .fact { padding: 34px 30px; border-right: 1px solid var(--line); }
+.tour-facts .fact:last-child { border-right: 0; }
+.tour-facts .fact .k { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.tour-facts .fact .v { margin-top: 12px; font-family: var(--serif); font-weight: 300; font-size: 32px; line-height: 1.1; }
+.tour-facts .fact .s { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
+@media (max-width: 760px) { .tour-facts .facts { grid-template-columns: 1fr; } .tour-facts .fact { border-right: 0; border-bottom: 1px solid var(--line); } .tour-facts .fact:last-child { border-bottom: 0; } }
 .cta__inner { max-width: 760px; }
 .cta h2 { font-size: clamp(42px, 5.4vw, 72px); line-height: 1.02; }
 .cta h2 em { font-style: italic; font-weight: 400; color: var(--gold); }
@@ -494,6 +520,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
   .nav__wa--bar { display: none; }
   .nav__links .nav__wa--menu { display: inline-flex; align-self: flex-start; margin-top: 16px; padding: 10px 18px; font-size: 13px; border-bottom: 1px solid rgba(42, 29, 22, .35); }
 }
+.fact__ic { display: block; width: 32px; height: 32px; margin-bottom: 18px; color: var(--ink); opacity: .78; }
 </style>
 <link rel="stylesheet" href="assets/book.css">
 <link rel="stylesheet" href="assets/foot.css">
@@ -527,7 +554,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 </style>
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/type.css?v=8">
+<link rel="stylesheet" href="assets/type.css?v=13">
 <!-- page arrival: curtain with the logo, then the header, then the page -->
 <link rel="stylesheet" href="assets/motion.css">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches || r.classList.contains("preload")) return; r.classList.add("mo", "mo-hold"); })();</script>
@@ -593,7 +620,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
       <p class="sig__label">Signature Dishes</p>
 
       <article class="dish">
-        <div class="dish__name rv"><h2>Charcoal-Grilled Specialties</h2><p class="dish__sub">Meats &amp; Botanicals</p></div>
+        <div class="dish__name rv"><h2>Charcoal Grilled Specialties</h2><p class="dish__sub">Meats &amp; Botanicals</p></div>
         <div class="dish__plate rv"><img src="assets/dishes/charcoal-grilled.webp?v=4" alt="Sliced charcoal-grilled steak with flame-seared vegetables on a black plate"></div>
         <div class="dish__text rv"><p>Kissed by white-hot binchotan, our prime cuts are flame-grilled to lock in smoky depth, succulent textures, and natural sweetness.</p></div>
       </article>
@@ -620,8 +647,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
         <div class="dish__name rv"><h2>Signature Claypot Rice</h2></div>
         <div class="dish__plate rv"><img id="sigPot" src="assets/dishes/claypot.webp" alt="Overhead view of the signature chicken claypot rice" loading="lazy"></div>
         <div class="dish__text rv">
-          <p class="crown">Our crown jewel: an homage to grandma, Po Po’s recipe, elevated with a subtle Japanese nuance.</p>
-          <p>Premium Thai Hom Mali rice is slow-simmered in Banko-yaki earthenware alongside tender boneless chicken thighs, braised shiitake mushrooms, Japanese ebi, rich liver sausage, and XO pork sausages. The result is an exquisite harmony of smoky aromatics, rich umami, and a golden, delicate bottom crust.</p>
+          <p>Our crown jewel: an homage to grandma, Po Po’s recipe, elevated with a subtle Japanese nuance.</p>
           <a class="btn" href="claypot.html" data-fly="#sigPot">Discover Our Claypot Rice <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
       </article>
@@ -637,9 +663,8 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
   <div class="estate__wash" aria-hidden="true"></div>
   <div class="inner estate__inner">
       <div class="story__text estate__copy" id="estateCopy">
-        <h2>About Your Host &amp; Chef, Ian</h2>
-        <p class="estate__sub">Generational Hainanese Heritage. Culinary Precision.</p>
-        <p class="estate__body">Chef Ian’s passion for gastronomy was forged across two distinct worlds: the bustling Hainanese home kitchens of his childhood and the disciplined world of molecular biology.</p>
+        <h2>Old-world Singapore charm.</h2>
+        <p class="estate__body">Tucked away in the serene greenery of Sembawang, our 1923 Black &amp; White estate offers an atmosphere of old-world Singapore charm.</p>
         <div class="estate__cta"><a class="btn" href="about.html" id="aboutZoom">About Us <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       </div>
   </div>
@@ -652,7 +677,6 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
       <div class="inner">
         <div class="exp__head">
           <div>
-            <p class="eyebrow">The Bespoke Dining Experience</p>
             <h2>From arrival to the last course.</h2>
           </div>
           <a class="btn" href="dining.html">Discover the Dining <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -714,11 +738,28 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 </section>
 
 <!-- ─────────────── closing: reserve ─────────────── -->
-<section class="cta pad">
-  <div class="inner cta__inner">
-    <h2 class="rv">Reserve your <em>private sitting.</em></h2>
-    <p class="lead rv d1">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance.</p>
-    <div class="cta__btns rv d2"><a class="btn" href="contact.html#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+<section class="tour" id="reserve">
+ <div class="tour__track" id="tourTrack">
+  <div class="tour__stage" id="tourStage" data-dark>
+    <video class="tour__video" id="tourVideo" data-src="assets/tour-scrub-1080.mp4" data-src-small="assets/tour-scrub-720.mp4" poster="assets/contact-dining-start.jpg?v=3" data-end="assets/contact-dining-end.jpg?v=3" muted playsinline preload="none" aria-label="A walk from the living room through the wide opening to the dining table"></video>
+    <div class="tour__shade" aria-hidden="true"></div>
+    <div class="inner tour__words">
+      <h2>Reserve your <em>private sitting.</em></h2>
+      <p class="lead">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance.</p>
+      <div class="cta__btns"><a class="btn" href="contact.html#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ─────────────── the essentials, right under the booking ─────────────── -->
+<section class="tour-facts">
+  <div class="inner">
+    <div class="facts">
+      <div class="fact rv"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="10.5" r="3.6"/><path d="M9.5 25v-2.2a6.5 6.5 0 0 1 13 0V25"/><circle cx="7.6" cy="13" r="2.7"/><path d="M2.5 24v-1.4a5 5 0 0 1 6.4-4.8"/><circle cx="24.4" cy="13" r="2.7"/><path d="M29.5 24v-1.4a5 5 0 0 0-6.4-4.8"/></svg><div class="k">Group Size</div><div class="v">6–10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
+      <div class="fact rv"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="7" width="23" height="20" rx="2.5"/><path d="M4.5 13h23M10.5 4v5M21.5 4v5"/><path d="M10 18h2M15 18h2M20 18h2M10 22h2M15 22h2"/></svg><div class="k">Operating Days</div><div class="v">Wed – Sun</div><div class="s">By at least 2 weeks advance reservation only</div></div>
+      <div class="fact rv"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="11.5"/><path d="M16 9.5V16l4.5 3"/></svg><div class="k">Time</div><div class="v">7:00 PM til late</div><div class="s">One sitting per evening</div></div>
+    </div>
   </div>
 </section>
 
@@ -819,6 +860,39 @@ function setLook(real) {
   kick();
 })();
 
+/* reserve scene: the walk from the living room to the dining table follows the scroll; the invitation
+   comes out once the camera has arrived. The clip is fetched whole shortly before the scene is reached. */
+(() => {
+  const v = document.getElementById("tourVideo"), track = document.getElementById("tourTrack"), stage = document.getElementById("tourStage");
+  if (!v || !track) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { v.poster = v.dataset.end; stage.classList.add("is-told"); return; }
+  const END = .82;                                     // share of the scroll used by the walk; the rest holds the words
+  const clamp01 = x => Math.min(1, Math.max(0, x));
+  let cur = 0, raf = 0, loaded = false;
+  new IntersectionObserver((es, o) => es.forEach(e => {
+    if (!e.isIntersecting || loaded) return;
+    loaded = true; o.disconnect();
+    const src = innerWidth <= 700 ? v.dataset.srcSmall : v.dataset.src;
+    fetch(src).then(r => { if (!r.ok) throw 0; return r.blob(); }).then(b => { v.src = URL.createObjectURL(b); v.load(); })
+      .catch(() => { v.preload = "auto"; v.src = src; });
+  }), { rootMargin: "1200px 0px" }).observe(track);
+  const progress = () => { const r = track.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, r.height - innerHeight)); };
+  function paint() {
+    const p = progress(), target = clamp01(p / END);
+    cur += (target - cur) * .14;
+    if (Math.abs(target - cur) < .0005) cur = target;
+    const d = v.duration;
+    if (d && isFinite(d)) { const t = Math.min(d - .04, cur * d); if (Math.abs(v.currentTime - t) > .008) v.currentTime = t; }
+    stage.classList.toggle("is-told", p >= END - .02);
+    raf = cur === target ? 0 : requestAnimationFrame(paint);
+  }
+  const kick = () => { if (!raf) raf = requestAnimationFrame(paint); };
+  addEventListener("scroll", kick, { passive: true });
+  addEventListener("resize", kick);
+  v.addEventListener("loadedmetadata", kick);
+  kick();
+})();
+
 /* reveal on scroll */
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
@@ -899,8 +973,8 @@ if (estate) {
   const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   let cur = 0, raf = 0;
   const target = () => { const r = track.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, r.height - innerHeight)); };
-  // four windows across the pin, each card taking its time, with a short hold at the end
-  const paint = p => cards.forEach((c, i) => c.style.setProperty("--e", ease(clamp01((p - (.03 + i * .2)) / .22)).toFixed(4)));
+  // the first card is already there with the heading; the other three follow one by one over a short scroll
+  const paint = p => cards.forEach((c, i) => c.style.setProperty("--e", i === 0 ? 1 : ease(clamp01((p - (.04 + (i - 1) * .27)) / .26)).toFixed(4)));
   function tick() {
     const t = target();
     cur += (t - cur) * .08;
@@ -938,7 +1012,8 @@ if (estate) {
   if (!track) return;
   const dishes = [...track.querySelectorAll(".dish")];
   const N = dishes.length;
-  const TURN = 140;                                  // degrees the plate turns per dish
+  const TURN = 140;
+  const ROLL = 170;                                  // degrees a plate turns while rolling the full arc                                  // degrees the plate turns per dish
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clamp01 = v => Math.min(1, Math.max(0, v));
   const smooth = t => { t = clamp01(t); return t * t * (3 - 2 * t); };
@@ -963,19 +1038,22 @@ if (estate) {
     const SWING = Math.asin(innerWidth > 900 ? .55 / .9 : .9 / 1.4);
     dishes.forEach((d, i) => {
       const [name, plate, text] = d.children;
+      let spin;
       if (rolling && (i === k || i === k + 1)) {
+        // rolling round the arc: the plate turns like a wheel, the one leaving turns away, the claypot turns into place
         const theta = i === k ? -f * SWING : (1 - f) * SWING;
         plate.style.transform = wheel(theta);
         plate.style.opacity = (1 - smooth((Math.abs(theta) / SWING - .35) / .65)).toFixed(3);
+        spin = theta / SWING * ROLL;
       } else {
         plate.style.transform = "";
         // the dish on the plate now stays put underneath; the next one fades in over it as the plate turns
         plate.style.opacity = i === k ? 1 : i === k + 1 ? smooth(f * 1.15 - .08).toFixed(3) : 0;
+        // each dish sits upright, exactly as plated, when it is the one showing; it turns in and out around that
+        const turns = i === N - 1 ? 0 : i === N - 2 ? Math.min(0, at - i) : at - i;
+        spin = turns * TURN;
       }
-      // each dish sits upright, exactly as plated, when it is the one showing; it turns in and out around that.
-      // The plate before the claypot only turns on its way in, and the claypot never turns.
-      const turns = i === N - 1 ? 0 : i === N - 2 ? Math.min(0, at - i) : at - i;
-      plate.firstElementChild.style.transform = `rotate(${(turns * TURN).toFixed(2)}deg)`;
+      plate.firstElementChild.style.transform = `rotate(${spin.toFixed(2)}deg)`;
       const t = clamp01(1 - Math.abs(at - i) * 2.4);
       name.style.opacity = text.style.opacity = t.toFixed(3);
       name.style.transform = `translateY(${(-(at - i) * 40).toFixed(1)}px)`;

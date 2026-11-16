@@ -101,3 +101,20 @@ h1, h2 { text-wrap: balance; }
 .cp-order .pre { font-size: 11.5px; }
 .cp-order h2 { font-size: clamp(30px, 3.2vw, 46px); line-height: .96; }
 .order__label { font-weight: 400; }
+
+/* no bracketed labels above headings, anywhere; the small subtitles under headings keep their words without brackets */
+.pre, .eyebrow, .say__label, .sig__label, .k-core .pre, .stairs__head .pre { display: none !important; }
+.dish__sub::before, .dish__sub::after, .estate__sub::before, .estate__sub::after, .classes .sub::before, .classes .sub::after,
+.d-hero .sub::before, .d-hero .sub::after, .k-hero .sub::before, .k-hero .sub::after, .a-open__tag::before, .a-open__tag::after,
+.a-why__photo figcaption::before, .a-why__photo figcaption::after { content: none !important; }
+/* …and none under headings either */
+.dish__sub, .estate__sub, .classes .sub, .d-hero .sub, .k-hero .sub, .a-open__tag, .a-why__photo figcaption, .tag { display: none !important; }
+
+/* no italics anywhere; emphasis by weight only, and nothing heavier than the light headings call for */
+em, i { font-style: normal; }
+.ch__text em, .why em, .cp-why em { font-weight: 400; color: var(--ink); }
+.order__eds b, .order__total strong, .ol li strong { font-weight: 400; }
+.why__n { display: none; }                         /* no numerals on the claypot points */
+/* Claypot header: smaller, with "Claypot Rice" kept together on its own line */
+.cp-hero h1 { font-size: clamp(38px, 4.4vw, 68px); max-width: none; }
+.cp-hero h1 em { display: block; white-space: nowrap; }
