@@ -451,15 +451,6 @@ a.edition:hover { border-color: rgba(122, 35, 32, .45); transform: translateY(-4
 .tour__words .lead { margin: 24px auto 0; max-width: 46ch; color: rgba(241, 234, 223, .86); }
 .tour__words .cta__btns { margin-top: 30px; display: flex; justify-content: center; }
 @media (prefers-reduced-motion: reduce) { .tour__track { height: auto; } .tour__stage { position: relative; } }
-/* the essentials, under the booking */
-.tour-facts { background: var(--cream); padding: clamp(50px, 6vw, 84px) 0; }
-.tour-facts .facts { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: var(--paper); }
-.tour-facts .fact { padding: 34px 30px; border-right: 1px solid var(--line); }
-.tour-facts .fact:last-child { border-right: 0; }
-.tour-facts .fact .k { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
-.tour-facts .fact .v { margin-top: 12px; font-family: var(--serif); font-weight: 300; font-size: 32px; line-height: 1.1; }
-.tour-facts .fact .s { margin-top: 8px; font-size: 13.5px; color: var(--muted); }
-@media (max-width: 760px) { .tour-facts .facts { grid-template-columns: 1fr; } .tour-facts .fact { border-right: 0; border-bottom: 1px solid var(--line); } .tour-facts .fact:last-child { border-bottom: 0; } }
 .cta__inner { max-width: 760px; }
 .cta h2 { font-size: clamp(42px, 5.4vw, 72px); line-height: 1.02; }
 .cta h2 em { font-style: italic; font-weight: 400; color: var(--gold); }
@@ -520,7 +511,6 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
   .nav__wa--bar { display: none; }
   .nav__links .nav__wa--menu { display: inline-flex; align-self: flex-start; margin-top: 16px; padding: 10px 18px; font-size: 13px; border-bottom: 1px solid rgba(42, 29, 22, .35); }
 }
-.fact__ic { display: block; width: 32px; height: 32px; margin-bottom: 18px; color: var(--ink); opacity: .78; }
 </style>
 <link rel="stylesheet" href="assets/book.css">
 <link rel="stylesheet" href="assets/foot.css">
@@ -752,16 +742,6 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
  </div>
 </section>
 
-<!-- ─────────────── the essentials, right under the booking ─────────────── -->
-<section class="tour-facts">
-  <div class="inner">
-    <div class="facts">
-      <div class="fact rv"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="10.5" r="3.6"/><path d="M9.5 25v-2.2a6.5 6.5 0 0 1 13 0V25"/><circle cx="7.6" cy="13" r="2.7"/><path d="M2.5 24v-1.4a5 5 0 0 1 6.4-4.8"/><circle cx="24.4" cy="13" r="2.7"/><path d="M29.5 24v-1.4a5 5 0 0 0-6.4-4.8"/></svg><div class="k">Group Size</div><div class="v">6–10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
-      <div class="fact rv"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="7" width="23" height="20" rx="2.5"/><path d="M4.5 13h23M10.5 4v5M21.5 4v5"/><path d="M10 18h2M15 18h2M20 18h2M10 22h2M15 22h2"/></svg><div class="k">Operating Days</div><div class="v">Wed – Sun</div><div class="s">By at least 2 weeks advance reservation only</div></div>
-      <div class="fact rv"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="11.5"/><path d="M16 9.5V16l4.5 3"/></svg><div class="k">Time</div><div class="v">7:00 PM til late</div><div class="s">One sitting per evening</div></div>
-    </div>
-  </div>
-</section>
 
 <footer class="foot">
   <div class="inner foot__top">
