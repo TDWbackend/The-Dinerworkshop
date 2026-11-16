@@ -108,10 +108,25 @@ section { position: relative; }
 }
 
 /* ══════════════ hero: the menu card is set down on the plate, story bottom-left ══════════════ */
-.hero { position: relative; isolation: isolate; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; padding: 130px 0 clamp(56px, 9vh, 104px); overflow: hidden; background: #1c130c; color: var(--cream); }
-.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.hero { position: relative; isolation: isolate; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; padding: 130px 0 clamp(56px, 9vh, 104px); overflow: hidden; background: linear-gradient(180deg, #1c120d 0%, #3a271d 60%, #4a3226 100%); color: var(--cream); }
+/* the drawing's cream paper, faded in under the video when the plate becomes a sketch */
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, #f9e5c4 0%, #f0d6b2 55%, #ecd0ab 100%); opacity: 0; transition: opacity 1.4s ease; }
+.hero.is-sketch::before { opacity: 1; }
+/* the plate sits to the right of the words on wide screens; its left edge fades into the ground */
+.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  transform: translateX(clamp(0px, calc((100vw - 900px) * .4), 22vw));
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 22%); mask-image: linear-gradient(90deg, transparent 0%, #000 22%); }
+.hero__wash { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.4s ease;
+  background: linear-gradient(90deg, rgba(249, 233, 206, .97) 0%, rgba(249, 233, 206, .9) 26%, rgba(249, 233, 206, .5) 44%, rgba(249, 233, 206, 0) 62%),
+              linear-gradient(to top, rgba(240, 216, 182, .7) 0%, rgba(240, 216, 182, 0) 40%); }
+.hero.is-sketch .hero__wash { opacity: 1; }
+.hero.is-sketch .hero__shade { opacity: 0; }
+.hero__copy h1, .hero__copy p.lead { transition: color 1.4s ease; }
+.hero.is-sketch .hero__copy h1 { color: var(--ink); }
+.hero.is-sketch .hero__copy p.lead { color: rgba(42, 29, 22, .78); }
+.hero .btn { transition: background .9s, border-color .9s, color .9s, transform .45s var(--ease), box-shadow .45s; }
 .hero__shade { position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, rgba(20, 13, 8, .8) 0%, rgba(20, 13, 8, .52) 30%, rgba(20, 13, 8, 0) 56%),
+  background: linear-gradient(90deg, rgba(20, 13, 8, .92) 0%, rgba(20, 13, 8, .8) 26%, rgba(20, 13, 8, .4) 46%, rgba(20, 13, 8, 0) 64%),
               linear-gradient(to top, rgba(20, 13, 8, .72) 0%, rgba(20, 13, 8, 0) 46%),
               linear-gradient(to bottom, rgba(20, 13, 8, .5) 0%, rgba(20, 13, 8, 0) 22%); }
 .hero__copy { position: relative; z-index: 3; width: 100%; padding: 0 var(--pad); }
@@ -123,13 +138,36 @@ section { position: relative; }
 .hero__copy .tag { font-size: 12px; letter-spacing: .28em; text-transform: uppercase; line-height: 1.8; color: rgba(241, 234, 223, .62); }
 .hero__copy p.lead { margin-top: 20px; max-width: 54ch; font-size: 16px; color: rgba(241, 234, 223, .84); }
 .hero__cta { margin-top: 32px; display: flex; gap: 14px; flex-wrap: wrap; }
-.hero .btn--ghost { color: var(--cream); border-color: rgba(241, 234, 223, .45); }
-.hero .btn--ghost:hover { background: var(--cream); border-color: var(--cream); color: var(--ink); }
+.hero[data-dark] .btn--ghost { color: var(--cream); border-color: rgba(241, 234, 223, .45); }
+.hero[data-dark] .btn--ghost:hover { background: var(--cream); border-color: var(--cream); color: var(--ink); }
 @media (max-width: 700px) {
   .hero__shade { background: linear-gradient(to top, rgba(20, 13, 8, .9) 0%, rgba(20, 13, 8, .7) 40%, rgba(20, 13, 8, 0) 70%), linear-gradient(to bottom, rgba(20, 13, 8, .5) 0%, rgba(20, 13, 8, 0) 20%); }
+  /* phones: the plate fills the top of the screen, the words sit below it on the same ground */
+  .hero__video { top: 64px; bottom: auto; height: 40vh; height: 40svh; transform: none;
+    -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, #000 72%, transparent 100%); }
+  .hero__wash { background: linear-gradient(to top, rgba(240, 216, 182, .95) 0%, rgba(240, 216, 182, .75) 40%, rgba(240, 216, 182, 0) 66%); }
   .hero__copy .eyebrow { font-size: 10px; letter-spacing: .26em; }
   .hero__copy p.lead { font-size: 15px; }
 }
+/* scroll-driven hero: the stage pins while the page scrolls the clip from drawing to the real dish;
+   the words sit on it throughout, dark on the drawing and cream once the dish is real */
+.hero-scrub__track { position: relative; height: 280vh; }
+.hero-scrub .hero { position: sticky; top: 0; height: 100vh; height: 100svh; }
+@media (prefers-reduced-motion: reduce) { .hero-scrub__track { height: auto; } .hero-scrub .hero { position: relative; } }
+/* two pairs of words share one spot: heritage while it is a drawing, the evening once the dish is real */
+.hero__says { display: grid; }
+.hero__says { position: relative; }
+.hero__say { transition: opacity .8s var(--ease), transform .9s var(--ease); }
+.hero.is-sketch .hero__say--real, .hero:not(.is-sketch) .hero__say--sketch { position: absolute; left: 0; right: 0; top: 0; opacity: 0; transform: translateY(18px); pointer-events: none; }
+.hero__sub--long { max-width: 52ch; font-size: 16px; line-height: 1.65; }
+/* the two buttons share one line, close under the words */
+.hero__copy .hero__cta { margin-top: 26px; max-width: none; flex-wrap: nowrap; }
+@media (max-width: 700px) { .hero__copy .hero__cta { flex-wrap: wrap; } }
+.hero__copy .hero__h { margin: 0; font-family: var(--serif); font-weight: 500; font-size: clamp(31px, 4.4vw, 70px); line-height: 1.04; letter-spacing: -.01em; color: var(--cream); }
+.hero__copy .hero__h span { display: block; white-space: nowrap; }
+.hero__sub { margin-top: 18px; max-width: 40ch; font-size: 17px; line-height: 1.5; color: rgba(241, 234, 223, .86); }
+.hero__say--sketch h1 { color: var(--ink) !important; }
+.hero__say--sketch .hero__sub { color: rgba(42, 29, 22, .8); }
 .leaf { position: absolute; z-index: 0; opacity: .08; color: var(--ink); pointer-events: none; }
 .leaf--r { right: -40px; top: 60px; width: 260px; }
 .leaf--l { left: -70px; bottom: -50px; width: 200px; transform: scaleX(-1); }
@@ -146,7 +184,7 @@ section { position: relative; }
 .dish__name { text-align: right; will-change: opacity, transform; }
 .dish h2 { margin-top: 0; font-size: clamp(36px, 3.6vw, 58px); line-height: 1.02; color: var(--ink); }
 .dish__sub { margin-top: 12px; font-family: var(--serif); font-style: italic; font-size: clamp(19px, 1.6vw, 23px); color: var(--muted); }
-.dish__plate { will-change: opacity; filter: drop-shadow(0 36px 46px rgba(42, 29, 22, .3)); }
+.dish__plate { will-change: opacity, transform; filter: drop-shadow(0 36px 46px rgba(42, 29, 22, .3)); }
 .dish__plate img { display: block; width: 100%; aspect-ratio: 1; object-fit: contain; will-change: transform; }
 .dish__text { max-width: 34ch; will-change: opacity, transform; }
 .dish__text p { font-size: 16.5px; line-height: 1.75; color: var(--muted); }
@@ -326,21 +364,50 @@ a.edition:hover { border-color: rgba(122, 35, 32, .45); transform: translateY(-4
 .card li::before { content: "✦"; font-size: 11px; color: var(--gold); }
 @media (max-width: 900px) { .invest__grid { grid-template-columns: 1fr; } }
 
-/* ══════════════ reviews (marquee) ══════════════ */
-.reviews { background: var(--brown-2); color: var(--cream); padding: clamp(70px, 9vw, 120px) 0; overflow: hidden; }
-.reviews .inner { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; }
-.reviews h2 { margin-top: 16px; }
-.reviews .inner p { color: rgba(241, 234, 223, .6); font-size: 14px; max-width: 40ch; }
-.marquee { margin-top: 54px; display: flex; gap: 24px; width: max-content; animation: slide 60s linear infinite; }
-.marquee:hover { animation-play-state: paused; }
-@keyframes slide { to { transform: translateX(-50%); } }
-.review { width: min(560px, 84vw); flex: none; padding: 40px 40px 36px; border: 1px solid rgba(212, 181, 124, .25); background: rgba(241, 234, 223, .03); }
-.review .stars { color: var(--gold-2); letter-spacing: .3em; font-size: 13px; }
-.review blockquote { margin-top: 18px; font-family: var(--serif); font-size: 21px; line-height: 1.4; font-weight: 400; }
-.review blockquote p { max-width: none; }
-.review blockquote p + p { margin-top: 10px; }
-.review cite { display: block; margin-top: 22px; font-style: normal; font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--gold-2); }
-.review--short blockquote { font-size: 25px; }
+/* ══════════════ Google reviews: words left, two columns of real reviews drifting up and down on the right ══════════════ */
+.greviews { background: var(--cream-2); color: var(--ink); padding: clamp(80px, 10vw, 130px) 0; overflow: hidden; }
+.greviews__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 6vw, 96px); align-items: center; }
+.greviews h2 { font-size: clamp(38px, 4.2vw, 60px); line-height: 1.04; max-width: 13ch; }
+.greviews__rule { margin: 34px 0 30px; height: 1px; background: var(--line); }
+.grating { display: flex; align-items: center; gap: clamp(22px, 3vw, 40px); flex-wrap: wrap; }
+.grating__score b { display: block; font-family: var(--serif); font-weight: 400; font-size: clamp(64px, 6vw, 84px); line-height: .9; color: var(--ink); }
+.gstars { display: inline-flex; gap: 3px; margin-top: 10px; }
+.gstars svg { width: 16px; height: 16px; fill: #FBBC04; }
+.gstars svg.off { fill: rgba(42, 29, 22, .16); }
+.grating__src { display: flex; align-items: center; gap: 14px; font-size: 17px; line-height: 1.3; color: var(--ink); }
+.grating__src small { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
+.glogo { width: 40px; height: 40px; flex: none; }
+.greviews__link { display: inline-block; margin-top: 30px; padding-bottom: 6px; border-bottom: 1px solid var(--ink); font-size: 12px; letter-spacing: .24em; text-transform: uppercase; color: var(--ink); transition: color .3s, border-color .3s; }
+.greviews__link:hover { color: var(--brown); border-color: var(--brown); }
+
+.gcols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; height: min(680px, 78vh);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); }
+.gcol { overflow: hidden; }
+.gcol__inner { display: flex; flex-direction: column; gap: 20px; animation: g-up var(--dur, 40s) linear infinite; }
+.gcol--down .gcol__inner { animation-name: g-down; }
+.gcols:hover .gcol__inner { animation-play-state: paused; }
+@keyframes g-up { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 10px)); } }
+@keyframes g-down { from { transform: translateY(calc(-50% - 10px)); } to { transform: translateY(0); } }
+
+.gcard { background: var(--paper); border: 1px solid rgba(42, 29, 22, .12); padding: 26px 26px 22px; }
+.gcard__top { display: flex; align-items: center; gap: 12px; }
+.gcard__av { width: 40px; height: 40px; flex: none; border-radius: 50%; display: grid; place-items: center; font-family: var(--sans); font-size: 16px; font-weight: 500; color: #fff; }
+.gcard__who { flex: 1; min-width: 0; }
+.gcard__name { font-size: 15px; font-weight: 500; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gcard__meta { margin-top: 2px; font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gcard .glogo { width: 22px; height: 22px; }
+.gcard__row { margin-top: 16px; display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--muted); }
+.gcard__row .gstars { margin-top: 0; }
+.gcard p { margin-top: 12px; font-size: 15.5px; line-height: 1.65; color: #3a2c22; max-width: none; }
+.gcard__foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #6f8f72; }
+.gcard__foot svg { width: 14px; height: 14px; }
+
+@media (max-width: 900px) {
+  .greviews__grid { grid-template-columns: 1fr; }
+  .gcols { grid-template-columns: 1fr; height: 560px; }
+  .gcol--down { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .gcol__inner { animation: none; } .gcols { height: auto; -webkit-mask-image: none; mask-image: none; } .gcol--down { display: none; } .gcols { grid-template-columns: 1fr; } }
 
 /* ══════════════ cooking class teaser ══════════════ */
 .classes { background: var(--cream); overflow: hidden; }
@@ -458,6 +525,12 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 .nav { transition: background .4s, padding .4s, box-shadow .4s, opacity .5s var(--ease); }
 .hero__shade { transition: opacity 1.6s ease; }
 </style>
+<!-- editorial type and button styles, every page -->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/type.css?v=8">
+<!-- page arrival: curtain with the logo, then the header, then the page -->
+<link rel="stylesheet" href="assets/motion.css">
+<script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches || r.classList.contains("preload")) return; r.classList.add("mo", "mo-hold"); })();</script>
 </head>
 <body>
 
@@ -487,18 +560,30 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 </header>
 
 <!-- ─────────────── hero ─────────────── -->
-<section class="hero" id="top" data-dark>
-  <video class="hero__video" id="heroVideo" src="assets/hero-1080.mp4" data-src-4k="assets/hero-4k.mp4" poster="assets/hero-start.jpg" data-end="assets/hero-end.jpg" muted playsinline preload="auto" aria-label="A Dinerworkshop menu card is set down on a stoneware plate"></video>
+<section class="hero-scrub" id="top">
+ <div class="hero-scrub__track" id="heroTrack">
+ <div class="hero is-sketch" id="heroStage">
+  <video class="hero__video" id="heroVideo" data-src="assets/hero-scrub-1080.mp4" data-src-small="assets/hero-scrub-720.mp4" poster="assets/hero-scrub-start.jpg" data-end="assets/hero-scrub-end.jpg" muted playsinline preload="none" aria-label="A sepia drawing of glazed pork belly turns on its plate and comes to life as the real dish"></video>
   <div class="hero__shade" aria-hidden="true"></div>
+  <div class="hero__wash" aria-hidden="true"></div>
   <div class="hero__copy">
-    <h1 class="rv d1"><span>Where Heritage Meets</span> <span>Culinary Curiosity.</span></h1>
-    <p class="lead rv d3">Set within a historic 1923 Black &amp; White colonial estate in Sembawang, The Dinerworkshop offers an exclusive, single-sitting private dining retreat for discerning guests who appreciate authentic culinary heritage, absolute privacy, and uncompromised ingredient quality.</p>
+    <div class="hero__says rv d1">
+      <div class="hero__say hero__say--sketch">
+        <h1><span>Where Heritage Meets</span> <span>Culinary Curiosity.</span></h1>
+        <p class="hero__sub">Private dining in a 1923 Black &amp; White estate, Sembawang.</p>
+      </div>
+      <div class="hero__say hero__say--real" aria-hidden="true">
+        <p class="hero__h"><span>The Bespoke</span> <span>Dining Experience</span></p>
+        <p class="hero__sub hero__sub--long">Set within a historic 1923 Black &amp; White colonial estate in Sembawang, The Dinerworkshop offers an exclusive, single-sitting private dining retreat for discerning guests who appreciate authentic culinary heritage, absolute privacy, and uncompromised ingredient quality.</p>
+      </div>
+    </div>
     <div class="hero__cta rv d4">
       <a class="btn" href="#book" data-book>Reserve Your Private Sitting <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn btn--ghost" href="#food">Explore the Omakase Journey</a>
     </div>
   </div>
-
+ </div>
+ </div>
 </section>
 
 <!-- ─────────────── the food: signature dishes, one at a time in the centre ─────────────── -->
@@ -509,25 +594,25 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 
       <article class="dish">
         <div class="dish__name rv"><h2>Charcoal-Grilled Specialties</h2><p class="dish__sub">Meats &amp; Botanicals</p></div>
-        <div class="dish__plate rv"><img src="assets/dishes/charcoal-grilled.webp" alt="Sliced charcoal-grilled steak with flame-seared heirloom vegetables"></div>
-        <div class="dish__text rv"><p>Kissed by white-hot binchotan, our prime cuts and seasonal heirloom vegetables are flame-seared to lock in smoky depth, succulent textures, and natural sweetness.</p></div>
+        <div class="dish__plate rv"><img src="assets/dishes/charcoal-grilled.webp?v=4" alt="Sliced charcoal-grilled steak with flame-seared vegetables on a black plate"></div>
+        <div class="dish__text rv"><p>Kissed by white-hot binchotan, our prime cuts are flame-grilled to lock in smoky depth, succulent textures, and natural sweetness.</p></div>
       </article>
 
       <article class="dish">
         <div class="dish__name rv"><h2>Hainanese Heritage Pork Chop</h2></div>
-        <div class="dish__plate rv"><img src="assets/dishes/pork-chop.webp" alt="Thick-cut pork chop in a sweet-and-sour pineapple jus" loading="lazy"></div>
+        <div class="dish__plate rv"><img src="assets/dishes/pork-chop.webp?v=4" alt="Sliced roast pork with tomato pepper sauce on a black plate" loading="lazy"></div>
         <div class="dish__text rv"><p>Tender, thick-cut pork finished with a slow-reduced sweet-and-sour pineapple jus.</p></div>
       </article>
 
       <article class="dish">
-        <div class="dish__name rv"><h2>Botanical &amp; Umami Plant Creations</h2></div>
-        <div class="dish__plate rv"><img src="assets/dishes/botanical-umami.webp" alt="Roasted cauliflower and mushrooms in a glossy umami sauce" loading="lazy"></div>
-        <div class="dish__text rv"><p>Intricately layered vegetable courses crafted to match the depth and complexity of prime meats.</p></div>
+        <div class="dish__name rv"><h2>Botanical Plant Creations</h2></div>
+        <div class="dish__plate rv"><img src="assets/dishes/botanical-umami.webp?v=4" alt="Charred okra in a ring of chilli sauce on a black plate" loading="lazy"></div>
+        <div class="dish__text rv"><p>Intricate vegetarian courses crafted to match the depth and complexity of prime meats.</p></div>
       </article>
 
       <article class="dish">
         <div class="dish__name rv"><h2>Seasonal Global Fusion</h2></div>
-        <div class="dish__plate rv"><img src="assets/dishes/seasonal-fusion.webp" alt="Crisp-skinned seared fish with spring vegetables in a butter sauce" loading="lazy"></div>
+        <div class="dish__plate rv"><img src="assets/dishes/seasonal-fusion.webp?v=4" alt="Grilled octopus with potatoes in a rich red sauce on a black plate" loading="lazy"></div>
         <div class="dish__text rv"><p>Fresh seafood and prime cuts elevated with subtle Asian and Western accents.</p></div>
       </article>
 
@@ -535,7 +620,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
         <div class="dish__name rv"><h2>Signature Claypot Rice</h2></div>
         <div class="dish__plate rv"><img id="sigPot" src="assets/dishes/claypot.webp" alt="Overhead view of the signature chicken claypot rice" loading="lazy"></div>
         <div class="dish__text rv">
-          <p class="crown">Our crown jewel: an homage to Po Po’s foundational recipe, elevated with a subtle Japanese nuance.</p>
+          <p class="crown">Our crown jewel: an homage to grandma, Po Po’s recipe, elevated with a subtle Japanese nuance.</p>
           <p>Premium Thai Hom Mali rice is slow-simmered in Banko-yaki earthenware alongside tender boneless chicken thighs, braised shiitake mushrooms, Japanese ebi, rich liver sausage, and XO pork sausages. The result is an exquisite harmony of smoky aromatics, rich umami, and a golden, delicate bottom crust.</p>
           <a class="btn" href="claypot.html" data-fly="#sigPot">Discover Our Claypot Rice <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
@@ -568,26 +653,26 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
         <div class="exp__head">
           <div>
             <p class="eyebrow">The Bespoke Dining Experience</p>
-            <h2>An evening that proceeds entirely at your pace.</h2>
+            <h2>From arrival to the last course.</h2>
           </div>
           <a class="btn" href="dining.html">Discover the Dining <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
         </div>
         <div class="exp__row">
           <article class="ecard">
             <img src="assets/experience/arrival.jpg" alt="A colonial house set in a lush tropical garden" loading="lazy">
-            <div class="ecard__body"><h3>The Arrival</h3><p>Step off the beaten path and into our 1924 colonial sanctuary surrounded by verdant greenery.</p></div>
+            <div class="ecard__body"><h3>The Arrival</h3><p>Step off the beaten path into our 1924 colonial sanctuary.</p></div>
           </article>
           <article class="ecard">
             <img src="assets/experience/drinks.jpg" alt="Guests raising handcrafted cocktails" loading="lazy">
-            <div class="ecard__body"><h3>Pre-Dinner Drinks</h3><p>Unwind in our living hall with handcrafted aperitifs.</p></div>
+            <div class="ecard__body"><h3>Pre-Dinner Drinks</h3><p>Unwind in our living hall with handcrafted welcome drinks.</p></div>
           </article>
           <article class="ecard">
             <img src="assets/experience/table.jpg" alt="A long dining table set for dinner" loading="lazy">
-            <div class="ecard__body"><h3>The Omakase Table</h3><p>Transition to your private dining room for a multi-course, custom-curated culinary experience.</p></div>
+            <div class="ecard__body"><h3>The Omakase Table</h3><p>Transition to your private dining room for a multi-course experience.</p></div>
           </article>
           <article class="ecard">
             <img src="assets/experience/evening.jpg" alt="Guests sharing a candlelit dinner" loading="lazy">
-            <div class="ecard__body"><h3>Unhurried Elegance</h3><p>With only a single sitting hosted per evening, the night proceeds entirely at your group's desired pace.</p></div>
+            <div class="ecard__body"><h3>Unhurried Elegance</h3><p>With only a single sitting hosted per evening, the night proceeds at your leisure.</p></div>
           </article>
         </div>
       </div>
@@ -595,28 +680,22 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
   </div>
 </section>
 
-<!-- ─────────────── guest endorsements (marquee) ─────────────── -->
-<section class="reviews" data-dark>
-  <div class="inner">
-    <div class="rv">
-      <p class="eyebrow">Guest Endorsements</p>
-      <h2>Thank you for sharing your love for food.</h2>
+<!-- ─────────────── Google reviews: the real ones, words left, two drifting columns right ─────────────── -->
+<section class="greviews" id="reviews">
+  <div class="inner greviews__grid">
+    <div class="greviews__words">
+      <h2 class="rv">Thank you for sharing your love for food.</h2>
+      <div class="greviews__rule rv d1"></div>
+      <div class="grating rv d2">
+        <div class="grating__score"><b>4.8</b><span class="gstars" aria-label="4.8 out of 5 stars" id="gRatingStars"></span></div>
+        <div class="grating__src"><svg class="glogo" viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span>Rated on Google<small>From 4 reviews</small></span></div>
+      </div>
+      <a class="greviews__link rv d3" href="https://maps.google.com/?cid=13214365977571479634" target="_blank" rel="noopener">Read all on Google</a>
     </div>
-  </div>
-  <div class="marquee" id="marquee">
-    <article class="review">
-      <div class="stars">✦ ✦ ✦ ✦ ✦</div>
-      <blockquote>
-        <p>“This was my first private dining experience. What a delightful one! From the deco of the place to the plating to the wall paintings, everything was fabulous.</p>
-        <p>The attentive wait staff and the beautiful presentations of the food served were overshadowed by the teasing of our tastebuds. The food was divine in every course. Thank you for sharing your love for food. We’ll be back.”</p>
-      </blockquote>
-      <cite>Sook Wai, Private Dining Guest</cite>
-    </article>
-    <article class="review review--short">
-      <div class="stars">✦ ✦ ✦ ✦ ✦</div>
-      <blockquote><p>“An exquisite evening. Dining in a historical 1923 Black &amp; White estate while Ian shared the heritage behind every dish was deeply memorable. The Claypot Rice is unmatched.”</p></blockquote>
-      <cite>David L., Corporate Host</cite>
-    </article>
+    <div class="gcols" id="gcols" aria-label="Google reviews">
+      <div class="gcol" style="--dur: 46s"><div class="gcol__inner"></div></div>
+      <div class="gcol gcol--down" style="--dur: 38s"><div class="gcol__inner"></div></div>
+    </div>
   </div>
 </section>
 
@@ -630,7 +709,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
       <p class="body rv d3">“Our Sensory Kitchen” is a hands-on culinary workshop designed to teach children meal preparation as a vital, empowering life skill. By exploring raw ingredients, kitchen tools, and flavour building, young chefs develop fine motor control, confidence, and independence in the kitchen.</p>
       <div class="classes__cta rv d4"><a class="btn" href="classes.html">Discover Our Sensory Kitchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
-    <div class="classes__photo rv d1"><img src="assets/classes/philosophy.jpg" alt="Two children mixing ingredients in bowls at a kitchen counter" loading="lazy"></div>
+    <div class="classes__photo rv d1"><img src="assets/classes/philosophy.jpg?v=2" alt="Children in chef hats working at bowls along the long wooden table" loading="lazy"></div>
   </div>
 </section>
 
@@ -638,7 +717,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 <section class="cta pad">
   <div class="inner cta__inner">
     <h2 class="rv">Reserve your <em>private sitting.</em></h2>
-    <p class="lead rv d1">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance. We recommend at least 3 weeks to avoid disappointment.</p>
+    <p class="lead rv d1">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance.</p>
     <div class="cta__btns rv d2"><a class="btn" href="contact.html#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
   </div>
 </section>
@@ -649,7 +728,6 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
       <a href="index.html" aria-label="The Dinerworkshop, home"><img class="foot__logo" src="assets/logo-ink.png" alt="The Dinerworkshop"></a>
       <div class="foot__social">
         <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
-        <a href="https://facebook.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a>
       </div>
     </div>
     <nav class="foot__pages" aria-label="Pages">
@@ -670,11 +748,11 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 <script>
 /* nav: compact when scrolled, light text over dark sections */
 const nav = document.getElementById("nav");
-const darks = [...document.querySelectorAll("[data-dark]")];
+const darks = [...document.querySelectorAll("[data-dark], #heroStage")];
 function navState() {
   nav.classList.toggle("scrolled", scrollY > 60);
   const probe = 40;
-  const onDark = darks.some(s => { const r = s.getBoundingClientRect(); return r.top <= probe && r.bottom >= probe; });
+  const onDark = darks.some(s => { if (!s.hasAttribute("data-dark")) return false; const r = s.getBoundingClientRect(); return r.top <= probe && r.bottom >= probe; });
   nav.classList.toggle("on-dark", onDark);
 }
 addEventListener("scroll", navState, { passive: true });
@@ -682,12 +760,15 @@ navState();
 document.getElementById("burger").addEventListener("click", () => nav.classList.toggle("open"));
 nav.querySelectorAll(".nav__links a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
 
-/* hero: the logo line is read first; then the preloader dissolves, the header and words fade in,
-   and the menu card is set down from the very start at its own pace. The frame then rests. */
+/* hero: the logo line is read first, then the preloader dissolves. The clip does not play by itself:
+   scrolling turns the plate, so the drawing comes to life under the visitor's hand. At the end the words arrive. */
 const hero = document.getElementById("heroVideo");
 const rootEl = document.documentElement;
 const pre = document.getElementById("pre");
+const stage = document.getElementById("heroStage"), track = document.getElementById("heroTrack");
 const T0 = performance.now(), READ = 2000;   // give the line this long to be read before anything moves
+const CLIP_END = .8;                          // share of the scroll used by the clip; the rest holds the words
+const REAL_AT = .4;                           // from here on the dish reads as a photo, so the page goes dark
 let revealTimer = 0;
 function revealHero() {
   if (!rootEl.classList.contains("preload")) return;
@@ -695,26 +776,48 @@ function revealHero() {
   if (left > 0) { if (!revealTimer) revealTimer = setTimeout(() => { revealTimer = 0; revealHero(); }, left); return; }
   rootEl.classList.remove("preload");
   if (pre) { pre.classList.add("is-out"); setTimeout(() => pre.remove(), 1300); }
-  if (hero && !hero.ended) { hero.currentTime = 0; hero.play().catch(() => {}); }
   try { sessionStorage.setItem("heroSeen", "1"); } catch (_) {}
 }
-if (hero) {
-  if (rootEl.classList.contains("hero-rest")) {
-    // seen already this visit (or reduced motion): show the finished frame, no wait
-    hero.removeAttribute("src"); hero.poster = hero.getAttribute("data-end"); hero.load();
-  } else {
-    const px = Math.max(screen.width, screen.height) * (devicePixelRatio || 1);
-    if (px > 2600) hero.src = hero.getAttribute("data-src-4k");
-    // start once the video is ready to play through, or after a short wait regardless
-    hero.addEventListener("canplaythrough", revealHero, { once: true });
-    hero.addEventListener("error", revealHero, { once: true });
-    setTimeout(revealHero, 3800);
-    // if the tab was hidden when the page appeared, start the video when it is shown
-    document.addEventListener("visibilitychange", () => { if (!document.hidden && !rootEl.classList.contains("preload") && hero.paused && !hero.ended) hero.play().catch(() => {}); });
-  }
-} else {
-  revealHero();
+function setLook(real) {
+  stage.classList.toggle("is-sketch", !real);
+  stage.querySelector(".hero__say--sketch").setAttribute("aria-hidden", real ? "true" : "false");
+  stage.querySelector(".hero__say--real").setAttribute("aria-hidden", real ? "false" : "true");
+  if (real) stage.setAttribute("data-dark", ""); else stage.removeAttribute("data-dark");
+  navState();
 }
+(() => {
+  if (!hero || !track) { revealHero(); return; }
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {   // no scrubbing: the finished dish and the words
+    hero.poster = hero.dataset.end; setLook(true); stage.classList.add("is-told"); revealHero(); return;
+  }
+  // load the whole clip first so every scroll position can be shown instantly
+  const src = innerWidth <= 700 ? hero.dataset.srcSmall : hero.dataset.src;
+  fetch(src).then(r => { if (!r.ok) throw 0; return r.blob(); }).then(b => { hero.src = URL.createObjectURL(b); hero.load(); })
+    .catch(() => { hero.preload = "auto"; hero.src = src; });
+  hero.addEventListener("loadeddata", revealHero, { once: true });
+  setTimeout(revealHero, 3800);
+
+  const clamp01 = v => Math.min(1, Math.max(0, v));
+  let cur = 0, raf = 0;
+  const progress = () => { const r = track.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, r.height - innerHeight)); };
+  function paint() {
+    const p = progress(), target = clamp01(p / CLIP_END);
+    cur += (target - cur) * .14;                       // ease toward the scroll so the turn glides
+    if (Math.abs(target - cur) < .0005) cur = target;
+    const d = hero.duration;
+    if (d && isFinite(d)) { const t = Math.min(d - .04, cur * d); if (Math.abs(hero.currentTime - t) > .008) hero.currentTime = t; }
+    stage.classList.toggle("is-moving", p > .02);
+    const real = cur > REAL_AT;
+    if (real !== stage.hasAttribute("data-dark")) setLook(real);
+    stage.classList.toggle("is-told", p >= CLIP_END - .02);
+    raf = cur === target ? 0 : requestAnimationFrame(paint);
+  }
+  const kick = () => { if (!raf) raf = requestAnimationFrame(paint); };
+  addEventListener("scroll", kick, { passive: true });
+  addEventListener("resize", kick);
+  hero.addEventListener("loadedmetadata", kick);
+  kick();
+})();
 
 /* reveal on scroll */
 const io = new IntersectionObserver(es => es.forEach(e => {
@@ -731,7 +834,7 @@ if (estate) {
   const px = Math.max(screen.width, screen.height) * (devicePixelRatio || 1);
   if (px > 2600) estate.src = estate.getAttribute("data-src-4k");
   const copy = document.getElementById("estateCopy");
-  const SPEED = 1.7;   // the sketch draws itself quicker than the clip's own pace
+  const SPEED = 2;     // the 6-second sketch draws itself in 3 seconds, then the words come out
   if (still) { copy.classList.add("in"); }
   else {
     estate.preload = "auto"; estate.removeAttribute("poster");
@@ -750,17 +853,40 @@ if (estate) {
   }), { threshold: [0, .45] }).observe(estate);
 }
 
-/* reviews marquee: duplicate the set until the track is wide enough to loop */
-const mq = document.getElementById("marquee");
-const base = [...mq.children].map(c => c.cloneNode(true));
-function fillMarquee() {
-  mq.innerHTML = "";
-  let sets = 0;
-  do { base.forEach(c => mq.appendChild(c.cloneNode(true))); sets++; } while (mq.scrollWidth < innerWidth * 2 + 10 && sets < 8);
-  if (sets % 2) base.forEach(c => mq.appendChild(c.cloneNode(true)));
-}
-fillMarquee();
-addEventListener("resize", fillMarquee);
+/* Google reviews, word for word from the Google listing. Each column holds the set twice so it loops seamlessly. */
+(() => {
+  const REVIEWS = [
+    { name: "Patrick AE Lim", meta: "3 reviews", stars: 5, colour: "#7B1FA2", visit: "Dine in · Lunch",
+      text: "Fantabulous dining experience at a quiet home setting… food was yummylicious and the service staff were attentive. 👍👍👍" },
+    { name: "Lynn Low", meta: "6 reviews", stars: 4, colour: "#0B8043", visit: "Dine in · Lunch",
+      text: "Cosy, relaxing ambience, delicious food and friendly hospitality from Chef Ian and his family. A lovely dining experience" },
+    { name: "Jason Tong", meta: "Local Guide · 10 reviews · 7 photos", stars: 5, colour: "#E8710A", visit: "Dine in · Lunch",
+      text: "Lovely food, great service, warm atmosphere, kind people." }
+  ];
+  const G = "<svg class=\"glogo\" viewBox=\"0 0 48 48\" aria-hidden=\"true\"><path fill=\"#FFC107\" d=\"M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z\"/><path fill=\"#FF3D00\" d=\"M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z\"/><path fill=\"#4CAF50\" d=\"M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z\"/><path fill=\"#1976D2\" d=\"M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z\"/></svg>";
+  const STAR = '<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4L2.8 9.5l6.4-.8z"/></svg>';
+  const stars = n => Array.from({ length: 5 }, (_, i) => i < n ? STAR : STAR.replace("<svg ", '<svg class="off" ')).join("");
+  const esc = t => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  const card = r => `<article class="gcard">
+      <div class="gcard__top"><span class="gcard__av" style="background:${r.colour}">${r.name[0]}</span>
+        <div class="gcard__who"><div class="gcard__name">${esc(r.name)}</div><div class="gcard__meta">${esc(r.meta)}</div></div>${G}</div>
+      <div class="gcard__row"><span class="gstars" aria-label="${r.stars} out of 5 stars">${stars(r.stars)}</span><span>${r.visit}</span></div>
+      <p>${esc(r.text)}</p>
+      <div class="gcard__foot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M8.8 12.2l2.2 2.2 4.2-4.4"/></svg>Verified Google review</div>
+    </article>`;
+  const rating = document.getElementById("gRatingStars");
+  if (rating) rating.innerHTML = stars(5);
+  const cols = [...document.querySelectorAll("#gcols .gcol__inner")];
+  if (!cols.length) return;
+  // the second column starts further along the list so the two never line up
+  const order = [REVIEWS, [...REVIEWS.slice(1), REVIEWS[0]]];
+  cols.forEach((col, c) => {
+    let set = order[c];
+    while (set.length < 4) set = set.concat(order[c]);        // enough cards to fill the column before it repeats
+    const html = set.map(card).join("");
+    col.innerHTML = html + html;
+  });
+})();
 
 /* the evening: on desktop the section pins and each scroll step wipes the next card in, left to right */
 (() => {
@@ -825,14 +951,31 @@ addEventListener("resize", fillMarquee);
     const k = Math.min(N - 2, Math.floor(raw));
     return k + smooth((raw - k - .25) / .5);
   }
+  // the last step (into the claypot) does not turn: the plates ride round a big wheel whose top is the
+  // centre of the screen, so the plate before it rolls off to the left and the claypot rolls in from the right
+  function wheel(theta) {
+    const wide = innerWidth > 900, R = innerWidth * (wide ? .9 : 1.4);
+    return `translate(${(R * Math.sin(theta)).toFixed(1)}px, ${(R * (1 - Math.cos(theta))).toFixed(1)}px)`;
+  }
   function paint(p) {
     const at = pos(p), k = Math.floor(at), f = at - k;
-    const spin = `rotate(${(at * TURN).toFixed(2)}deg)`;
+    const rolling = k === N - 2 && f > 0;                     // between the last plate and the claypot
+    const SWING = Math.asin(innerWidth > 900 ? .55 / .9 : .9 / 1.4);
     dishes.forEach((d, i) => {
       const [name, plate, text] = d.children;
-      // the dish on the plate now stays put underneath; the next one fades in over it as the plate turns
-      plate.style.opacity = i === k ? 1 : i === k + 1 ? smooth(f * 1.15 - .08).toFixed(3) : 0;
-      plate.firstElementChild.style.transform = spin;
+      if (rolling && (i === k || i === k + 1)) {
+        const theta = i === k ? -f * SWING : (1 - f) * SWING;
+        plate.style.transform = wheel(theta);
+        plate.style.opacity = (1 - smooth((Math.abs(theta) / SWING - .35) / .65)).toFixed(3);
+      } else {
+        plate.style.transform = "";
+        // the dish on the plate now stays put underneath; the next one fades in over it as the plate turns
+        plate.style.opacity = i === k ? 1 : i === k + 1 ? smooth(f * 1.15 - .08).toFixed(3) : 0;
+      }
+      // each dish sits upright, exactly as plated, when it is the one showing; it turns in and out around that.
+      // The plate before the claypot only turns on its way in, and the claypot never turns.
+      const turns = i === N - 1 ? 0 : i === N - 2 ? Math.min(0, at - i) : at - i;
+      plate.firstElementChild.style.transform = `rotate(${(turns * TURN).toFixed(2)}deg)`;
       const t = clamp01(1 - Math.abs(at - i) * 2.4);
       name.style.opacity = text.style.opacity = t.toFixed(3);
       name.style.transform = `translateY(${(-(at - i) * 40).toFixed(1)}px)`;
@@ -895,8 +1038,10 @@ addEventListener("resize", fillMarquee);
   });
 })();
 </script>
-<script src="assets/book.js"></script>
+<script src="assets/book.js?v=2"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/fly.js"></script>
+<script src="assets/btn.js"></script>
+<script src="assets/motion.js?v=2"></script>
 </body>
 </html>

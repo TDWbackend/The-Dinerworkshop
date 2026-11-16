@@ -124,7 +124,13 @@ section { position: relative; }
 .ct-label { font-size: 11px; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
 
 /* top: how to reach us, with the menu card photo */
-.ct-top { background: var(--cream); padding: clamp(130px, 16vh, 170px) 0 clamp(70px, 9vw, 120px); }
+/* opening: a slow gimbal glide from the living room into the dining room, played once, resting on the table */
+.ct-hero { position: relative; isolation: isolate; height: 100vh; height: 100svh; min-height: 560px; display: flex; align-items: flex-end; overflow: hidden; background: #1c130c; color: var(--cream); padding-bottom: clamp(56px, 9vh, 104px); }
+.ct-hero__video { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+.ct-hero__shade { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to top, rgba(20, 13, 8, .78) 0%, rgba(20, 13, 8, .25) 38%, rgba(20, 13, 8, 0) 60%), linear-gradient(to bottom, rgba(20, 13, 8, .5) 0%, rgba(20, 13, 8, 0) 22%); }
+.ct-hero h1 { font-size: clamp(50px, 6vw, 92px); line-height: 1; color: var(--cream); }
+.ct-top { background: var(--cream); padding: clamp(70px, 9vw, 120px) 0; }
 .ct-top__grid { display: grid; grid-template-columns: 1fr; justify-items: center; gap: clamp(36px, 5vw, 56px); }
 .ct-top__text { max-width: 640px; text-align: center; }
 .ct-top__text .lead { margin-left: auto; margin-right: auto; }
@@ -133,7 +139,7 @@ section { position: relative; }
 .ct-top .lead + .lead { margin-top: 16px; }
 .ct-top__book { min-width: 0; }
 .ct-top h1 { font-size: clamp(50px, 6vw, 92px); line-height: 1; }
-.ct-top .lead { margin-top: 26px; max-width: 44ch; font-size: 17px; color: var(--muted); }
+.ct-top .lead { margin-top: 0; max-width: 44ch; font-size: 17px; color: var(--muted); }
 .ct-top__cta { margin-top: 34px; display: flex; gap: 14px; flex-wrap: wrap; }
 .ct-top__img { aspect-ratio: 4 / 5; max-height: 76vh; overflow: hidden; background: #1c130c; }
 .ct-top__img img { width: 100%; height: 100%; object-fit: cover; object-position: 46% 40%; }
@@ -165,6 +171,12 @@ section { position: relative; }
 </style>
 <link rel="stylesheet" href="assets/book.css">
 <link rel="stylesheet" href="assets/foot.css">
+<!-- editorial type and button styles, every page -->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/type.css?v=8">
+<!-- page arrival: curtain with the logo, then the header, then the page -->
+<link rel="stylesheet" href="assets/motion.css">
+<script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches || r.classList.contains("preload")) return; r.classList.add("mo", "mo-hold"); })();</script>
 </head>
 <body>
 
@@ -185,11 +197,16 @@ section { position: relative; }
 </header>
 
 <!-- ─────────────── concierge & contact: the booking form sits right here ─────────────── -->
-<section class="ct-top" id="top">
+<section class="ct-hero" id="top" data-dark>
+  <video class="ct-hero__video" id="ctVideo" src="assets/contact-dining-1080.mp4?v=3" data-src-4k="assets/contact-dining-4k.mp4?v=3" poster="assets/contact-dining-start.jpg?v=3" data-end="assets/contact-dining-end.jpg?v=3" muted playsinline autoplay preload="auto" aria-label="A walk from the living room through the opening into The Dinerworkshop’s dining room"></video>
+  <div class="ct-hero__shade" aria-hidden="true"></div>
+  <div class="inner"><h1 class="rv">Concierge &amp; Contact</h1></div>
+</section>
+
+<section class="ct-top">
   <div class="inner ct-top__grid">
     <div class="ct-top__text">
-      <h1 class="rv">Concierge &amp; Contact</h1>
-      <p class="lead rv d1">Submit your preferred date and group size via our concierge page or WhatsApp (at least 2 weeks in advance). We recommend at least 3 weeks in advance to avoid disappointment.</p>
+      <p class="lead rv d1">Submit your preferred date and group size via our concierge page or WhatsApp (at least 2 weeks in advance).</p>
       <p class="lead rv d2">Ian will be in touch personally to discuss a suitable evening.</p>
     </div>
     <div class="ct-top__book rv d1" id="book"><div id="bookInline"></div></div>
@@ -200,10 +217,10 @@ section { position: relative; }
 <section class="ct-info pad">
   <div class="inner">
     <div class="ct-info__grid">
-      <div class="ct-info__item rv"><p class="ct-label">Location</p><p class="v">Sembawang Colonial Enclave, Singapore (Near Sembawang Park)</p></div>
-      <div class="ct-info__item rv d1"><p class="ct-label">Reservations</p><p class="v"><a href="tel:+6580710506">+65 8071 0506</a></p></div>
+      <div class="ct-info__item rv"><p class="ct-label">Location</p><p class="v">17 Admiralty Road East S759975 (Near Sembawang Park)</p></div>
+      <div class="ct-info__item rv d1"><p class="ct-label">Phone</p><p class="v"><a href="tel:+6580710506">+65 8071 0506</a></p></div>
       <div class="ct-info__item rv d2"><p class="ct-label">Email</p><p class="v"><a href="mailto:thedinerworkshop@gmail.com">thedinerworkshop@gmail.com</a></p></div>
-      <div class="ct-info__item rv"><p class="ct-label">Operating Days</p><p class="v">Monday through Sunday (By at least 2 weeks advance reservation only)</p></div>
+      <div class="ct-info__item rv"><p class="ct-label">Operating Days</p><p class="v">Wednesday through Sunday (By at least 2 weeks advance reservation only)</p></div>
       <div class="ct-info__item rv d1"><p class="ct-label">Time</p><p class="v">7:00 PM til late (One sitting per evening)</p></div>
       <div class="ct-info__item rv d2"><p class="ct-label">Pet Policy</p><p class="v">Proudly Pet-Friendly (Pawparents to a rescued dog and cat)</p></div>
     </div>
@@ -230,7 +247,6 @@ section { position: relative; }
       <a href="index.html" aria-label="The Dinerworkshop, home"><img class="foot__logo" src="assets/logo-ink.png" alt="The Dinerworkshop"></a>
       <div class="foot__social">
         <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
-        <a href="https://facebook.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a>
       </div>
     </div>
     <nav class="foot__pages" aria-label="Pages">
@@ -251,6 +267,14 @@ section { position: relative; }
 <script>
 /* nav: compact when scrolled, light text over dark sections */
 const nav = document.getElementById("nav");
+/* opening clip: the sharper file on big screens; with reduced motion, just the dining room */
+(() => {
+  const v = document.getElementById("ctVideo");
+  if (!v) return;
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { v.removeAttribute("autoplay"); v.removeAttribute("src"); v.poster = v.dataset.end; v.load(); return; }
+  const px = Math.max(screen.width, screen.height) * (devicePixelRatio || 1);
+  if (px > 2600 && v.dataset.src4k) { v.src = v.dataset.src4k; v.play().catch(() => {}); }
+})();
 const darks = [...document.querySelectorAll("[data-dark]")];
 function navState() {
   nav.classList.toggle("scrolled", scrollY > 60);
@@ -268,7 +292,9 @@ const io = new IntersectionObserver(es => es.forEach(e => {
 }), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
 document.querySelectorAll(".rv").forEach(el => io.observe(el));
 </script>
-<script src="assets/book.js"></script>
+<script src="assets/book.js?v=3"></script>
 <script src="assets/wa.js"></script>
+<script src="assets/btn.js"></script>
+<script src="assets/motion.js?v=2"></script>
 </body>
 </html>

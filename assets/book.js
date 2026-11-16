@@ -52,12 +52,12 @@
             <output id="bkGuests" aria-live="polite">6 guests</output>
             <button type="button" id="bkPlus" aria-label="More guests"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 9h12M9 3v12"/></svg></button>
           </div>
-          <p class="bk__note">Minimum Group Size: 6 guests · Maximum Capacity: 10 guests</p>
+          <p class="bk__note">Group Size: 6–10 guests · Wed – Sun</p>
           <label class="bk__field" id="bkDateF">
             <span>Preferred date</span>
             <input type="date" name="date" id="bkDate" required>
-            <em class="hint">At least 2 weeks in advance. We recommend at least 3 weeks in advance to avoid disappointment.</em>
-            <em class="bk__err">Please choose a date at least 2 weeks from today.</em>
+            <em class="hint">Wednesday to Sunday, at least 2 weeks in advance.</em>
+            <em class="bk__err">Please choose a Wednesday to Sunday at least 2 weeks from today.</em>
           </label>
           <label class="bk__field">
             <span>Dietary requirements</span>
@@ -98,7 +98,7 @@
 
       <div class="bk__foot">
         <button class="btn" type="submit" id="bkNext">Continue</button>
-        <p class="bk__fine" id="bkFine" hidden>A full payment secures your exclusive evening on the calendar.</p>
+        <p class="bk__fine" id="bkFine" hidden>A 50% non-refundable payment secures your exclusive evening on the calendar. The remaining 50% is paid on the day of dining.</p>
         <button class="bk__back" type="button" id="bkBack" hidden>Back</button>
       </div>
     </form>
@@ -154,7 +154,8 @@
   root.querySelectorAll("input[name=occasion]").forEach(r => r.addEventListener("click", () => setTimeout(() => step === 1 && go(2), 380)));
 
   function flag(id, bad) { $(id).classList.toggle("is-bad", bad); return !bad; }
-  function checkStep2() { const v = $("bkDate").value; return flag("bkDateF", !v || v < minDate()); }
+  const openDay = v => { const d = new Date(v + "T12:00:00").getDay(); return d === 0 || d >= 3; };   // doc: Wed to Sun
+  function checkStep2() { const v = $("bkDate").value; return flag("bkDateF", !v || v < minDate() || !openDay(v)); }
   function checkStep3() {
     const okName = flag("bkNameF", !form.name.value.trim());
     const okPhone = flag("bkPhoneF", form.phone.value.replace(/\D/g, "").length < 8);

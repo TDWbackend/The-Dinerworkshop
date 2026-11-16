@@ -213,6 +213,12 @@ section { position: relative; }
 </style>
 <link rel="stylesheet" href="assets/book.css">
 <link rel="stylesheet" href="assets/foot.css">
+<!-- editorial type and button styles, every page -->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/type.css?v=8">
+<!-- page arrival: curtain with the logo, then the header, then the page -->
+<link rel="stylesheet" href="assets/motion.css">
+<script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches || r.classList.contains("preload")) return; r.classList.add("mo", "mo-hold"); })();</script>
 </head>
 <body>
 
@@ -235,7 +241,7 @@ section { position: relative; }
 
 <!-- ─────────────── hero ─────────────── -->
 <section class="k-hero" id="top" data-dark>
-  <img class="k-hero__img" src="assets/classes/hero.jpg" alt="Children in aprons and chef hats kneading dough at a cooking class">
+  <img class="k-hero__img" src="assets/classes/hero.jpg?v=2" alt="Children in chef hats and aprons measuring and mixing at the long table during a cooking class">
   <div class="inner k-hero__inner">
     <h1 class="rv">Our Sensory Kitchen</h1>
     <p class="sub rv d1">Empowering Children with Essential Culinary Life Skills</p>
@@ -247,7 +253,7 @@ section { position: relative; }
 <!-- ─────────────── core philosophy ─────────────── -->
 <section class="k-core pad">
   <div class="inner k-core__grid">
-    <div class="k-core__img rv"><img src="assets/classes/philosophy.jpg" alt="Two children mixing ingredients in bowls at a kitchen counter" loading="lazy"></div>
+    <div class="k-core__img rv"><img src="assets/classes/philosophy.jpg?v=2" alt="Children in chef hats working at bowls along the long wooden table" loading="lazy"></div>
     <div>
       <p class="pre rv">Core Philosophy</p>
       <h2 class="rv d1">Cooking as a Life Skill</h2>
@@ -267,16 +273,16 @@ section { position: relative; }
         </div>
         <div class="stairs__row">
           <article class="step">
-            <img src="assets/classes/level-1.jpg" alt="A young girl working dough on a counter" loading="lazy">
+            <img src="assets/classes/level-1.jpg?v=2" alt="A girl in gloves mixing ingredients in a bowl" loading="lazy">
             <div class="step__body">
               <p class="step__lvl">Level 1</p>
               <h3>The Prep Apprentice</h3>
               <p class="step__focus">Foundations</p>
-              <p>Focuses on foundational kitchen mechanics: hand hygiene, washing produce, measuring ingredients, stripping herbs, and kneading dough to understand food consistency.</p>
+              <p>Focuses on kitchen fundamentals: hand hygiene, washing produce, measuring ingredients, stripping herbs, and kneading dough to understand food consistency.</p>
             </div>
           </article>
           <article class="step">
-            <img src="assets/classes/level-2.jpg" alt="A child slicing cucumber on a chopping board" loading="lazy">
+            <img src="assets/classes/level-2.jpg?v=2" alt="A girl in a chef hat using tongs over a bowl of diced ingredients" loading="lazy">
             <div class="step__body">
               <p class="step__lvl">Level 2</p>
               <h3>The Junior Tool Specialist</h3>
@@ -285,7 +291,7 @@ section { position: relative; }
             </div>
           </article>
           <article class="step">
-            <img src="assets/classes/level-3.jpg" alt="A young child in a chef’s hat stirring a pan" loading="lazy">
+            <img src="assets/classes/level-3.jpg?v=2" alt="A smiling girl in a chef hat holding up the dish she made" loading="lazy">
             <div class="step__body">
               <p class="step__lvl">Level 3</p>
               <h3>The Recipe Master</h3>
@@ -326,7 +332,7 @@ section { position: relative; }
         <div><dt>Location</dt><dd>Sembawang Colonial Enclave, Singapore (Near Sembawang Park)</dd></div>
         <div><dt>Reservations</dt><dd><a href="tel:+6580710506">+65 8071 0506</a></dd></div>
         <div><dt>Email</dt><dd><a href="mailto:thedinerworkshop@gmail.com">thedinerworkshop@gmail.com</a></dd></div>
-        <div><dt>Follow</dt><dd><a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener">@TheDinerworkshop</a> &nbsp;·&nbsp; <a href="https://facebook.com/TheDinerworkshop" target="_blank" rel="noopener">facebook.com/TheDinerworkshop</a></dd></div>
+        <div><dt>Follow</dt><dd><a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener">@TheDinerworkshop</a></dd></div>
       </dl>
     </div>
   </div>
@@ -338,7 +344,6 @@ section { position: relative; }
       <a href="index.html" aria-label="The Dinerworkshop, home"><img class="foot__logo" src="assets/logo-ink.png" alt="The Dinerworkshop"></a>
       <div class="foot__social">
         <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
-        <a href="https://facebook.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a>
       </div>
     </div>
     <nav class="foot__pages" aria-label="Pages">
@@ -419,7 +424,9 @@ addEventListener("resize", () => { setMode(); kick(); });
 wide.addEventListener("change", setMode);
 setMode();
 </script>
-<script src="assets/book.js"></script>
+<script src="assets/book.js?v=2"></script>
 <script src="assets/wa.js"></script>
+<script src="assets/btn.js"></script>
+<script src="assets/motion.js?v=2"></script>
 </body>
 </html>

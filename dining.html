@@ -175,7 +175,7 @@ section { position: relative; }
 .place__art { position: relative; }
 .place__art img { width: 100%; mix-blend-mode: multiply; filter: sepia(.2); }
 .place__art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 50%, var(--cream) 85%); }
-.facts { margin-top: clamp(60px, 8vw, 100px); display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); background: var(--paper); }
+.facts { margin-top: clamp(60px, 8vw, 100px); display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: var(--paper); }
 .fact { padding: 34px 30px; border-right: 1px solid var(--line); }
 .fact:last-child { border-right: 0; }
 .fact .k { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
@@ -294,41 +294,15 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
   .nav__links .nav__wa--menu { display: inline-flex; align-self: flex-start; margin-top: 16px; padding: 10px 18px; font-size: 13px; border-bottom: 1px solid rgba(42, 29, 22, .35); }
 }
 
-/* visual gallery: a mosaic of Ian's photos, tap one to see it large */
-.gal { background: var(--cream); }
-.gal h2 { margin-top: 8px; }
-.gal__lanes { margin-top: clamp(36px, 5vw, 56px); display: grid; gap: 14px; overflow: hidden; }
-.gal__lane { overflow: hidden; }
-.gal__strip { display: flex; gap: 14px; width: max-content; animation: gal-drift 70s linear infinite; }
-.gal__lane--back .gal__strip { animation-direction: reverse; animation-duration: 82s; }
-.gal__lane:hover .gal__strip { animation-play-state: paused; }
-@keyframes gal-drift { to { transform: translateX(-50%); } }
-.gal__item { position: relative; display: block; flex: none; width: clamp(240px, 24vw, 380px); height: clamp(180px, 18vw, 280px); overflow: hidden; background: var(--cream-2); }
-.gal__item img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.86) sepia(.1) contrast(1.02); transform: scale(1.02); transition: transform 1.2s var(--ease), filter .6s; }
-.gal__item:hover img { transform: scale(1.07); filter: saturate(.95) sepia(.06); }
-.gal__item::after { content: ""; position: absolute; inset: 0; box-shadow: inset 0 0 0 1px rgba(42, 29, 22, .08); pointer-events: none; }
-@media (max-width: 600px) { .gal__item { width: 220px; height: 165px; } .gal__strip { gap: 10px; } .gal__lanes { gap: 10px; } }
-@media (prefers-reduced-motion: reduce) { .gal__strip { animation: none; } .gal__lane { overflow-x: auto; } }
-
-/* lightbox */
-.lb { position: fixed; inset: 0; z-index: 300; display: grid; place-items: center; padding: 24px; background: rgba(25, 17, 11, .92); opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s .4s; }
-.lb.is-open { opacity: 1; visibility: visible; transition: opacity .4s ease; }
-.lb__fig { max-width: min(1100px, 100%); max-height: 100%; margin: 0; text-align: center; }
-.lb__fig img { display: block; max-width: 100%; max-height: calc(100vh - 110px); max-height: calc(100svh - 110px); margin: 0 auto; object-fit: contain; box-shadow: 0 40px 90px rgba(0, 0, 0, .5); transform: scale(.96); transition: transform .5s var(--ease); }
-.lb.is-open .lb__fig img { transform: none; }
-.lb__fig figcaption { margin-top: 14px; font-family: var(--serif); font-style: italic; font-size: 18px; color: rgba(241, 234, 223, .75); }
-.lb__close, .lb__nav { position: absolute; display: grid; place-items: center; background: none; border: 1px solid rgba(241, 234, 223, .25); border-radius: 50%; color: var(--cream); cursor: pointer; transition: background .3s, border-color .3s; }
-.lb__close:hover, .lb__nav:hover { background: rgba(241, 234, 223, .12); border-color: rgba(241, 234, 223, .5); }
-.lb__close { top: 18px; right: 18px; width: 44px; height: 44px; }
-.lb__close svg { width: 16px; height: 16px; }
-.lb__nav { top: 50%; width: 52px; height: 52px; transform: translateY(-50%); }
-.lb__nav svg { width: 22px; height: 22px; }
-.lb__nav--prev { left: 18px; } .lb__nav--next { right: 18px; }
-@media (max-width: 600px) { .lb { padding: 12px; } .lb__nav { width: 42px; height: 42px; top: auto; bottom: 16px; transform: none; } .lb__nav--prev { left: 16px; } .lb__nav--next { right: 16px; } .lb__fig img { max-height: calc(100svh - 150px); } }
-html.lb-lock { overflow: hidden; }
 </style>
 <link rel="stylesheet" href="assets/book.css">
 <link rel="stylesheet" href="assets/foot.css">
+<!-- editorial type and button styles, every page -->
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/type.css?v=8">
+<!-- page arrival: curtain with the logo, then the header, then the page -->
+<link rel="stylesheet" href="assets/motion.css">
+<script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches || r.classList.contains("preload")) return; r.classList.add("mo", "mo-hold"); })();</script>
 </head>
 <body>
 
@@ -354,24 +328,9 @@ html.lb-lock { overflow: hidden; }
   <div class="inner d-hero__inner">
     <h1 class="rv">The Bespoke Dining Experience</h1>
     <p class="sub rv d1">An evening that proceeds entirely at your pace.</p>
-    <p class="body rv d2">Set within a historic 1923 Black &amp; White colonial estate in Sembawang, The Dinerworkshop offers an exclusive, single-sitting private dining retreat for discerning guests who appreciate authentic culinary heritage, absolute privacy, and uncompromised ingredient quality.</p>
     <div class="d-hero__cta rv d3">
       <a class="btn" href="#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <a class="btn btn--ghost" href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp +65 8071 0506</a>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────── the evening ─────────────── -->
-<section class="ev pad" id="evening">
-  <div class="inner">
-    <p class="pre rv">The Evening</p>
-    <h2 class="rv d1">From arrival to the last course.</h2>
-    <div class="ev__grid">
-      <article class="evc rv"><img src="assets/experience/arrival.jpg" alt="A colonial house set in a lush tropical garden" loading="lazy"><div class="evc__body"><h3>The Arrival</h3><p>Step off the beaten path and into our 1924 colonial sanctuary surrounded by verdant greenery.</p></div></article>
-      <article class="evc rv d1"><img src="assets/experience/drinks.jpg" alt="Guests raising handcrafted cocktails" loading="lazy"><div class="evc__body"><h3>Pre-Dinner Drinks</h3><p>Unwind in our living hall with handcrafted aperitifs.</p></div></article>
-      <article class="evc rv d2"><img src="assets/experience/table.jpg" alt="A long dining table set for dinner" loading="lazy"><div class="evc__body"><h3>The Omakase Table</h3><p>Transition to your private dining room for a multi-course, custom-curated culinary experience.</p></div></article>
-      <article class="evc rv d3"><img src="assets/experience/evening.jpg" alt="Guests sharing a candlelit dinner" loading="lazy"><div class="evc__body"><h3>Unhurried Elegance</h3><p>With only a single sitting hosted per evening, the night proceeds entirely at your group's desired pace.</p></div></article>
     </div>
   </div>
 </section>
@@ -388,55 +347,13 @@ html.lb-lock { overflow: hidden; }
         <p class="rv d1" style="color:var(--muted)">Because every menu is fully bespoke, we seamlessly accommodate vegetarian, pescatarian, gluten-free, or specific dietary requirements with advance consultation.</p>
       </div>
       <div class="how__grid">
-        <div class="how__card rv"><div class="num">Step 1</div><h3>The Culinary Discovery Assessment</h3><p>Upon inquiry, we guide you through a preference assessment to understand your palate, dietary nuances, occasion, and preferred budget. We recommend at least 3 weeks in advance to avoid disappointment.</p></div>
-        <div class="how__card rv d1"><div class="num">Step 2</div><h3>Artisanal Sourcing</h3><p>Ian personally selects the week's finest seasonal seafood, prime meats, and local botanicals exclusively for your booking.</p></div>
+        <div class="how__card rv"><div class="num">Step 1</div><h3>The Culinary Discovery</h3><p>Upon booking, we guide you through a preference questionnaire to understand your palate, dietary nuances, occasion, and preferred budget. We recommend at least 2 weeks in advance to avoid disappointment.</p></div>
+        <div class="how__card rv d1"><div class="num">Step 2</div><h3>Artisanal Sourcing</h3><p>We personally select the week's finest seasonal seafood, prime meats, and local botanicals exclusively for your booking.</p></div>
         <div class="how__card rv d2"><div class="num">Step 3</div><h3>The Omakase Unveiling</h3><p>Arrive to a bespoke menu tailored precisely around your group's tastes.</p></div>
       </div>
     </div>
   </div>
 </section>
-
-<!-- ─────────────── visual gallery: dishes from past evenings ─────────────── -->
-<section class="gal pad" id="gallery">
-  <div class="inner">
-    <p class="pre rv">Visual Gallery</p>
-    <h2 class="rv d1">Dishes from past evenings.</h2>
-  </div>
-  <div class="gal__lanes" id="galLanes">
-    <div class="gal__lane">
-      <div class="gal__strip">
-        <a class="gal__item" href="assets/gallery/g01.jpg" data-alt="Prawn noodle bowl with greens and fried shallots" data-i="0"><img src="assets/gallery/g01.jpg" alt="Prawn noodle bowl with greens and fried shallots" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g02.jpg" data-alt="Lamb chops and sliced steak with charred greens on a board" data-i="1"><img src="assets/gallery/g02.jpg" alt="Lamb chops and sliced steak with charred greens on a board" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g03.jpg" data-alt="Prawn and noodle salad in a glass bowl" data-i="2"><img src="assets/gallery/g03.jpg" alt="Prawn and noodle salad in a glass bowl" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g04.jpg" data-alt="Pancake topped with spring onions and shallots" data-i="3"><img src="assets/gallery/g04.jpg" alt="Pancake topped with spring onions and shallots" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g05.jpg" data-alt="The table set with small sharing plates" data-i="4"><img src="assets/gallery/g05.jpg" alt="The table set with small sharing plates" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g06.jpg" data-alt="Steamed fish with spring onion and soy" data-i="5"><img src="assets/gallery/g06.jpg" alt="Steamed fish with spring onion and soy" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g07.jpg" data-alt="Fish with cherry tomatoes and fresh herbs" data-i="6"><img src="assets/gallery/g07.jpg" alt="Fish with cherry tomatoes and fresh herbs" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g08.jpg" data-alt="Greens with crispy shallots" data-i="7"><img src="assets/gallery/g08.jpg" alt="Greens with crispy shallots" loading="lazy"></a>
-      </div>
-    </div>
-    <div class="gal__lane gal__lane--back">
-      <div class="gal__strip">
-        <a class="gal__item" href="assets/gallery/g09.jpg" data-alt="Meatballs with lettuce and fried shallots" data-i="8"><img src="assets/gallery/g09.jpg" alt="Meatballs with lettuce and fried shallots" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g10.jpg" data-alt="Slow-braised meat with potatoes in an orange dish" data-i="9"><img src="assets/gallery/g10.jpg" alt="Slow-braised meat with potatoes in an orange dish" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g11.jpg" data-alt="Roasted potatoes with tomatoes and herbs" data-i="10"><img src="assets/gallery/g11.jpg" alt="Roasted potatoes with tomatoes and herbs" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g12.jpg" data-alt="A baked dish under a green herb crust" data-i="11"><img src="assets/gallery/g12.jpg" alt="A baked dish under a green herb crust" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g13.jpg" data-alt="Grilled octopus skewers on a clay plate" data-i="12"><img src="assets/gallery/g13.jpg" alt="Grilled octopus skewers on a clay plate" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g14.jpg" data-alt="Cherry tomatoes in a green herb sauce" data-i="13"><img src="assets/gallery/g14.jpg" alt="Cherry tomatoes in a green herb sauce" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g15.jpg" data-alt="Sliced seared steak" data-i="14"><img src="assets/gallery/g15.jpg" alt="Sliced seared steak" loading="lazy"></a>
-        <a class="gal__item" href="assets/gallery/g16.jpg" data-alt="Seared beef topped with salmon roe" data-i="15"><img src="assets/gallery/g16.jpg" alt="Seared beef topped with salmon roe" loading="lazy"></a>
-      </div>
-    </div>
-  </div>
-  </div>
-</section>
-
-<div class="lb" id="lb" aria-hidden="true">
-  <button class="lb__close" type="button" aria-label="Close"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
-  <button class="lb__nav lb__nav--prev" type="button" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 5l-7 7 7 7"/></svg></button>
-  <figure class="lb__fig"><img id="lbImg" src="" alt=""><figcaption id="lbCap"></figcaption></figure>
-  <button class="lb__nav lb__nav--next" type="button" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 5l7 7-7 7"/></svg></button>
-</div>
 
 <!-- ─────────────── ingredient sourcing ─────────────── -->
 <section class="d-src pad">
@@ -448,8 +365,8 @@ html.lb-lock { overflow: hidden; }
       </div>
       <ul>
         <li class="rv d1">Air-flown seasonal seafood and wild-caught delicacies.</li>
-        <li class="rv d2">Heritage-breed hormone free meats.</li>
-        <li class="rv d3">Organic local micro-greens and fresh regional botanicals.</li>
+        <li class="rv d2">Hormone-free meats.</li>
+        <li class="rv d3">Locally sourced pesticide-free greens.</li>
       </ul>
     </div>
   </div>
@@ -469,9 +386,8 @@ html.lb-lock { overflow: hidden; }
       <div class="place__art rv d2"><img src="assets/logo.jpg" alt="Line drawing of the 1923 Black and White estate"></div>
     </div>
     <div class="facts">
-      <div class="fact rv"><div class="k">Minimum Group Size</div><div class="v">6 guests</div><div class="s">Group Size &amp; Dining Exclusivity</div></div>
-      <div class="fact rv d1"><div class="k">Maximum Capacity</div><div class="v">10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
-      <div class="fact rv d2"><div class="k">Operating Days</div><div class="v">Mon – Sun</div><div class="s">By at least 2 weeks advance reservation only</div></div>
+      <div class="fact rv d1"><div class="k">Group Size</div><div class="v">6–10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
+      <div class="fact rv d2"><div class="k">Operating Days</div><div class="v">Wed – Sun</div><div class="s">By at least 2 weeks advance reservation only</div></div>
       <div class="fact rv d3"><div class="k">Time</div><div class="v">7:00 PM til late</div><div class="s">One sitting per evening</div></div>
     </div>
   </div>
@@ -495,21 +411,19 @@ html.lb-lock { overflow: hidden; }
   <div class="inner">
     <div class="booking__grid">
       <div>
-        <p class="pre rv">Booking &amp; Reservation Process</p>
-        <h2 class="rv d1">Inquire. Consultation. Confirmation.</h2>
+        <h2 class="rv d1">Reservation Process</h2>
         <ol class="ol">
-          <li class="rv"><div><strong>Inquire</strong><span>Submit your preferred date and group size via our concierge page or WhatsApp 8071 0506 (at least 2 weeks in advance).</span></div></li>
-          <li class="rv d1"><div><strong>Consultation</strong><span>Complete our brief Culinary Discovery Assessment.</span></div></li>
-          <li class="rv d2"><div><strong>Confirmation</strong><span>A full payment secures your exclusive evening on the calendar.</span></div></li>
+          <li class="rv"><div><strong>Inquire</strong><span>Submit your preferred date and group size via our concierge page (at least 2 weeks in advance).</span></div></li>
+          <li class="rv d1"><div><strong>Consultation</strong><span>Complete our brief Culinary Discovery Questionnaire.</span></div></li>
+          <li class="rv d2"><div><strong>Confirmation</strong><span>A 50% non-refundable payment secures your exclusive evening on the calendar. The remaining 50% payment is made on the day of dining.</span></div></li>
         </ol>
         <div class="booking__cta rv d3" id="book"><a class="btn" href="#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       </div>
       <div class="side">
         <p class="pre rv">Reservation Policy</p>
         <div class="policy">
-          <div class="row rv"><strong>14+ Days Notice</strong><span>Full refund.</span></div>
-          <div class="row rv d1"><strong>7–13 Days Notice</strong><span>Payment credited toward a rescheduled date within 60 days.</span></div>
-          <div class="row rv d2"><strong>Under 7 Days</strong><span>50% non-refundable due to bespoke fresh ingredient sourcing.</span></div>
+          <div class="row rv"><strong>At least 7 days notice</strong><span>If you need to postpone your dining experience, the payment will be credited toward a rescheduled date within 90 days.</span></div>
+          <div class="row rv d1"><strong>Less than 7 days notice</strong><span>The payment will be forfeited due to the bespoke fresh ingredient sourcing.</span></div>
         </div>
       </div>
     </div>
@@ -517,10 +431,8 @@ html.lb-lock { overflow: hidden; }
     <div class="faq">
       <div class="rv"><p class="pre">FAQ</p><h2>Frequently Asked Questions</h2></div>
       <div>
-        <details class="rv" open><summary>May we bring our personal wine collection?<i></i></summary><p>Absolutely. We offer complimentary corkage along with proper wine service and glassware.</p></details>
-        <details class="rv d1"><summary>Is private parking available?<i></i></summary><p>Yes, 2 private parking spaces are available within our estate grounds.</p></details>
-        <details class="rv d2"><summary>May we request rare or premium ingredients?<i></i></summary><p>Certainly. During your menu discovery consultation, we can incorporate specific luxury delicacies into your customized menu.</p></details>
-        <details class="rv d3"><summary>Are pets welcome at The Dinerworkshop?<i></i></summary><p>Yes, absolutely! As proud pawparents to a rescued dog and cat, our home and estate grounds are warmly open to your well-behaved furry family members. Please let us know in advance so we can ensure a comfortable setup for them as well.</p></details>
+        <details class="rv" open><summary>May we bring our personal wine collection?<i></i></summary><p>Absolutely. We offer complimentary corkage for the 1st bottle.</p></details>
+        <details class="rv d1"><summary>Is private parking available?<i></i></summary><p>Yes, 2 private parking spaces are available within our estate grounds. More parking spaces are available further down the road.</p></details>
       </div>
     </div>
   </div>
@@ -532,15 +444,15 @@ html.lb-lock { overflow: hidden; }
     <div class="contact__grid">
       <div>
         <h2 class="rv">Reserve your <em>private sitting.</em></h2>
-        <p class="lead rv d1">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance. We recommend at least 3 weeks to avoid disappointment.</p>
+        <p class="lead rv d1">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance.</p>
         <div class="contact__cta rv d2">
           <a class="btn" href="#book" data-book>Reserve Your Private Sitting <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
           <a class="btn btn--gold" href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp +65 8071 0506</a>
         </div>
       </div>
       <dl class="contact__list rv d2">
-        <div><dt>Location</dt><dd>Sembawang Colonial Enclave, Singapore (Near Sembawang Park)</dd></div>
-        <div><dt>Reservations</dt><dd><a href="tel:+6580710506">+65 8071 0506</a></dd></div>
+        <div><dt>Location</dt><dd>17 Admiralty Road East S759975 (Near Sembawang Park)</dd></div>
+        <div><dt>Phone</dt><dd><a href="tel:+6580710506">+65 8071 0506</a></dd></div>
         <div><dt>Email</dt><dd><a href="mailto:thedinerworkshop@gmail.com">thedinerworkshop@gmail.com</a></dd></div>
         <div><dt>Pet Policy</dt><dd>Proudly Pet-Friendly (Pawparents to a rescued dog and cat)</dd></div>
       </dl>
@@ -554,7 +466,6 @@ html.lb-lock { overflow: hidden; }
       <a href="index.html" aria-label="The Dinerworkshop, home"><img class="foot__logo" src="assets/logo-ink.png" alt="The Dinerworkshop"></a>
       <div class="foot__social">
         <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
-        <a href="https://facebook.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.6h2.6l.4-3h-3V8.5c0-.9.3-1.5 1.5-1.5h1.6V4.3c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21h3.1z"/></svg></a>
       </div>
     </div>
     <nav class="foot__pages" aria-label="Pages">
@@ -592,32 +503,10 @@ const io = new IntersectionObserver(es => es.forEach(e => {
 }), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
 document.querySelectorAll(".rv").forEach(el => io.observe(el));
 
-/* gallery lightbox */
-(() => {
-  const lb = document.getElementById("lb"), img = document.getElementById("lbImg"), cap = document.getElementById("lbCap");
-  // each lane repeats its photos once so the drift loops without a gap
-  document.querySelectorAll(".gal__strip").forEach(s => { const c = s.cloneNode(true); [...c.children].forEach(el => { el.setAttribute("aria-hidden", "true"); el.tabIndex = -1; }); s.append(...c.children); });
-  const items = [...document.querySelectorAll(".gal__item")].filter(a => !a.hasAttribute("aria-hidden"));
-  let i = 0, last = null;
-  function show(n) { i = (n + items.length) % items.length; img.src = items[i].href; img.alt = cap.textContent = items[i].dataset.alt || ""; }
-  function open(n) { last = document.activeElement; show(n); lb.classList.add("is-open"); lb.setAttribute("aria-hidden", "false"); document.documentElement.classList.add("lb-lock"); lb.querySelector(".lb__close").focus(); }
-  function close() { lb.classList.remove("is-open"); lb.setAttribute("aria-hidden", "true"); document.documentElement.classList.remove("lb-lock"); if (last) last.focus(); }
-  document.querySelectorAll(".gal__item").forEach(a => a.addEventListener("click", e => { e.preventDefault(); open(+a.dataset.i); }));
-  lb.querySelector(".lb__close").addEventListener("click", close);
-  lb.querySelector(".lb__nav--prev").addEventListener("click", () => show(i - 1));
-  lb.querySelector(".lb__nav--next").addEventListener("click", () => show(i + 1));
-  lb.addEventListener("click", e => { if (e.target === lb) close(); });
-  document.addEventListener("keydown", e => {
-    if (!lb.classList.contains("is-open")) return;
-    if (e.key === "Escape") close(); else if (e.key === "ArrowLeft") show(i - 1); else if (e.key === "ArrowRight") show(i + 1);
-  });
-  // swipe on phones
-  let x0 = null;
-  lb.addEventListener("touchstart", e => { x0 = e.touches[0].clientX; }, { passive: true });
-  lb.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
-})();
 </script>
-<script src="assets/book.js"></script>
+<script src="assets/book.js?v=2"></script>
 <script src="assets/wa.js"></script>
+<script src="assets/btn.js"></script>
+<script src="assets/motion.js?v=2"></script>
 </body>
 </html>
