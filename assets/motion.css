@@ -1,21 +1,47 @@
-/* ══════════════ Page arrival, every page
-   1. a cream curtain with the logo, which lifts away
-   2. the header drops in
-   3. the page's words rise in, and rows of cards wipe in from left to right as they come into view
-   Pages that already have their own opening (the Home preloader, scroll scenes) keep it. ══════════════ */
-html.mo body::before { content: ""; position: fixed; inset: 0; z-index: 900; background: var(--cream, #f1eadf); pointer-events: none;
-  animation: mo-curtain 1.25s cubic-bezier(.76, 0, .24, 1) both; }
-html.mo body::after { content: ""; position: fixed; left: 50%; top: 50%; z-index: 901; width: 104px; height: 104px; margin: -52px 0 0 -52px; pointer-events: none;
-  background: url("logo-ink.png") center / contain no-repeat; animation: mo-logo 1.25s cubic-bezier(.16, 1, .3, 1) both; }
-@keyframes mo-curtain { 0%, 50% { transform: translateY(0); } 100% { transform: translateY(-100%); } }
-@keyframes mo-logo { 0% { opacity: 0; transform: translateY(14px) scale(.96); filter: blur(6px); }
-  28%, 46% { opacity: 1; transform: none; filter: blur(0); } 70%, 100% { opacity: 0; transform: translateY(-34px); filter: blur(0); } }
+/* ══════════════ Page transitions, each page its own
+   Arriving: an espresso panel covers the page and folds away in that page's own way, then the header drops in.
+   Leaving: clicking through to another page folds the next page's panel in first.
+   Home's own preloader (once per browser) and the claypot fly / About zoom hand-offs keep their own openings.
+   Rows of cards still wipe in left to right as they come into view. ══════════════ */
+html.tx-in body::before { content: ""; position: fixed; inset: 0; z-index: 900; background: var(--brown-2, #19110b); pointer-events: none;
+  animation: tx-out-up .85s cubic-bezier(.76, 0, .24, 1) .05s both; }
+html.tx-in[data-tx="left"]  body::before { animation-name: tx-out-left; }
+html.tx-in[data-tx="split"] body::before { animation-name: tx-out-split; }
+html.tx-in[data-tx="iris"]  body::before { animation-name: tx-out-iris; animation-duration: .95s; }
+html.tx-in[data-tx="down"]  body::before { animation-name: tx-out-down; }
+html.tx-in[data-tx="diag"]  body::before { animation-name: tx-out-diag; }
+html.tx-in[data-tx="fade"]  body::before { animation-name: tx-out-fade; animation-timing-function: ease; }
 
-/* the header comes down once the curtain has lifted */
-html.mo .nav { animation: mo-nav .9s cubic-bezier(.16, 1, .3, 1) 1s backwards; }
+@keyframes tx-out-up    { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+@keyframes tx-out-left  { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes tx-out-down  { from { transform: translateY(0); } to { transform: translateY(100%); } }
+@keyframes tx-out-split { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(50% 0 50% 0); } }
+@keyframes tx-out-iris  { from { clip-path: circle(75% at 50% 50%); } to { clip-path: circle(0% at 50% 50%); } }
+@keyframes tx-out-diag  { from { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } to { clip-path: polygon(100% 0, 100% 0, 100% 0, 100% 0); } }
+@keyframes tx-out-fade  { from { opacity: 1; } to { opacity: 0; } }
+
+/* leaving: the next page's panel folds in over this one */
+.tx-cover { position: fixed; inset: 0; z-index: 900; background: var(--brown-2, #19110b); pointer-events: all;
+  animation: tx-in-up .55s cubic-bezier(.76, 0, .24, 1) both; }
+.tx-cover[data-tx="left"]  { animation-name: tx-in-left; }
+.tx-cover[data-tx="split"] { animation-name: tx-in-split; }
+.tx-cover[data-tx="iris"]  { animation-name: tx-in-iris; }
+.tx-cover[data-tx="down"]  { animation-name: tx-in-down; }
+.tx-cover[data-tx="diag"]  { animation-name: tx-in-diag; }
+.tx-cover[data-tx="fade"]  { animation-name: tx-in-fade; animation-timing-function: ease; }
+@keyframes tx-in-up    { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes tx-in-left  { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes tx-in-down  { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes tx-in-split { from { clip-path: inset(50% 0 50% 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes tx-in-iris  { from { clip-path: circle(0% at 50% 50%); } to { clip-path: circle(75% at 50% 50%); } }
+@keyframes tx-in-diag  { from { clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%); } to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
+@keyframes tx-in-fade  { from { opacity: 0; } to { opacity: 1; } }
+
+/* the header comes down as the panel clears */
+html.tx-in .nav { animation: mo-nav .9s cubic-bezier(.16, 1, .3, 1) .55s backwards; }
 @keyframes mo-nav { from { opacity: 0; transform: translateY(-110%); } to { opacity: 1; transform: none; } }
 
-/* until the curtain lifts, nothing reveals underneath it */
+/* until the panel clears, nothing reveals underneath it */
 html.mo-hold .rv, html.mo-hold .rv.in { opacity: 0 !important; transition: none !important; }
 
 /* cards: a left-to-right wipe, one after another along the row */
@@ -27,7 +53,4 @@ html.mo-hold .rv, html.mo-hold .rv.in { opacity: 0 !important; transition: none 
 .ing.rv.in, .ct-info__item.rv.in, .why.rv.in, .skill.rv.in, .philo__item.rv.in, .how__card.rv.in, .fact.rv.in, .card.rv.in, .policy .row.rv.in {
   opacity: 1; transform: none; clip-path: inset(0 0 0 0);
 }
-@media (prefers-reduced-motion: reduce) {
-  html.mo body::before, html.mo body::after { display: none; }
-  html.mo .nav { animation: none; }
-}
+@media (prefers-reduced-motion: reduce) { html.tx-in body::before, .tx-cover { display: none; } html.tx-in .nav { animation: none; } }

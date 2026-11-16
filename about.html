@@ -273,13 +273,18 @@ section { position: relative; }
 }
 </style>
 <link rel="stylesheet" href="assets/book.css">
-<link rel="stylesheet" href="assets/foot.css">
+<link rel="stylesheet" href="assets/foot.css?v=2">
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/type.css?v=13">
-<!-- page arrival: curtain with the logo, then the header, then the page -->
-<link rel="stylesheet" href="assets/motion.css">
-<script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches || r.classList.contains("preload")) return; r.classList.add("mo", "mo-hold"); })();</script>
+<!-- page transitions: each page folds open its own way -->
+<link rel="stylesheet" href="assets/motion.css?v=2">
+<script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const TX = { "about.html": "left", "dining.html": "split", "claypot.html": "iris", "classes.html": "down", "contact.html": "diag", "404.html": "fade" };
+  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "up";
+  let skip = r.classList.contains("preload") || r.classList.contains("pot-arrive");
+  try { if (sessionStorage.getItem("txSkip")) { sessionStorage.removeItem("txSkip"); skip = true; } } catch (_) {}
+  if (!skip) r.classList.add("tx-in", "mo-hold"); })();</script>
 </head>
 <body>
 
@@ -419,22 +424,42 @@ section { position: relative; }
   <div class="inner foot__top">
     <div class="foot__brand">
       <a href="index.html" aria-label="The Dinerworkshop, home"><img class="foot__logo" src="assets/logo-ink.png" alt="The Dinerworkshop"></a>
+      <p class="foot__line">Where Heritage Meets Culinary Curiosity.</p>
       <div class="foot__social">
         <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></a>
       </div>
     </div>
-    <nav class="foot__pages" aria-label="Pages">
-      <a href="index.html">Home</a>
-      <a href="about.html" aria-current="page">About Us</a>
-      <a href="dining.html">Dining</a>
-      <a href="claypot.html">Claypot Rice</a>
-      <a href="classes.html">Classes</a>
-      <a href="contact.html">Contact Us</a>
-    </nav>
+    <div class="foot__cols">
+      <div class="foot__col">
+        <p class="foot__h">Explore</p>
+        <nav aria-label="Pages">
+          <a href="index.html">Home</a>
+          <a href="about.html" aria-current="page">About Us</a>
+          <a href="dining.html">Dining</a>
+          <a href="claypot.html">Claypot Rice</a>
+          <a href="classes.html">Classes</a>
+          <a href="contact.html">Contact Us</a>
+        </nav>
+      </div>
+      <div class="foot__col">
+        <p class="foot__h">Visit</p>
+        <address>17 Admiralty Road East<br>Singapore 759975<br><span class="foot__muted">Near Sembawang Park</span></address>
+        <p style="margin-top:14px">Wed – Sun<br><span class="foot__muted">7:00 PM til late</span></p>
+      </div>
+      <div class="foot__col">
+        <p class="foot__h">Contact</p>
+        <div class="foot__list">
+          <a href="tel:+6580710506">+65 8071 0506</a>
+          <a href="mailto:thedinerworkshop@gmail.com">thedinerworkshop@gmail.com</a>
+          <a href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp</a>
+          <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener">@TheDinerworkshop</a>
+        </div>
+      </div>
+    </div>
   </div>
+  <div class="foot__mark" aria-hidden="true">The Dinerworkshop</div>
   <div class="inner foot__base">
-    <span>Singapore &nbsp;|&nbsp; Where Heritage Meets Culinary Curiosity</span>
-    <span>© 2026 The Dinerworkshop</span>
+    <span>© 2026 The Dinerworkshop. All rights reserved.</span>
   </div>
 </footer>
 
@@ -543,6 +568,6 @@ if (estate) {
 <script src="assets/book.js?v=2"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/btn.js"></script>
-<script src="assets/motion.js?v=2"></script>
+<script src="assets/motion.js?v=3"></script>
 </body>
 </html>
