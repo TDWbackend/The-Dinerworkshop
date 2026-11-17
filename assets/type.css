@@ -118,3 +118,8 @@ em, i { font-style: normal; }
 /* Claypot header: smaller, with "Claypot Rice" kept together on its own line */
 .cp-hero h1 { font-size: clamp(38px, 4.4vw, 68px); max-width: none; }
 .cp-hero h1 em { display: block; white-space: nowrap; }
+
+/* header: the words "The Dinerworkshop" in the logo's own lettering (cut from the logo), not the round badge */
+.nav__logo { height: 36px; aspect-ratio: 1031 / 268; }
+.nav.scrolled .nav__logo { height: 30px; }
+@media (max-width: 900px) { .nav__logo, .nav.scrolled .nav__logo { height: 28px; } }

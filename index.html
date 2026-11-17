@@ -176,7 +176,7 @@ section { position: relative; }
 /* ══════════════ signature dishes: one plate in the centre that turns as the dish changes, story on either side ══════════════ */
 .sig { position: relative; color: var(--ink);
   background: radial-gradient(ellipse 48% 56% at 50% 46%, rgba(255, 251, 244, .95), rgba(255, 251, 244, 0) 70%), linear-gradient(180deg, #ebe4d7 0%, #e3dbcc 55%, #e9e2d5 100%); }
-.sig__track { position: relative; height: 520vh; }
+.sig__track { position: relative; height: 420vh; }
 .sig__pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .sig__label { position: absolute; z-index: 3; left: var(--pad); top: clamp(96px, 13vh, 128px); font-family: var(--serif); font-style: italic; font-size: clamp(22px, 1.9vw, 28px); color: var(--muted); }
 
@@ -195,7 +195,7 @@ section { position: relative; }
 
 
 @media (max-width: 900px) {
-  .sig__track { height: 460vh; }
+  .sig__track { height: 370vh; }
   .sig__label { top: 92px; left: 0; right: 0; max-width: none; margin: 0; padding: 0 var(--pad); text-align: center; font-size: 19px; }
   .dish { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; align-items: start; justify-items: center; gap: 14px; padding: 130px var(--pad) 28px; text-align: center; }
   .dish__name { text-align: center; }
@@ -500,7 +500,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 </style>
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/type.css?v=13">
+<link rel="stylesheet" href="assets/type.css?v=14">
 <!-- page transitions: each page folds open its own way -->
 <link rel="stylesheet" href="assets/motion.css?v=2">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -522,7 +522,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 
 <!-- ─────────────── nav ─────────────── -->
 <header class="nav" id="nav">
-  <a class="nav__logo" href="index.html" aria-label="The Dinerworkshop, home"><img class="on-light" src="assets/logo-ink.png" alt="The Dinerworkshop"><img class="on-darkbg" src="assets/logo-cream.png" alt=""></a>
+  <a class="nav__logo" href="index.html" aria-label="The Dinerworkshop, home"><img class="on-light" src="assets/wordmark-ink.png" alt="The Dinerworkshop"><img class="on-darkbg" src="assets/wordmark-cream.png" alt=""></a>
   <nav class="nav__links">
     <a href="index.html" class="is-current" aria-current="page">Home</a>
     <a href="about.html">About Us</a>
@@ -586,12 +586,6 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
         <div class="dish__name rv"><h2>Botanical Plant Creations</h2></div>
         <div class="dish__plate rv"><img src="assets/dishes/botanical-umami.webp?v=4" alt="Charred okra in a ring of chilli sauce on a black plate" loading="lazy"></div>
         <div class="dish__text rv"><p>Intricate vegetarian courses crafted to match the depth and complexity of prime meats.</p></div>
-      </article>
-
-      <article class="dish">
-        <div class="dish__name rv"><h2>Seasonal Global Fusion</h2></div>
-        <div class="dish__plate rv"><img src="assets/dishes/seasonal-fusion.webp?v=4" alt="Grilled octopus with potatoes in a rich red sauce on a black plate" loading="lazy"></div>
-        <div class="dish__text rv"><p>Fresh seafood and prime cuts elevated with subtle Asian and Western accents.</p></div>
       </article>
 
       <article class="dish">

@@ -175,8 +175,9 @@ section { position: relative; }
 .place__art { position: relative; }
 .place__art img { width: 100%; mix-blend-mode: multiply; filter: sepia(.2); }
 .place__art::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at center, transparent 50%, var(--cream) 85%); }
-.facts { margin-top: clamp(60px, 8vw, 100px); display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: var(--paper); }
-.fact { padding: 34px 30px; border-right: 1px solid var(--line); }
+.facts { margin-top: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: var(--paper); }
+.fact { padding: 34px 30px; border-right: 1px solid var(--line); text-align: center; }
+.fact .fact__ic { display: block; margin-left: auto; margin-right: auto; }
 .fact:last-child { border-right: 0; }
 .fact .k { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
 .fact .v { margin-top: 12px; font-family: var(--serif); font-size: 32px; line-height: 1.1; }
@@ -300,7 +301,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 <link rel="stylesheet" href="assets/foot.css?v=2">
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/type.css?v=13">
+<link rel="stylesheet" href="assets/type.css?v=14">
 <!-- page transitions: each page folds open its own way -->
 <link rel="stylesheet" href="assets/motion.css?v=2">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -313,7 +314,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 <body>
 
 <header class="nav" id="nav">
-  <a class="nav__logo" href="index.html" aria-label="The Dinerworkshop, home"><img class="on-light" src="assets/logo-ink.png" alt="The Dinerworkshop"><img class="on-darkbg" src="assets/logo-cream.png" alt=""></a>
+  <a class="nav__logo" href="index.html" aria-label="The Dinerworkshop, home"><img class="on-light" src="assets/wordmark-ink.png" alt="The Dinerworkshop"><img class="on-darkbg" src="assets/wordmark-cream.png" alt=""></a>
   <nav class="nav__links">
     <a href="index.html">Home</a>
     <a href="about.html">About Us</a>
@@ -378,19 +379,9 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
   </div>
 </section>
 
-<!-- ─────────────── the dining estate ─────────────── -->
+<!-- ─────────────── group size, days and time ─────────────── -->
 <section class="place pad" id="place">
   <div class="inner">
-    <div class="place__grid">
-      <div class="place__text">
-        <p class="pre rv">The Dining Estate</p>
-        <h2 class="rv d1">Old-world Singapore charm.</h2>
-        <p class="rv d2">Tucked away in the serene greenery of Sembawang, our 1923 Black &amp; White estate offers an atmosphere of old-world Singapore charm.</p>
-        <p class="rv d3">Spacious high ceilings, lush outdoor views, and curated interior furnishings offer an intimate alternative to commercial luxury dining.</p>
-        <p class="rv d3">A single sitting per evening: the entire estate hall is exclusively reserved for your group from 7:00 PM until late.</p>
-      </div>
-      <div class="place__art rv d2"><img src="assets/logo.jpg" alt="Line drawing of the 1923 Black and White estate"></div>
-    </div>
     <div class="facts">
       <div class="fact rv d1"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="10.5" r="3.6"/><path d="M9.5 25v-2.2a6.5 6.5 0 0 1 13 0V25"/><circle cx="7.6" cy="13" r="2.7"/><path d="M2.5 24v-1.4a5 5 0 0 1 6.4-4.8"/><circle cx="24.4" cy="13" r="2.7"/><path d="M29.5 24v-1.4a5 5 0 0 0-6.4-4.8"/></svg><div class="k">Group Size</div><div class="v">6–10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
       <div class="fact rv d2"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="7" width="23" height="20" rx="2.5"/><path d="M4.5 13h23M10.5 4v5M21.5 4v5"/><path d="M10 18h2M15 18h2M20 18h2M10 22h2M15 22h2"/></svg><div class="k">Operating Days</div><div class="v">Wed – Sun</div><div class="s">By at least 2 weeks advance reservation only</div></div>
