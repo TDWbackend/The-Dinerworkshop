@@ -116,6 +116,7 @@ section { position: relative; }
 .estate { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden; background: var(--cream); }
 .estate video, .estate__still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
 
+/* About: the real photo of the estate sits to the right, so the house is clear of the words on the left */
 .estate__wash { position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(90deg, rgba(243, 236, 222, .97) 0%, rgba(243, 236, 222, .92) 34%, rgba(243, 236, 222, .55) 48%, rgba(243, 236, 222, 0) 62%),
               linear-gradient(to bottom, rgba(241, 234, 223, 0) 78%, var(--cream) 100%); }
@@ -276,7 +277,7 @@ section { position: relative; }
 <link rel="stylesheet" href="assets/foot.css?v=2">
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/type.css?v=14">
+<link rel="stylesheet" href="assets/type.css?v=15">
 <!-- page transitions: each page folds open its own way -->
 <link rel="stylesheet" href="assets/motion.css?v=2">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -451,8 +452,6 @@ section { position: relative; }
         <div class="foot__list">
           <a href="tel:+6580710506">+65 8071 0506</a>
           <a href="mailto:thedinerworkshop@gmail.com">thedinerworkshop@gmail.com</a>
-          <a href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp</a>
-          <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener">@TheDinerworkshop</a>
         </div>
       </div>
     </div>
@@ -565,7 +564,8 @@ if (estate) {
   paint();
 })();
 </script>
-<script src="assets/book.js?v=2"></script>
+<script src="assets/db.js"></script>
+<script src="assets/book.js?v=4"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/btn.js"></script>
 <script src="assets/motion.js?v=3"></script>

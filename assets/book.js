@@ -1,7 +1,8 @@
 /* Booking form. Normally a pop-up that any link with [data-book] opens; on a page with a
    #bookInline element it sits in the page instead, always open, and [data-book] scrolls to it.
-   Three steps: occasion → party → details. On submit it opens WhatsApp
-   to Ian with every answer filled in (the site has no server). */
+   Three steps: occasion → party → details. On submit the request is saved to the booking backend
+   (assets/db.js) for Ian to accept or decline; if the backend is not set up, or cannot be reached,
+   it opens WhatsApp to Ian with every answer filled in instead. */
 (function () {
   const WA = "6580710506";
   const MAIL = "thedinerworkshop@gmail.com";
@@ -57,7 +58,7 @@
             <span>Preferred date</span>
             <input type="date" name="date" id="bkDate" required>
             <em class="hint">Wednesday to Sunday, at least 2 weeks in advance.</em>
-            <em class="bk__err">Please choose a Wednesday to Sunday at least 2 weeks from today.</em>
+            <em class="bk__err" id="bkDateErr">Please choose a Wednesday to Sunday at least 2 weeks from today.</em>
           </label>
           <label class="bk__field">
             <span>Dietary requirements</span>
@@ -86,13 +87,14 @@
             <input type="email" name="email" autocomplete="email">
             <em class="bk__err">That email doesn’t look right.</em>
           </label>
+          <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <p class="bk__personal">Ian will be in touch personally to discuss a suitable evening.</p>
         </section>
 
         <section class="bk__step bk__done" data-step="4">
           <h2 id="bkDoneTitle">Thank you.</h2>
-          <p class="bk__sub">Your request is ready in WhatsApp. Press send there and Ian will be in touch personally to discuss a suitable evening.</p>
-          <p class="alt">WhatsApp didn’t open? <a id="bkWaAgain" href="#" target="_blank" rel="noopener">Try again</a> or <a id="bkMail" href="#">send it by email</a>.</p>
+          <p class="bk__sub" id="bkDoneSub"></p>
+          <p class="alt"><span id="bkAltLead"></span> <a id="bkWaAgain" href="#" target="_blank" rel="noopener"></a> or <a id="bkMail" href="#">send it by email</a>.</p>
         </section>
       </div>
 
@@ -113,7 +115,34 @@
   const steps = [...root.querySelectorAll(".bk__step")];
   const sketches = [...root.querySelectorAll(".bk__sketch img")];
   const labels = ["01 / 03 · The Occasion", "02 / 03 · Your Party", "03 / 03 · Your Details", "Request sent to WhatsApp"];
-  let step = 1, guests = MIN_G, opener = null, waUrl = "";
+  let step = 1, guests = MIN_G, opener = null, waUrl = "", busy = false;
+
+  // the booking backend: evenings Ian has already confirmed cannot be requested again
+  const DB = window.DW_DB && window.DW_DB.ready ? window.DW_DB : null;
+  const taken = new Set();
+  if (DB) DB.call("/rest/v1/rpc/booked_dates", { method: "POST", body: {} })
+    .then(rows => (rows || []).forEach(r => taken.add(String(typeof r === "string" ? r : r.booked_dates || r.dining_date || "").slice(0, 10))))
+    .catch(() => {});
+
+  // the closing screen, three ways: saved for Ian, handed to WhatsApp, or could not be saved
+  const DATE_ERR = "Please choose a Wednesday to Sunday at least 2 weeks from today.";
+  const TAKEN_ERR = "That evening is already reserved. Please choose another date.";
+  function done(how) {
+    const sub = $("bkDoneSub"), lead = $("bkAltLead"), wa = $("bkWaAgain");
+    if (how === "saved") {
+      labels[3] = "Request received";
+      sub.textContent = "Your request has been received. Ian will be in touch personally to discuss a suitable evening.";
+      lead.textContent = "Would you rather message Ian yourself?"; wa.textContent = "Open WhatsApp";
+    } else if (how === "failed") {
+      labels[3] = "Send your request on WhatsApp";
+      sub.textContent = "We could not send your request just now. Please send it to Ian on WhatsApp and he will be in touch personally.";
+      lead.textContent = ""; wa.textContent = "Open WhatsApp";
+    } else {
+      labels[3] = "Request sent to WhatsApp";
+      sub.textContent = "Your request is ready in WhatsApp. Press send there and Ian will be in touch personally to discuss a suitable evening.";
+      lead.textContent = "WhatsApp didn’t open?"; wa.textContent = "Try again";
+    }
+  }
 
   // date: earliest allowed is two weeks from today
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -155,7 +184,11 @@
 
   function flag(id, bad) { $(id).classList.toggle("is-bad", bad); return !bad; }
   const openDay = v => { const d = new Date(v + "T12:00:00").getDay(); return d === 0 || d >= 3; };   // doc: Wed to Sun
-  function checkStep2() { const v = $("bkDate").value; return flag("bkDateF", !v || v < minDate() || !openDay(v)); }
+  function checkStep2() {
+    const v = $("bkDate").value, full = !!v && taken.has(v);
+    $("bkDateErr").textContent = full ? TAKEN_ERR : DATE_ERR;
+    return flag("bkDateF", !v || v < minDate() || !openDay(v) || full);
+  }
   function checkStep3() {
     const okName = flag("bkNameF", !form.name.value.trim());
     const okPhone = flag("bkPhoneF", form.phone.value.replace(/\D/g, "").length < 8);
@@ -195,8 +228,18 @@
       $("bkWaAgain").href = waUrl;
       $("bkMail").href = `mailto:${MAIL}?subject=${encodeURIComponent("Private sitting request")}&body=${encodeURIComponent(text)}`;
       $("bkDoneTitle").textContent = "Thank you, " + form.name.value.trim().split(" ")[0] + ".";
-      window.open(waUrl, "_blank", "noopener");
-      go(4);
+      if (!DB) { window.open(waUrl, "_blank", "noopener"); done("wa"); go(4); return; }
+      if (busy) return;
+      if (form.company.value) { done("saved"); go(4); return; }      // a robot filled the hidden field: accept nothing
+      busy = true;
+      $("bkNext").disabled = true;
+      $("bkNext").textContent = "Sending…";
+      const val = n => form[n].value.trim() || null;
+      DB.call("/rest/v1/bookings", { method: "POST", prefer: "return=minimal", body: {
+        dining_date: form.date.value, guests, occasion: form.occasion.value || null,
+        name: form.name.value.trim(), phone: form.phone.value.trim(),
+        email: val("email"), dietary: val("dietary"), notes: val("notes")
+      } }).then(() => done("saved"), () => done("failed")).then(() => { busy = false; go(4); });
       return;
     }
     if (inline) { form.reset(); setGuests(MIN_G); go(1); return; }

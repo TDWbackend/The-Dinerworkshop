@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Bookings · The Dinerworkshop</title>
+<link rel="icon" href="assets/logo-ink.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Inter+Tight:wght@300;400&display=swap" rel="stylesheet">
+<style>
+/* The private bookings desk. Not linked from the site; sign-in is checked by the database, not by this page. */
+:root {
+  --cream: #f1eadf; --cream-2: #e9e2d5; --paper: #f7f2e8; --ink: #2a1d16; --brown-2: #19110b;
+  --gold: #b5925c; --muted: #7a6c5f; --line: rgba(42, 29, 22, .14);
+  --ok: #3f6b4f; --wait: #a0741f; --no: #8b5a4a;
+  --sans: "Inter", "Helvetica Neue", Arial, sans-serif; --head: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--cream); color: var(--ink); font: 300 15px/1.55 var(--sans); }
+button, input, select, textarea { font: inherit; color: inherit; }
+h1, h2, h3 { margin: 0; font-family: var(--head); font-weight: 300; }
+a { color: inherit; }
+[hidden] { display: none !important; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 40px; padding: 9px 16px; border-radius: 6px; border: 1px solid var(--ink);
+  background: var(--ink); color: var(--cream); font-size: 12px; font-weight: 400; letter-spacing: .08em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background .25s, color .25s, border-color .25s, opacity .25s; }
+.btn:hover { background: var(--brown-2); border-color: var(--brown-2); }
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn--ghost:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+.btn--wa { background: #1f7a4a; border-color: #1f7a4a; }
+.btn--wa:hover { background: #17603a; border-color: #17603a; }
+.btn:disabled { opacity: .5; cursor: default; }
+.btn:focus-visible, .tab:focus-visible, .cal__day:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+/* sign in */
+.gate { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 24px; }
+.gate__card { width: 100%; max-width: 400px; padding: 38px 32px; background: var(--paper); border: 1px solid var(--line); border-radius: 10px; }
+.gate__card img { height: 34px; display: block; margin-bottom: 26px; }
+.gate__card h1 { font-size: 30px; text-transform: uppercase; letter-spacing: -.02em; line-height: 1; }
+.gate__card p { margin: 10px 0 0; color: var(--muted); }
+.field { display: block; margin-top: 16px; }
+.field > span { display: block; margin-bottom: 6px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.field input, .field select, .field textarea { width: 100%; padding: 10px 12px; background: #fffdf8; border: 1px solid var(--line); border-radius: 6px; }
+.field textarea { min-height: 76px; resize: vertical; }
+.gate__card .btn { width: 100%; margin-top: 22px; }
+.err { margin-top: 12px; color: var(--no); font-size: 14px; }
+
+/* the desk */
+.top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; padding: 12px clamp(16px, 4vw, 40px); background: rgba(241, 234, 223, .94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.top img { height: 28px; }
+.top__sp { flex: 1; }
+.wrap { max-width: 1240px; margin: 0 auto; padding: clamp(22px, 3.4vw, 40px) clamp(16px, 4vw, 40px) 80px; }
+.wrap > h1 { font-size: clamp(32px, 4vw, 52px); text-transform: uppercase; letter-spacing: -.025em; line-height: .95; }
+.stats { margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.stat { padding: 18px 20px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
+.stat b { display: block; font: 300 34px/1 var(--head); letter-spacing: -.02em; }
+.stat span { display: block; margin-top: 8px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.stat small { display: block; margin-top: 2px; font-size: 13.5px; color: var(--muted); }
+
+.cols { margin-top: 26px; display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 26px; align-items: start; }
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tab { padding: 8px 14px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font-size: 12px; letter-spacing: .06em; text-transform: uppercase; cursor: pointer; }
+.tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+.tab i { font-style: normal; opacity: .65; margin-left: 4px; }
+.dayline { margin-top: 14px; display: flex; align-items: center; gap: 12px; font-size: 14px; }
+.list { margin-top: 16px; display: grid; gap: 12px; }
+.empty { padding: 42px 20px; text-align: center; color: var(--muted); background: var(--paper); border: 1px dashed var(--line); border-radius: 8px; }
+
+.card { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 0; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.card__date { padding: 18px 10px; text-align: center; background: var(--cream-2); border-right: 1px solid var(--line); }
+.card__date b { display: block; font: 300 36px/1 var(--head); }
+.card__date span { display: block; margin-top: 6px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
+.card__date em { display: block; margin-top: 2px; font-style: normal; font-size: 12.5px; color: var(--muted); }
+.card__body { padding: 16px 18px 18px; min-width: 0; }
+.card__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.card__head h3 { font-size: 22px; letter-spacing: -.01em; overflow-wrap: anywhere; }
+.chip { padding: 3px 9px; border-radius: 999px; border: 1px solid var(--line); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+.chip--pending { color: var(--wait); border-color: currentColor; }
+.chip--accepted { color: var(--ok); border-color: currentColor; }
+.chip--declined, .chip--cancelled { color: var(--no); border-color: currentColor; }
+.card__meta { margin: 6px 0 0; }
+.card__contact { margin: 4px 0 0; color: var(--muted); overflow-wrap: anywhere; }
+.card__contact a { text-decoration-color: var(--line); text-underline-offset: 3px; }
+.card dl { margin: 12px 0 0; display: grid; gap: 8px; }
+.card dt { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.card dd { margin: 1px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.card__notes { margin-top: 12px; }
+.card__notes textarea { min-height: 54px; }
+.paid { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.paid label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.paid input { width: 17px; height: 17px; accent-color: var(--ink); }
+.card__acts { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
+.card__when { margin: 12px 0 0; font-size: 12.5px; color: var(--muted); }
+
+/* month */
+.cal { position: sticky; top: 76px; padding: 18px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
+.cal__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.cal__head h2 { font-size: 19px; text-transform: uppercase; letter-spacing: -.01em; }
+.cal__nav { width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 6px; background: transparent; cursor: pointer; }
+.cal__grid { margin-top: 12px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.cal__dow { text-align: center; font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-bottom: 4px; }
+.cal__day { position: relative; aspect-ratio: 1; border: 1px solid transparent; border-radius: 6px; background: transparent; font-size: 13.5px; cursor: pointer; }
+.cal__day:hover { border-color: var(--line); }
+.cal__day.is-closed { color: rgba(42, 29, 22, .35); }
+.cal__day.is-today { border-color: var(--gold); }
+.cal__day.has-pending { box-shadow: inset 0 0 0 1.5px var(--wait); }
+.cal__day.has-accepted { background: var(--ink); color: var(--cream); }
+.cal__day.is-picked { outline: 2px solid var(--gold); outline-offset: 1px; }
+.cal__key { margin-top: 14px; display: grid; gap: 6px; font-size: 12.5px; color: var(--muted); }
+.cal__key span { display: inline-flex; align-items: center; gap: 8px; }
+.cal__key i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+
+/* add / edit */
+dialog { width: min(560px, calc(100vw - 28px)); max-height: calc(100vh - 28px); padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); }
+dialog::backdrop { background: rgba(25, 17, 11, .5); }
+.form { padding: 26px 26px 22px; }
+.form h2 { font-size: 26px; text-transform: uppercase; letter-spacing: -.02em; }
+.form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
+.form__check { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.form__check label { display: inline-flex; align-items: center; gap: 8px; }
+.form__check input { width: 17px; height: 17px; accent-color: var(--ink); }
+.form__acts { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 8px; }
+.form__acts .sp { flex: 1; }
+
+.toast { position: fixed; left: 50%; bottom: 22px; z-index: 30; transform: translateX(-50%); max-width: calc(100vw - 28px); display: flex; align-items: center; gap: 14px; padding: 12px 16px; background: var(--ink); color: var(--cream); border-radius: 8px; box-shadow: 0 14px 34px rgba(25, 17, 11, .3); }
+.toast a { color: var(--cream); white-space: nowrap; }
+
+@media (max-width: 900px) {
+  .cols { grid-template-columns: 1fr; }
+  .cal { position: static; order: -1; }
+  .stats { grid-template-columns: 1fr 1fr; }
+  .stat:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .card { grid-template-columns: 1fr; }
+  .card__date { display: flex; align-items: baseline; gap: 10px; padding: 12px 18px; text-align: left; border-right: 0; border-bottom: 1px solid var(--line); }
+  .card__date b { font-size: 26px; } .card__date span, .card__date em { margin-top: 0; }
+  .form__row { grid-template-columns: 1fr; }
+  .top .btn span.long { display: none; }
+}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<dialog id="dlg"></dialog>
+
+<script src="assets/db.js"></script>
+<script>
+(() => {
+  const DB = window.DW_DB;
+  const app = document.getElementById("app"), dlg = document.getElementById("dlg");
+  const KEY = "dwAdminSession";
+  const OCCASIONS = ["A celebration", "An evening with friends", "A family gathering", "A private occasion"];
+  const STATUS = { pending: "Request", accepted: "Confirmed", declined: "Declined", cancelled: "Cancelled" };
+  let session = null, rows = [], tab = "pending", pickedDay = null, loadedAt = 0;
+  let month = new Date(); month.setDate(1);
+  try { session = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (_) {}
+
+  /* ── small helpers ── */
+  // builds DOM with text nodes only, so nothing a guest typed can ever run as markup
+  function el(tag, props, ...kids) {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(props || {})) {
+      if (v == null || v === false) continue;
+      if (k === "class") n.className = v;
+      else if (k === "text") n.textContent = v;
+      else if (k === "value") n.value = v;
+      else if (k === "checked") n.checked = !!v;
+      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+      else n.setAttribute(k, v === true ? "" : v);
+    }
+    for (const c of kids.flat()) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(String(c)));
+    return n;
+  }
+  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  const today = () => iso(new Date());
+  const asDate = v => { const [y, m, d] = String(v).slice(0, 10).split("-").map(Number); return new Date(y, m - 1, d); };
+  const fmt = (v, o) => asDate(v).toLocaleDateString("en-SG", o);
+  const longDate = v => fmt(v, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
+  const first = name => String(name || "").trim().split(/\s+/)[0] || "there";
+  function waLink(r) {
+    let d = String(r.phone || "").replace(/\D/g, "").replace(/^00/, "");
+    if (d.length === 8) d = "65" + d;                               // a local Singapore number
+    const text = r.status === "accepted"
+      ? `Hi ${first(r.name)}, this is Ian from The Dinerworkshop. I would be delighted to host your group of ${r.guests} on ${longDate(r.dining_date)}.`
+      : `Hi ${first(r.name)}, this is Ian from The Dinerworkshop. Thank you for your request for ${r.guests} guests on ${longDate(r.dining_date)}.`;
+    return `https://wa.me/${d}?text=${encodeURIComponent(text)}`;
+  }
+  let toastTimer = 0;
+  function toast(msg, link) {
+    document.querySelectorAll(".toast").forEach(t => t.remove());
+    const t = el("div", { class: "toast", role: "status" }, el("span", { text: msg }), link && el("a", { href: link.href, target: "_blank", rel: "noopener", text: link.text }));
+    document.body.append(t);
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.remove(), link ? 9000 : 4200);
+  }
+
+  /* ── signing in: Supabase Auth; the database decides what a signed-in account may see ── */
+  function keep(d) {
+    session = { access_token: d.access_token, refresh_token: d.refresh_token, expires_at: d.expires_at || Math.floor(Date.now() / 1000) + (d.expires_in || 3600) };
+    try { localStorage.setItem(KEY, JSON.stringify(session)); } catch (_) {}
+  }
+  function forget() { session = null; rows = []; try { localStorage.removeItem(KEY); } catch (_) {} }
+  async function token() {
+    if (!session) { const e = new Error("Signed out"); e.status = 401; throw e; }
+    if (session.expires_at * 1000 - Date.now() < 60000)
+      keep(await DB.call("/auth/v1/token?grant_type=refresh_token", { method: "POST", body: { refresh_token: session.refresh_token } }));
+    return session.access_token;
+  }
+  async function api(path, opts = {}) {
+    try { return await DB.call(path, { ...opts, token: await token() }); }
+    catch (e) { if (e.status === 401 || e.status === 403 && /jwt/i.test(e.message)) { forget(); gate("Please sign in again."); } throw e; }
+  }
+  async function signOut() {
+    const t = session && session.access_token;
+    forget(); gate();
+    if (t) DB.call("/auth/v1/logout", { method: "POST", token: t }).catch(() => {});
+  }
+
+  function gate(note) {
+    dlg.open && dlg.close();
+    const err = el("p", { class: "err", role: "alert", text: note || "", hidden: !note });
+    const email = el("input", { type: "email", autocomplete: "username", required: true });
+    const pass = el("input", { type: "password", autocomplete: "current-password", required: true });
+    const go = el("button", { class: "btn", type: "submit", text: "Sign in" });
+    const form = el("form", { class: "gate__card", onsubmit: async e => {
+      e.preventDefault();
+      go.disabled = true; err.hidden = true;
+      try {
+        keep(await DB.call("/auth/v1/token?grant_type=password", { method: "POST", body: { email: email.value.trim(), password: pass.value } }));
+        const ok = await DB.call("/rest/v1/rpc/is_admin", { method: "POST", body: {}, token: session.access_token });
+        if (ok !== true) { forget(); throw new Error("This account is not allowed to manage bookings."); }
+        await start();
+      } catch (ex) {
+        err.textContent = /invalid/i.test(ex.message) ? "That email or password is not right." : ex.message;
+        err.hidden = false; go.disabled = false;
+      }
+    } },
+      el("img", { src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
+      el("h1", { text: "Bookings" }),
+      DB && DB.ready ? [
+        el("label", { class: "field" }, el("span", { text: "Email" }), email),
+        el("label", { class: "field" }, el("span", { text: "Password" }), pass),
+        go, err
+      ] : el("p", { text: "The booking backend is not connected yet. Add the Supabase project URL and publishable key to assets/db.js." })
+    );
+    app.replaceChildren(el("div", { class: "gate" }, form));
+  }
+
+  /* ── data ── */
+  async function load() {
+    rows = await api("/rest/v1/bookings?select=*&order=dining_date.asc,created_at.asc") || [];
+    loadedAt = Date.now();
+  }
+  async function patch(r, body, done) {
+    try {
+      const out = await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
+      Object.assign(r, (out && out[0]) || body);
+      render();
+      if (done) done(r);
+    } catch (e) { if (session) toast("Could not save: " + e.message); }
+  }
+  function setStatus(r, status) {
+    if (status === "accepted") {
+      const clash = rows.find(x => x !== r && x.status === "accepted" && x.dining_date === r.dining_date);
+      if (clash && !confirm(`${clash.name} is already confirmed for ${longDate(r.dining_date)}. Confirm ${r.name} as well?`)) return;
+    }
+    patch(r, { status }, row => {
+      if (status === "accepted") toast(`${row.name} is confirmed.`, { href: waLink(row), text: "Message on WhatsApp" });
+      else toast(`${row.name}: ${STATUS[status].toLowerCase()}.`);
+    });
+  }
+
+  /* ── the desk ── */
+  function lists() {
+    const t = today();
+    return {
+      pending: rows.filter(r => r.status === "pending"),
+      confirmed: rows.filter(r => r.status === "accepted" && r.dining_date >= t),
+      past: rows.filter(r => r.status === "accepted" && r.dining_date < t).reverse(),
+      declined: rows.filter(r => r.status === "declined" || r.status === "cancelled").reverse()
+    };
+  }
+
+  function card(r) {
+    const notes = el("textarea", { value: r.admin_notes || "", placeholder: "Only you can see this", onblur: e => {
+      const v = e.target.value.trim() || null;
+      if (v !== (r.admin_notes || null)) patch(r, { admin_notes: v }, () => toast("Note saved."));
+    } });
+    const acts = [];
+    if (r.status === "pending") acts.push(
+      el("button", { class: "btn", type: "button", text: "Accept", onclick: () => setStatus(r, "accepted") }),
+      el("button", { class: "btn btn--ghost", type: "button", text: "Decline", onclick: () => setStatus(r, "declined") }));
+    acts.push(el("a", { class: "btn btn--wa", href: waLink(r), target: "_blank", rel: "noopener", text: "WhatsApp" }));
+    if (r.status === "accepted") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Cancel booking", onclick: () => confirm(`Cancel ${r.name}'s booking on ${longDate(r.dining_date)}?`) && setStatus(r, "cancelled") }));
+    if (r.status === "declined" || r.status === "cancelled") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Back to requests", onclick: () => setStatus(r, "pending") }));
+    acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Edit", onclick: () => edit(r) }));
+
+    const phoneDigits = String(r.phone || "").replace(/[^\d+]/g, "");
+    return el("article", { class: "card" },
+      el("div", { class: "card__date" },
+        el("b", { text: fmt(r.dining_date, { day: "numeric" }) }),
+        el("span", { text: fmt(r.dining_date, { month: "short", year: "numeric" }) }),
+        el("em", { text: fmt(r.dining_date, { weekday: "long" }) })),
+      el("div", { class: "card__body" },
+        el("div", { class: "card__head" },
+          el("h3", { text: r.name }),
+          el("span", { class: "chip chip--" + r.status, text: STATUS[r.status] || r.status }),
+          el("span", { class: "chip", text: r.source === "manual" ? "Added by you" : "From the website" })),
+        el("p", { class: "card__meta", text: `${r.guests} guests${r.occasion ? " · " + r.occasion : ""}` }),
+        el("p", { class: "card__contact" },
+          el("a", { href: "tel:" + phoneDigits, text: r.phone }),
+          r.email && [" · ", el("a", { href: "mailto:" + encodeURIComponent(r.email).replace("%40", "@"), text: r.email })]),
+        (r.dietary || r.notes) && el("dl", null,
+          r.dietary && el("div", null, el("dt", { text: "Dietary requirements" }), el("dd", { text: r.dietary })),
+          r.notes && el("div", null, el("dt", { text: "About their evening" }), el("dd", { text: r.notes }))),
+        r.status === "accepted" && el("div", { class: "paid" },
+          el("label", null, el("input", { type: "checkbox", checked: r.deposit_paid, onchange: e => patch(r, { deposit_paid: e.target.checked }) }), "50% deposit received"),
+          el("label", null, el("input", { type: "checkbox", checked: r.balance_paid, onchange: e => patch(r, { balance_paid: e.target.checked }) }), "Balance received")),
+        el("label", { class: "field card__notes" }, el("span", { text: "Your notes" }), notes),
+        el("div", { class: "card__acts" }, acts),
+        el("p", { class: "card__when", text: "Received " + new Date(r.created_at).toLocaleString("en-SG", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" }) })));
+  }
+
+  function calendar() {
+    const y = month.getFullYear(), m = month.getMonth();
+    const by = {};
+    rows.forEach(r => { if (r.status === "pending" || r.status === "accepted") (by[r.dining_date] = by[r.dining_date] || {})[r.status] = true; });
+    const lead = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate(), t = today();
+    const cells = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => el("div", { class: "cal__dow", text: d }));
+    for (let i = 0; i < lead; i++) cells.push(el("span"));
+    for (let d = 1; d <= days; d++) {
+      const key = iso(new Date(y, m, d)), dow = new Date(y, m, d).getDay(), has = by[key] || {};
+      const cls = ["cal__day", (dow === 1 || dow === 2) && "is-closed", key === t && "is-today", has.pending && "has-pending", has.accepted && "has-accepted", key === pickedDay && "is-picked"].filter(Boolean).join(" ");
+      cells.push(el("button", { class: cls, type: "button", text: d, "aria-label": longDate(key) + (has.accepted ? ", confirmed" : has.pending ? ", request waiting" : ""), "aria-pressed": key === pickedDay ? "true" : "false",
+        onclick: () => { pickedDay = pickedDay === key ? null : key; render(); } }));
+    }
+    const step = n => () => { month = new Date(y, m + n, 1); render(); };
+    return el("aside", { class: "cal", "aria-label": "Month" },
+      el("div", { class: "cal__head" },
+        el("button", { class: "cal__nav", type: "button", "aria-label": "Previous month", onclick: step(-1), text: "‹" }),
+        el("h2", { text: month.toLocaleDateString("en-SG", { month: "long", year: "numeric" }) }),
+        el("button", { class: "cal__nav", type: "button", "aria-label": "Next month", onclick: step(1), text: "›" })),
+      el("div", { class: "cal__grid" }, cells),
+      el("div", { class: "cal__key" },
+        el("span", null, el("i", { style: "background: var(--ink)" }), "Confirmed evening"),
+        el("span", null, el("i", { style: "box-shadow: inset 0 0 0 1.5px var(--wait)" }), "Request waiting"),
+        el("span", null, "Tap a day to see only that evening.")));
+  }
+
+  function render() {
+    const L = lists(), next = L.confirmed[0];
+    const showing = pickedDay ? rows.filter(r => r.dining_date === pickedDay) : L[tab];
+    const names = { pending: "Requests", confirmed: "Confirmed", past: "Past", declined: "Declined" };
+    const keepScroll = scrollY;
+    app.replaceChildren(
+      el("header", { class: "top" },
+        el("img", { src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
+        el("div", { class: "top__sp" }),
+        el("button", { class: "btn", type: "button", onclick: () => edit(null) }, "Add ", el("span", { class: "long", text: "booking" })),
+        el("button", { class: "btn btn--ghost", type: "button", text: "Refresh", onclick: refresh }),
+        el("button", { class: "btn btn--ghost", type: "button", text: "Sign out", onclick: signOut })),
+      el("main", { class: "wrap" },
+        el("h1", { text: "Bookings" }),
+        el("div", { class: "stats" },
+          el("div", { class: "stat" }, el("b", { text: L.pending.length }), el("span", { text: "Requests waiting for you" })),
+          el("div", { class: "stat" }, el("b", { text: L.confirmed.length }), el("span", { text: "Confirmed evenings ahead" })),
+          el("div", { class: "stat" }, el("b", { text: next ? fmt(next.dining_date, { day: "numeric", month: "short" }) : "None" }), el("span", { text: "Next evening" }), next && el("small", { text: `${next.name}, ${next.guests} guests` }))),
+        el("div", { class: "cols" },
+          el("section", null,
+            el("div", { class: "tabs", role: "tablist" }, Object.keys(names).map(k =>
+              el("button", { class: "tab", type: "button", role: "tab", "aria-selected": !pickedDay && tab === k ? "true" : "false", onclick: () => { tab = k; pickedDay = null; render(); } }, names[k], el("i", { text: L[k].length })))),
+            pickedDay && el("div", { class: "dayline" }, el("span", { text: "Showing " + longDate(pickedDay) }), el("button", { class: "btn btn--ghost", type: "button", text: "Show all", onclick: () => { pickedDay = null; render(); } })),
+            el("div", { class: "list" }, showing.length ? showing.map(card) : el("p", { class: "empty", text: pickedDay ? "Nothing on this evening." : tab === "pending" ? "No requests waiting." : "Nothing here yet." }))),
+          calendar())));
+    scrollTo(0, keepScroll);
+  }
+
+  /* ── add your own booking, or edit one ── */
+  function edit(r) {
+    const isNew = !r;
+    const v = r || { status: "accepted", guests: 6, dining_date: pickedDay || "" };
+    const f = {
+      name: el("input", { type: "text", required: true, maxlength: 120, value: v.name || "" }),
+      phone: el("input", { type: "tel", required: true, maxlength: 40, value: v.phone || "" }),
+      email: el("input", { type: "email", maxlength: 200, value: v.email || "" }),
+      dining_date: el("input", { type: "date", required: true, value: v.dining_date || "" }),
+      guests: el("input", { type: "number", required: true, min: 1, max: 30, value: v.guests || 6 }),
+      occasion: el("input", { type: "text", list: "occs", maxlength: 120, value: v.occasion || "" }),
+      status: el("select", null, Object.entries(STATUS).map(([k, t]) => el("option", { value: k, text: t }))),
+      dietary: el("input", { type: "text", maxlength: 1000, value: v.dietary || "" }),
+      notes: el("textarea", { maxlength: 2000, value: v.notes || "" }),
+      deposit_paid: el("input", { type: "checkbox", checked: v.deposit_paid }),
+      balance_paid: el("input", { type: "checkbox", checked: v.balance_paid })
+    };
+    f.status.value = v.status;
+    const err = el("p", { class: "err", role: "alert", hidden: true });
+    const save = el("button", { class: "btn", type: "submit", text: isNew ? "Add booking" : "Save" });
+    const lab = (t, input) => el("label", { class: "field" }, el("span", { text: t }), input);
+    const form = el("form", { class: "form", onsubmit: async e => {
+      e.preventDefault();
+      const body = {
+        name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim() || null,
+        dining_date: f.dining_date.value, guests: Number(f.guests.value), occasion: f.occasion.value.trim() || null,
+        status: f.status.value, dietary: f.dietary.value.trim() || null, notes: f.notes.value.trim() || null,
+        deposit_paid: f.deposit_paid.checked, balance_paid: f.balance_paid.checked
+      };
+      const clash = body.status === "accepted" && rows.find(x => x !== r && x.status === "accepted" && x.dining_date === body.dining_date);
+      if (clash && !confirm(`${clash.name} is already confirmed for ${longDate(body.dining_date)}. Save this one as confirmed too?`)) return;
+      save.disabled = true; err.hidden = true;
+      try {
+        if (isNew) {
+          const out = await api("/rest/v1/bookings", { method: "POST", body: { ...body, source: "manual" }, prefer: "return=representation" });
+          rows.push((out && out[0]) || { ...body, source: "manual", id: String(Date.now()), created_at: new Date().toISOString() });
+          rows.sort((a, b) => a.dining_date < b.dining_date ? -1 : a.dining_date > b.dining_date ? 1 : 0);
+          tab = body.status === "accepted" ? (body.dining_date >= today() ? "confirmed" : "past") : body.status === "pending" ? "pending" : "declined";
+          pickedDay = null;
+        } else {
+          const out = await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
+          Object.assign(r, (out && out[0]) || body);
+        }
+        dlg.close(); render(); toast(isNew ? "Booking added." : "Saved.");
+      } catch (ex) { err.textContent = "Could not save: " + ex.message; err.hidden = false; save.disabled = false; }
+    } },
+      el("h2", { text: isNew ? "Add a booking" : "Edit booking" }),
+      el("div", { class: "form__row" }, lab("Name", f.name), lab("WhatsApp number", f.phone)),
+      el("div", { class: "form__row" }, lab("Date", f.dining_date), lab("Guests", f.guests)),
+      el("div", { class: "form__row" }, lab("Occasion", f.occasion), lab("Status", f.status)),
+      lab("Email (optional)", f.email),
+      lab("Dietary requirements", f.dietary),
+      lab("About their evening", f.notes),
+      el("datalist", { id: "occs" }, OCCASIONS.map(o => el("option", { value: o }))),
+      el("div", { class: "form__check" },
+        el("label", null, f.deposit_paid, "50% deposit received"),
+        el("label", null, f.balance_paid, "Balance received")),
+      err,
+      el("div", { class: "form__acts" },
+        save,
+        el("button", { class: "btn btn--ghost", type: "button", text: "Close", onclick: () => dlg.close() }),
+        el("span", { class: "sp" }),
+        !isNew && el("button", { class: "btn btn--ghost", type: "button", text: "Delete", onclick: async () => {
+          if (!confirm(`Delete ${r.name}'s booking for good? This cannot be undone.`)) return;
+          try { await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "DELETE" }); rows = rows.filter(x => x !== r); dlg.close(); render(); toast("Booking deleted."); }
+          catch (ex) { err.textContent = "Could not delete: " + ex.message; err.hidden = false; }
+        } })));
+    dlg.replaceChildren(form);
+    dlg.showModal();
+  }
+
+  async function refresh() {
+    try { await load(); render(); } catch (e) { if (session) toast("Could not load bookings: " + e.message); }
+  }
+  async function start() {
+    app.replaceChildren(el("div", { class: "gate" }, el("p", { text: "Loading bookings…" })));
+    try { await load(); render(); }
+    catch (e) { if (session) app.replaceChildren(el("div", { class: "gate" }, el("div", { class: "gate__card" }, el("h1", { text: "Bookings" }), el("p", { class: "err", text: "Could not load bookings: " + e.message }), el("button", { class: "btn", type: "button", text: "Try again", onclick: start })))); }
+  }
+  addEventListener("focus", () => { if (session && rows && Date.now() - loadedAt > 60000 && !dlg.open) refresh(); });
+
+  if (session && DB && DB.ready) start(); else gate();
+})();
+</script>
+</body>
+</html>

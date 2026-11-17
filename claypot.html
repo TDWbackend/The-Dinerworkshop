@@ -132,7 +132,7 @@ section { position: relative; }
 }
 
 /* the ingredients, set around the pot */
-.cp-ing { background: var(--cream); overflow: hidden; }
+.cp-ing { background: var(--cream); overflow: hidden; overflow: clip; }
 .cp-ing__head { max-width: 860px; margin: 0 auto; text-align: center; }
 .cp-ing__lead { margin-top: 16px; font-family: var(--serif); font-size: clamp(26px, 2.7vw, 38px); line-height: 1.28; color: var(--ink); }
 .cp-ing__stage { margin-top: clamp(50px, 7vw, 90px); display: grid; grid-template-columns: 1fr minmax(280px, 430px) 1fr; gap: clamp(30px, 4vw, 64px); align-items: center; }
@@ -155,6 +155,30 @@ section { position: relative; }
   .ing::after { display: none; }
 }
 @media (max-width: 560px) { .cp-ing__stage { grid-template-columns: 1fr; } }
+/* the ingredients: on wide screens the section holds while each ingredient, in close-up, rises out of the pot to its name */
+.ing { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: clamp(14px, 1.4vw, 22px); }
+.cp-ing__col--l .ing { grid-template-columns: 1fr auto; }
+.cp-ing__col--l .ing__pic { order: 2; }
+.ing::after { display: none; }
+.ing__pic { width: clamp(84px, 7.6vw, 124px); height: auto; aspect-ratio: 1; object-fit: contain; position: relative; z-index: 2;
+  filter: drop-shadow(0 14px 16px rgba(42, 29, 22, .22)); will-change: transform, opacity; }
+.ing__txt h3 { margin-top: 0; }
+.cp-ing__pot { z-index: 1; }
+@media (min-width: 901px) {
+  .cp-ing__track.is-live { height: 300vh; }
+  .cp-ing__track.is-live .cp-ing__pin { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; align-items: center; padding-top: 70px; }
+  .cp-ing__track.is-live .cp-ing__stage { margin-top: 0; width: 100%; }
+  .cp-ing__track.is-live .cp-ing__pot img { max-height: 62vh; }
+  .cp-ing__track.is-live .cp-ing__stage { grid-template-columns: 1fr minmax(260px, 390px) 1fr; gap: clamp(24px, 3vw, 48px); }
+  .cp-ing__track.is-live .ing__pic { width: clamp(100px, 9.6vw, 150px); }
+  .cp-ing__track.is-live .ing h3 { font-size: clamp(17px, 1.5vw, 23px); line-height: 1.08; }
+}
+@media (max-width: 900px) {
+  .ing, .cp-ing__col--l .ing { grid-template-columns: auto 1fr; text-align: left; }
+  .cp-ing__col--l .ing__pic { order: 0; }
+  .ing__pic { width: 76px; }
+}
+
 
 /* why it is special */
 .cp-why { background: var(--cream-2); }
@@ -262,7 +286,7 @@ try { if (sessionStorage.getItem("potFly")) { sessionStorage.removeItem("potFly"
 <link rel="stylesheet" href="assets/book.css">
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/type.css?v=14">
+<link rel="stylesheet" href="assets/type.css?v=15">
 <!-- page transitions: each page folds open its own way -->
 <link rel="stylesheet" href="assets/motion.css?v=2">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -313,22 +337,24 @@ try { if (sessionStorage.getItem("potFly")) { sessionStorage.removeItem("potFly"
       <p class="pre rv">The Ingredients</p>
       <p class="cp-ing__lead rv d1">Premium Thai Hom Mali rice is slow-simmered in Banko-yaki earthenware alongside tender boneless chicken thighs, braised shiitake mushrooms, Japanese ebi, rich liver sausage, and XO pork sausages.</p>
     </div>
+    <div class="cp-ing__track" id="ingTrack"><div class="cp-ing__pin">
     <div class="cp-ing__stage">
       <div class="cp-ing__col cp-ing__col--l">
-        <div class="ing rv"><div class="ing__n">01</div><h3>Premium Thai Hom Mali Rice</h3></div>
-        <div class="ing rv d1"><div class="ing__n">02</div><h3>Fresh Sakura Chicken</h3><p>Tender boneless chicken thighs</p></div>
-        <div class="ing rv d2"><div class="ing__n">03</div><h3>Braised Shiitake Mushrooms</h3></div>
+        <div class="ing rv"><img class="ing__pic" src="assets/claypot/rice.webp" alt="" width="480" height="480" loading="lazy"><div class="ing__txt"><h3>Premium Thai Hom Mali Rice</h3></div></div>
+        <div class="ing rv d1"><img class="ing__pic" src="assets/claypot/chicken.webp" alt="" width="480" height="480" loading="lazy"><div class="ing__txt"><h3>Fresh Sakura Chicken</h3><p>Tender boneless chicken thighs</p></div></div>
+        <div class="ing rv d2"><img class="ing__pic" src="assets/claypot/shiitake.webp" alt="" width="480" height="480" loading="lazy"><div class="ing__txt"><h3>Braised Shiitake Mushrooms</h3></div></div>
       </div>
       <figure class="cp-ing__pot rv">
         <img id="ingPot" src="assets/dishes/claypot.webp" alt="Overhead view of the signature chicken claypot rice" loading="lazy">
         <figcaption>Slow-simmered in Banko-yaki earthenware</figcaption>
       </figure>
       <div class="cp-ing__col cp-ing__col--r">
-        <div class="ing rv"><div class="ing__n">04</div><h3>Japanese Ebi</h3></div>
-        <div class="ing rv d1"><div class="ing__n">05</div><h3>Rich Liver Sausage</h3></div>
-        <div class="ing rv d2"><div class="ing__n">06</div><h3>XO Pork Sausages</h3></div>
+        <div class="ing rv"><img class="ing__pic" src="assets/claypot/ebi.webp" alt="" width="480" height="480" loading="lazy"><div class="ing__txt"><h3>Japanese Ebi</h3></div></div>
+        <div class="ing rv d1"><img class="ing__pic" src="assets/claypot/liver-sausage.webp" alt="" width="480" height="480" loading="lazy"><div class="ing__txt"><h3>Rich Liver Sausage</h3></div></div>
+        <div class="ing rv d2"><img class="ing__pic" src="assets/claypot/xo-sausage.webp" alt="" width="480" height="480" loading="lazy"><div class="ing__txt"><h3>XO Pork Sausages</h3></div></div>
       </div>
     </div>
+    </div></div>
   </div>
 </section>
 
@@ -454,8 +480,6 @@ try { if (sessionStorage.getItem("potFly")) { sessionStorage.removeItem("potFly"
         <div class="foot__list">
           <a href="tel:+6580710506">+65 8071 0506</a>
           <a href="mailto:thedinerworkshop@gmail.com">thedinerworkshop@gmail.com</a>
-          <a href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp</a>
-          <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener">@TheDinerworkshop</a>
         </div>
       </div>
     </div>
@@ -486,20 +510,67 @@ const io = new IntersectionObserver(es => es.forEach(e => {
 }), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
 document.querySelectorAll(".rv").forEach(el => io.observe(el));
 
-/* the ingredients pot turns a little as you scroll past it */
-const ingPot = document.getElementById("ingPot");
-if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-  let ticking = false;
-  addEventListener("scroll", () => {
-    if (ticking) return; ticking = true;
-    requestAnimationFrame(() => {
-      const r = ingPot.getBoundingClientRect();
-      const p = (innerHeight - r.top) / (innerHeight + r.height);
-      ingPot.style.setProperty("--r", (Math.max(0, Math.min(1, p)) * 90 - 45).toFixed(2) + "deg");
-      ticking = false;
+/* the ingredients: the pot turns as you scroll, and on wide screens the section holds while each
+   ingredient comes up out of the pot, in close-up, and settles beside its name, one after another */
+(() => {
+  const ingPot = document.getElementById("ingPot");
+  const track = document.getElementById("ingTrack");
+  if (!ingPot || !track || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const all = [...track.querySelectorAll(".ing")];
+  // left and right take turns: rice, ebi, chicken, liver sausage, shiitake, XO sausage
+  const order = [0, 3, 1, 4, 2, 5].map(i => all[i]).filter(Boolean);
+  const wideQ = matchMedia("(min-width: 901px)");
+  const clamp01 = v => Math.min(1, Math.max(0, v));
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  let from = [], raf = 0, cur = 0;
+
+  function measure() {
+    from = order.map(el => {
+      const pic = el.querySelector(".ing__pic");
+      pic.style.transform = "";
+      const a = pic.getBoundingClientRect(), b = ingPot.getBoundingClientRect();
+      return { x: b.left + b.width / 2 - (a.left + a.width / 2), y: b.top + b.height / 2 - (a.top + a.height / 2) };
     });
-  }, { passive: true });
-}
+  }
+  const progress = () => { const r = track.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, r.height - innerHeight)); };
+
+  function paint(p) {
+    if (!wideQ.matches) {
+      const r = ingPot.getBoundingClientRect();
+      ingPot.style.setProperty("--r", (clamp01((innerHeight - r.top) / (innerHeight + r.height)) * 90 - 45).toFixed(2) + "deg");
+      return;
+    }
+    ingPot.style.setProperty("--r", (p * 120 - 30).toFixed(2) + "deg");
+    order.forEach((el, k) => {
+      const t = clamp01((p - .05 - k * .13) / .2), e = ease(t), f = from[k] || { x: 0, y: 0 };
+      const pic = el.querySelector(".ing__pic"), txt = el.querySelector(".ing__txt");
+      const lift = Math.sin(Math.PI * e) * -46;          // a little arc up out of the pot
+      pic.style.transform = `translate(${(f.x * (1 - e)).toFixed(1)}px, ${(f.y * (1 - e) + lift).toFixed(1)}px) scale(${(.3 + .7 * e).toFixed(3)}) rotate(${((1 - e) * -50).toFixed(1)}deg)`;
+      pic.style.opacity = clamp01(t * 4).toFixed(3);
+      txt.style.opacity = (.18 + .82 * clamp01((t - .35) / .5)).toFixed(3);
+    });
+  }
+  function tick() {
+    const t = progress();
+    cur += (t - cur) * .12;
+    if (Math.abs(t - cur) < .0004) cur = t;
+    paint(cur);
+    raf = cur === t ? 0 : requestAnimationFrame(tick);
+  }
+  function setMode() {
+    track.classList.toggle("is-live", wideQ.matches);
+    order.forEach(el => { el.querySelector(".ing__pic").style.cssText = ""; el.querySelector(".ing__txt").style.opacity = ""; });
+    if (wideQ.matches) { measure(); cur = progress(); }
+    paint(cur);
+  }
+  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
+  addEventListener("resize", setMode);
+  wideQ.addEventListener("change", setMode);
+  setMode();
+  // the pictures load lazily; measure again once they and the pot have their size
+  addEventListener("load", setMode);
+  [ingPot, ...order.map(el => el.querySelector(".ing__pic"))].forEach(img => img.complete || img.addEventListener("load", setMode, { once: true }));
+})();
 
 /* takeaway order: builds a WhatsApp message to Ian (the site has no server) */
 (() => {
@@ -594,7 +665,8 @@ if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
   }), { threshold: .3 }).observe(stage);
 })();
 </script>
-<script src="assets/book.js?v=2"></script>
+<script src="assets/db.js"></script>
+<script src="assets/book.js?v=4"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/reviews.js"></script>
 <script src="assets/btn.js"></script>

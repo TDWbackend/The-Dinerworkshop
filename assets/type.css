@@ -67,6 +67,9 @@ h1 em, h2 em, h3 em { font-style: normal; }
 .cp-hero h1 em, .cp-why h2 em { font-style: normal; }
 summary { font-weight: 300; text-transform: uppercase; letter-spacing: -.01em; font-size: 19px; }
 .ct-hero h1, .k-hero h1, .d-hero h1 { line-height: .92; }
+/* page titles on Dining and Classes sit at the same size as About and Claypot */
+.k-hero h1, .d-hero h1 { font-size: clamp(38px, 4.4vw, 68px); max-width: 16ch; }
+.ct-top h1 { font-size: clamp(38px, 4.4vw, 68px); line-height: .92; }
 
 /* ══════════════ buttons: a gentle curve, and on hover the words roll up and round ══════════════ */
 .btn { border-radius: 6px; }
@@ -81,7 +84,7 @@ summary { font-weight: 300; text-transform: uppercase; letter-spacing: -.01em; f
 
 /* small phones: capitals run wide, so page titles scale with the screen; header buttons stay on one line */
 @media (max-width: 600px) {
-  .d-hero h1, .k-hero h1, .cp-hero h1, .ct-hero h1 { font-size: clamp(30px, 11.5vw, 48px); }
+  .d-hero h1, .k-hero h1, .cp-hero h1, .ct-hero h1, .ct-top h1 { font-size: clamp(30px, 11.5vw, 48px); }
 }
 .nav .btn .btn__roll { white-space: nowrap; }
 
