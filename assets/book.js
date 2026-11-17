@@ -100,7 +100,7 @@
 
       <div class="bk__foot">
         <button class="btn" type="submit" id="bkNext">Continue</button>
-        <p class="bk__fine" id="bkFine" hidden>A 50% non-refundable payment secures your exclusive evening on the calendar. The remaining 50% is paid on the day of dining.</p>
+        <p class="bk__fine" id="bkFine" hidden>A full non-refundable payment secures your exclusive evening on the calendar.</p>
         <button class="bk__back" type="button" id="bkBack" hidden>Back</button>
       </div>
     </form>

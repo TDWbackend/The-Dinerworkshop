@@ -318,8 +318,7 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
           r.dietary && el("div", null, el("dt", { text: "Dietary requirements" }), el("dd", { text: r.dietary })),
           r.notes && el("div", null, el("dt", { text: "About their evening" }), el("dd", { text: r.notes }))),
         r.status === "accepted" && el("div", { class: "paid" },
-          el("label", null, el("input", { type: "checkbox", checked: r.deposit_paid, onchange: e => patch(r, { deposit_paid: e.target.checked }) }), "50% deposit received"),
-          el("label", null, el("input", { type: "checkbox", checked: r.balance_paid, onchange: e => patch(r, { balance_paid: e.target.checked }) }), "Balance received")),
+          el("label", null, el("input", { type: "checkbox", checked: r.paid, onchange: e => patch(r, { paid: e.target.checked }) }), "Full payment received")),
         el("label", { class: "field card__notes" }, el("span", { text: "Your notes" }), notes),
         el("div", { class: "card__acts" }, acts),
         el("p", { class: "card__when", text: "Received " + new Date(r.created_at).toLocaleString("en-SG", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" }) })));
@@ -393,8 +392,7 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
       status: el("select", null, Object.entries(STATUS).map(([k, t]) => el("option", { value: k, text: t }))),
       dietary: el("input", { type: "text", maxlength: 1000, value: v.dietary || "" }),
       notes: el("textarea", { maxlength: 2000, value: v.notes || "" }),
-      deposit_paid: el("input", { type: "checkbox", checked: v.deposit_paid }),
-      balance_paid: el("input", { type: "checkbox", checked: v.balance_paid })
+      paid: el("input", { type: "checkbox", checked: v.paid })
     };
     f.status.value = v.status;
     const err = el("p", { class: "err", role: "alert", hidden: true });
@@ -406,7 +404,7 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
         name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim() || null,
         dining_date: f.dining_date.value, guests: Number(f.guests.value), occasion: f.occasion.value.trim() || null,
         status: f.status.value, dietary: f.dietary.value.trim() || null, notes: f.notes.value.trim() || null,
-        deposit_paid: f.deposit_paid.checked, balance_paid: f.balance_paid.checked
+        paid: f.paid.checked
       };
       const clash = body.status === "accepted" && rows.find(x => x !== r && x.status === "accepted" && x.dining_date === body.dining_date);
       if (clash && !confirm(`${clash.name} is already confirmed for ${longDate(body.dining_date)}. Save this one as confirmed too?`)) return;
@@ -434,8 +432,7 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
       lab("About their evening", f.notes),
       el("datalist", { id: "occs" }, OCCASIONS.map(o => el("option", { value: o }))),
       el("div", { class: "form__check" },
-        el("label", null, f.deposit_paid, "50% deposit received"),
-        el("label", null, f.balance_paid, "Balance received")),
+        el("label", null, f.paid, "Full payment received")),
       err,
       el("div", { class: "form__acts" },
         save,
