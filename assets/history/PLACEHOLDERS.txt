@@ -2,5 +2,5 @@ Placeholder stock photos (Unsplash, free licence) for the About page timeline. R
 home-kitchen.jpg       Unsplash photo-1780277814234-c3821a9d3f08  (a woman cooks in a small home kitchen)
 popo-claypot.jpg       Unsplash photo-1674468263746-3220aee4e394  (claypot rice with sausage)
 molecular-biology.jpg  Unsplash photo-1532187863486-abf9dbad1b69  (pipette over sample tubes)
-plant-forward.jpg      Unsplash photo-1518843875459-f738682238a6  (assorted vegetables on a dark table)
+green-beans.jpg        Ian's own dish photo (charred green beans), not a placeholder
 estate.jpg             Our own estate sketch (cropped from estate-reveal-end.jpg), not a placeholder
