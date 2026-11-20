@@ -2,6 +2,7 @@
    Big, light, all-caps grotesk headings with tight leading; small all-caps notes; labels in [brackets].
    Colours are untouched. Buttons: slightly rounded, the words roll up and round on hover (see btn.js). ══════════════ */
 :root {
+  color-scheme: only light;   /* never let a phone's dark mode recolour the site */
   --serif: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
   --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
 }

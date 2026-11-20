@@ -67,6 +67,30 @@
 .bk__field .hint, .bk__err { font-style: normal; }
 .bk__field .hint { display: block; margin-top: 6px; font-size: 13px; color: var(--muted); }
 
+/* step 2: the date, a month of evenings to pick from */
+.bk__cal { width: min(372px, 100%); margin: 12px auto 0; padding: 20px 18px 16px; background: var(--brown-2); color: var(--cream); border-radius: 20px; }
+.bk__cal-top { display: grid; grid-template-columns: 34px 1fr 34px; align-items: center; }
+.bk__cal-top p { text-align: center; font-family: var(--serif); font-size: 19px; letter-spacing: -.01em; color: var(--cream); }
+.bk__cal-top button { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; border: 0; background: rgba(246, 241, 232, .13); color: var(--cream); cursor: pointer; transition: background .3s, opacity .3s; }
+.bk__cal-top button:hover:not(:disabled) { background: rgba(246, 241, 232, .24); }
+.bk__cal-top button:disabled { opacity: .3; cursor: default; }
+.bk__cal-top svg { width: 14px; height: 14px; }
+.bk__cal-dow, .bk__cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; }
+.bk__cal-dow { margin-top: 16px; text-align: center; font-size: 11px; letter-spacing: .08em; color: rgba(246, 241, 232, .55); }
+.bk__cal-grid { margin-top: 8px; }
+.bk__cal-grid button { aspect-ratio: 1; display: grid; place-items: center; padding: 0; border: 0; border-radius: 9px; background: rgba(246, 241, 232, .12); color: var(--cream); font: inherit; font-size: 14px; cursor: pointer; transition: background .25s, color .25s; }
+.bk__cal-grid button:hover:not(:disabled) { background: rgba(246, 241, 232, .26); }
+.bk__cal-grid button:disabled { background: none; color: rgba(246, 241, 232, .26); cursor: default; }
+.bk__cal-grid button.is-taken { box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .24); color: rgba(246, 241, 232, .42); text-decoration: line-through; }
+.bk__cal-grid button.is-sel, .bk__cal-grid button.is-sel:hover { background: var(--gold); color: var(--brown-2); font-weight: 500; }
+.bk__cal-grid button:focus-visible, .bk__cal-top button:focus-visible { outline: 2px solid var(--gold-2); outline-offset: 2px; }
+.bk__cal-key { list-style: none; margin: 14px 0 0; padding: 0; display: flex; justify-content: center; gap: 18px; font-size: 12px; color: rgba(246, 241, 232, .72); }
+.bk__cal-key li { display: flex; align-items: center; gap: 7px; }
+.bk__cal-key li::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--gold); }
+.bk__cal-key .k-res::before { background: none; box-shadow: inset 0 0 0 1px rgba(246, 241, 232, .5); }
+.bk__cal-key li[hidden] { display: none; }
+.bk__field.is-bad .bk__cal { box-shadow: 0 0 0 2px var(--red); }
+
 /* step 3: underline fields */
 .bk__line input { padding: 8px 0 10px; background: transparent; border: 0; border-bottom: 1px solid rgba(42, 29, 22, .3); }
 .bk__line input:focus { background: transparent; border-color: var(--red); }
@@ -101,6 +125,8 @@
   .bk__foot { padding: 14px 22px calc(18px + env(safe-area-inset-bottom)); }
   .bk__occ label { min-height: 104px; font-size: 17px; }
   .bk__close { top: 14px; right: 14px; }
+  .bk__cal { padding: 18px 12px 14px; border-radius: 18px; }
+  .bk__cal-dow, .bk__cal-grid { gap: 4px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .bk__card, .bk__scrim, .bk__sketch img { transition: none; }

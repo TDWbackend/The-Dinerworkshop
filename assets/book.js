@@ -54,12 +54,25 @@
             <button type="button" id="bkPlus" aria-label="More guests"><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M3 9h12M9 3v12"/></svg></button>
           </div>
           <p class="bk__note">Group Size: 6–10 guests · Wed – Sun</p>
-          <label class="bk__field" id="bkDateF">
-            <span>Preferred date</span>
-            <input type="date" name="date" id="bkDate" required>
+          <div class="bk__field" id="bkDateF" role="group" aria-labelledby="bkDateL">
+            <span id="bkDateL">Preferred date</span>
+            <input type="hidden" name="date" id="bkDate">
+            <div class="bk__cal">
+              <div class="bk__cal-top">
+                <button type="button" id="bkCalPrev" aria-label="Previous month"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4L3 8l4 4"/></svg></button>
+                <p id="bkCalMonth" aria-live="polite"></p>
+                <button type="button" id="bkCalNext" aria-label="Next month"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+              </div>
+              <div class="bk__cal-dow" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+              <div class="bk__cal-grid" id="bkCalGrid"></div>
+              <ul class="bk__cal-key">
+                <li id="bkCalKeySel" aria-live="polite">Selected date</li>
+                <li class="k-res" id="bkCalKeyRes" hidden>Reserved</li>
+              </ul>
+            </div>
             <em class="hint">Wednesday to Sunday, at least 2 weeks in advance.</em>
             <em class="bk__err" id="bkDateErr">Please choose a Wednesday to Sunday at least 2 weeks from today.</em>
-          </label>
+          </div>
           <label class="bk__field">
             <span>Dietary requirements</span>
             <input type="text" name="dietary" placeholder="Optional" autocomplete="off">
@@ -122,6 +135,7 @@
   const taken = new Set();
   if (DB) DB.call("/rest/v1/rpc/booked_dates", { method: "POST", body: {} })
     .then(rows => (rows || []).forEach(r => taken.add(String(typeof r === "string" ? r : r.booked_dates || r.dining_date || "").slice(0, 10))))
+    .then(() => drawCal())
     .catch(() => {});
 
   // the closing screen, three ways: saved for Ian, handed to WhatsApp, or could not be saved
@@ -170,8 +184,8 @@
     form.setAttribute("aria-label", n === 1 ? "" : labels[n - 1]);
     body.scrollTop = 0;
     sync();
-    const first = steps[n - 1].querySelector("input:not([type=radio]), textarea");
-    if (n > 1 && n < 4 && first && matchMedia("(min-width: 601px)").matches) first.focus({ preventScroll: true });
+    const first = steps[n - 1].querySelector("input:not([type=radio]):not([type=hidden]), textarea");
+    if (n === 3 && first && matchMedia("(min-width: 601px)").matches) first.focus({ preventScroll: true });
   }
 
   function sync() {
@@ -184,6 +198,62 @@
 
   function flag(id, bad) { $(id).classList.toggle("is-bad", bad); return !bad; }
   const openDay = v => { const d = new Date(v + "T12:00:00").getDay(); return d === 0 || d >= 3; };   // doc: Wed to Sun
+
+  // the date: a month of evenings. Closed days and evenings Ian has confirmed cannot be picked.
+  const MONTHS_AHEAD = 12;
+  const grid = $("bkCalGrid");
+  let view = null;                              // first day of the month on show
+  const monthOf = d => new Date(d.getFullYear(), d.getMonth(), 1);
+  const firstMonth = () => monthOf(new Date(minDate() + "T12:00:00"));
+  const lastMonth = () => { const f = firstMonth(); return new Date(f.getFullYear(), f.getMonth() + MONTHS_AHEAD, 1); };
+  function drawCal(focusOn) {
+    const min = minDate(), sel = $("bkDate").value, first = firstMonth(), last = lastMonth();
+    if (!view || view < first) view = first;
+    if (view > last) view = last;
+    $("bkCalPrev").disabled = view <= first;
+    $("bkCalNext").disabled = view >= last;
+    $("bkCalMonth").textContent = view.toLocaleDateString("en-SG", { month: "long", year: "numeric" });
+    const y = view.getFullYear(), m = view.getMonth(), days = new Date(y, m + 1, 0).getDate();
+    let out = "<span></span>".repeat((view.getDay() + 6) % 7);   // weeks start on Monday
+    for (let d = 1; d <= days; d++) {
+      const v = iso(new Date(y, m, d)), full = taken.has(v), off = v < min || !openDay(v);
+      out += `<button type="button" tabindex="-1" data-d="${v}" class="${full ? "is-taken" : ""}${v === sel ? " is-sel" : ""}"${off || full ? " disabled" : ""} aria-pressed="${v === sel}" aria-label="${prettyDate(v)}${full ? ", reserved" : ""}">${d}</button>`;
+    }
+    grid.innerHTML = out;
+    // one day in the month takes Tab; the arrow keys move between days
+    const live = [...grid.querySelectorAll("button:not(:disabled)")];
+    const home = live.find(b => b.dataset.d === (focusOn || sel)) || live[0];
+    if (home) { home.tabIndex = 0; if (focusOn) home.focus({ preventScroll: true }); }
+    $("bkCalKeyRes").hidden = !taken.size;
+    $("bkCalKeySel").textContent = sel
+      ? new Date(sel + "T12:00:00").toLocaleDateString("en-SG", { weekday: "short", day: "numeric", month: "short", year: "numeric" })
+      : "Selected date";
+  }
+  function turn(by) { view = new Date(view.getFullYear(), view.getMonth() + by, 1); drawCal(); }
+  $("bkCalPrev").addEventListener("click", () => turn(-1));
+  $("bkCalNext").addEventListener("click", () => turn(1));
+  grid.addEventListener("click", e => {
+    const b = e.target.closest("button[data-d]");
+    if (!b || b.disabled) return;
+    $("bkDate").value = b.dataset.d;
+    $("bkDateF").classList.remove("is-bad");
+    drawCal(b.dataset.d);
+  });
+  grid.addEventListener("keydown", e => {
+    const jump = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key];
+    const cur = e.target.closest("button[data-d]");
+    if (!jump || !cur) return;
+    e.preventDefault();
+    const d = new Date(cur.dataset.d + "T12:00:00"), min = minDate(), end = lastMonth();
+    end.setMonth(end.getMonth() + 1);
+    for (let i = 0; i < 21; i++) {              // step over closed and reserved days
+      d.setDate(d.getDate() + jump);
+      const v = iso(d);
+      if (v < min || d >= end) return;
+      if (openDay(v) && !taken.has(v)) { view = monthOf(d); drawCal(v); return; }
+    }
+  });
+  function fresh() { form.reset(); $("bkDate").value = ""; view = null; setGuests(MIN_G); drawCal(); go(1); }
   function checkStep2() {
     const v = $("bkDate").value, full = !!v && taken.has(v);
     $("bkDateErr").textContent = full ? TAKEN_ERR : DATE_ERR;
@@ -220,7 +290,7 @@
   form.addEventListener("submit", e => {
     e.preventDefault();
     if (step === 1) { if (form.occasion.value) go(2); return; }
-    if (step === 2) { if (checkStep2()) go(3); else $("bkDate").focus(); return; }
+    if (step === 2) { if (checkStep2()) go(3); else (grid.querySelector('button[tabindex="0"]') || $("bkCalNext")).focus(); return; }
     if (step === 3) {
       if (!checkStep3()) { const bad = root.querySelector(".bk__field.is-bad input"); if (bad) bad.focus(); return; }
       const text = message();
@@ -242,7 +312,7 @@
       } }).then(() => done("saved"), () => done("failed")).then(() => { busy = false; go(4); });
       return;
     }
-    if (inline) { form.reset(); setGuests(MIN_G); go(1); return; }
+    if (inline) { fresh(); return; }
     close();
   });
   $("bkBack").addEventListener("click", () => go(step - 1, true));
@@ -250,14 +320,14 @@
   function open(e) {
     if (e) e.preventDefault();
     if (inline) {   // the form is already on the page: bring it into view
-      if (step === 4) { form.reset(); setGuests(MIN_G); go(1); }
+      if (step === 4) fresh();
       const top = root.getBoundingClientRect().top + scrollY - 110;
       scrollTo({ top, behavior: "smooth" });
       return;
     }
     opener = document.activeElement;
-    if (step === 4) { form.reset(); setGuests(MIN_G); go(1); }
-    $("bkDate").min = minDate();
+    if (step === 4) fresh();
+    drawCal();
     root.classList.add("is-open");
     root.setAttribute("aria-hidden", "false");
     document.documentElement.classList.add("bk-lock");
@@ -284,7 +354,7 @@
   document.querySelectorAll("[data-book]").forEach(a => a.addEventListener("click", open));
 
   setGuests(MIN_G);
-  $("bkDate").min = minDate();
+  drawCal();
   go(1);
   window.openBooking = open;
 })();

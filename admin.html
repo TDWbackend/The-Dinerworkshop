@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- the site keeps its own light colours even when the phone is in dark mode -->
+<meta name="color-scheme" content="light only">
 <meta name="robots" content="noindex, nofollow">
 <title>Bookings · The Dinerworkshop</title>
 <link rel="icon" href="assets/logo-ink.png">
@@ -18,7 +20,7 @@
   --sans: "Inter", "Helvetica Neue", Arial, sans-serif; --head: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
 }
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; color-scheme: only light; }
 body { margin: 0; background: var(--cream); color: var(--ink); font: 300 15px/1.55 var(--sans); }
 button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3 { margin: 0; font-family: var(--head); font-weight: 300; }
