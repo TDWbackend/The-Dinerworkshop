@@ -2,9 +2,15 @@
    Big, light, all-caps grotesk headings with tight leading; small all-caps notes; labels in [brackets].
    Colours are untouched. Buttons: slightly rounded, the words roll up and round on hover (see btn.js). ══════════════ */
 :root {
-  color-scheme: only light;   /* never let a phone's dark mode recolour the site */
+  color-scheme: light dark;   /* "we handle dark mode ourselves", so phones do not recolour the site (see the note in each page's head) */
   --serif: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
   --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+}
+/* our "dark theme" is the same light look: these restate the page colours so nothing falls back to the phone's dark defaults */
+input, textarea, select, button, dialog, iframe { color-scheme: only light; }
+@media (prefers-color-scheme: dark) {
+  html { background-color: #f1eadf; color: #2a1d16; }
+  body { background-color: var(--cream); color: var(--ink); }
 }
 body { font-weight: 300; letter-spacing: -.005em; }
 

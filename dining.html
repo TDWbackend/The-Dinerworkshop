@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- the site keeps its own light colours even when the phone is in dark mode -->
-<meta name="color-scheme" content="light only">
+<!-- The site keeps its own colours when the phone is in dark mode. Some browsers (Samsung Internet, in-app browsers)
+     recolour any page that does not say it handles dark mode itself, and ignore "light only". So the page says it
+     supports both, and its dark styles are simply the same colours again (see type.css). -->
+<meta name="color-scheme" content="light dark">
 <title>Dining · The Dinerworkshop</title>
 <meta name="description" content="The Bespoke Dining Experience at The Dinerworkshop, Sembawang: the evening, how the personalized omakase works, the estate, prices, group size and booking.">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-logo.png">
@@ -195,6 +197,11 @@ section { position: relative; }
 .card h3 { margin-top: 16px; font-size: 28px; }
 .card .big { margin-top: 10px; font-family: var(--serif); font-size: 38px; color: var(--red); line-height: 1.1; }
 .card .big small { font-family: var(--sans); font-size: 13px; color: var(--muted); margin-left: 6px; letter-spacing: .04em; }
+/* the price stays on one line, shrinking to fit the card if it has to; "per guest" drops below only when there is no room */
+.card:has(.big) { container-type: inline-size; }
+.card .big { font-size: min(38px, 13.5cqi); }
+.card .big span, .card .big small { white-space: nowrap; }
+.card .big small { display: block; margin: 8px 0 0; }
 .card p { margin-top: 12px; font-size: 15px; color: var(--muted); }
 .card ul { list-style: none; margin-top: 14px; display: grid; gap: 8px; font-size: 15px; }
 .card li { display: flex; gap: 12px; }
@@ -250,11 +257,10 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 
 /* hero: full photo of the table, story set over it */
 .d-hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--brown-2); color: var(--cream); }
-.d-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; filter: saturate(.82) sepia(.1); transform: scale(1.06); animation: d-settle 2.4s var(--ease) forwards; }
+.d-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; transform: scale(1.06); animation: d-settle 2.4s var(--ease) forwards; }
 @keyframes d-settle { to { transform: scale(1); } }
-.d-hero::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(to top, rgba(25, 17, 11, .92) 0%, rgba(25, 17, 11, .62) 38%, rgba(25, 17, 11, .18) 70%, rgba(25, 17, 11, .38) 100%),
-              linear-gradient(90deg, rgba(25, 17, 11, .55) 0%, rgba(25, 17, 11, 0) 60%); }
+/* no overlay or tint: the photo shows as it was shot; a soft shadow keeps the heading readable over it */
+.d-hero h1 { text-shadow: 0 2px 22px rgba(25, 17, 11, .55); }
 .d-hero__inner { position: relative; z-index: 2; width: 100%; padding-top: 140px; padding-bottom: clamp(56px, 9vh, 110px); }
 .d-hero h1 { font-size: clamp(48px, 6.6vw, 104px); line-height: .98; max-width: 12ch; }
 .d-hero .sub { margin-top: 18px; font-family: var(--serif); font-style: italic; font-size: clamp(21px, 2vw, 28px); color: var(--gold-2); max-width: none; }
@@ -303,7 +309,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 <link rel="stylesheet" href="assets/foot.css?v=2">
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/type.css?v=16">
+<link rel="stylesheet" href="assets/type.css?v=17">
 <!-- page transitions: each page folds open its own way -->
 <link rel="stylesheet" href="assets/motion.css?v=2">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -332,13 +338,12 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 
 <!-- ─────────────── hero ─────────────── -->
 <section class="d-hero" id="top" data-dark>
-  <img class="d-hero__img" src="assets/experience/binchotan.jpg" alt="Chef Ian turning scallops over binchotan charcoal">
+  <img class="d-hero__img" src="assets/experience/grill-baste.jpg" alt="Two pork chops basted with a brush over glowing charcoal">
   <div class="inner d-hero__inner">
     <h1 class="rv">The Bespoke Dining Experience</h1>
     <p class="sub rv d1">An evening that proceeds entirely at your pace.</p>
     <div class="d-hero__cta rv d3">
       <a class="btn" href="#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      <a class="btn btn--ghost" href="https://wa.me/6580710506" target="_blank" rel="noopener">WhatsApp +65 8071 0506</a>
     </div>
   </div>
 </section>
@@ -350,7 +355,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
       <div class="how__head">
         <div class="rv">
           <p class="pre">How the Personalized Omakase Works</p>
-          <h2 style="margin-top:14px">No two evenings at The Dinerworkshop are ever identical.</h2>
+          <h2 style="margin-top:14px">No two evenings are identical.</h2>
         </div>
         <p class="rv d1" style="color:var(--muted)">Because every menu is fully bespoke, we seamlessly accommodate vegetarian, pescatarian, gluten-free, or specific dietary requirements with advance consultation.</p>
       </div>
@@ -397,7 +402,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
     <p class="pre rv">Investment &amp; Packages</p>
     <h2 class="rv d1">Tailored to your ingredient selections.</h2>
     <div class="invest__grid">
-      <div class="card rv"><div class="k">Bespoke Omakase Dinners</div><div class="big">$150+ – $250+<small>per guest</small></div><p>Tailored to ingredient selections.</p></div>
+      <div class="card rv"><div class="k">Bespoke Omakase Dinners</div><div class="big"><span>$150+ to $250+</span><small>per guest</small></div><p>Tailored to ingredient selections.</p></div>
       <div class="card rv d1"><div class="k">Corkage &amp; Cakeage Policy</div><h3>Complimentary BYOB</h3><ul><li>Complimentary BYOB for the first bottle.</li><li>No cakeage fee (we love celebration!)</li></ul></div>
       <div class="card rv d2"><div class="k">Dietary Tailoring &amp; Allergies</div><h3>Fully bespoke menus</h3><p>Because every menu is fully bespoke, we seamlessly accommodate vegetarian, pescatarian, gluten-free, or specific dietary requirements with advance consultation.</p></div>
     </div>
@@ -431,6 +436,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
       <div>
         <details class="rv" open><summary>May we bring our personal wine collection?<i></i></summary><p>Absolutely. We offer complimentary corkage for the 1st bottle.</p></details>
         <details class="rv d1"><summary>Is private parking available?<i></i></summary><p>Yes, 2 private parking spaces are available within our estate grounds. More parking spaces are available further down the road.</p></details>
+        <details class="rv d2"><summary>May we bring our pets?<i></i></summary><p>Yes, we are pet-friendly. We are pawparents to an adopted dog and cat ourselves, so your pets are welcome to join you.</p></details>
       </div>
     </div>
   </div>

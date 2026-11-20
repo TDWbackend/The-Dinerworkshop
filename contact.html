@@ -3,8 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- the site keeps its own light colours even when the phone is in dark mode -->
-<meta name="color-scheme" content="light only">
+<!-- The site keeps its own colours when the phone is in dark mode. Some browsers (Samsung Internet, in-app browsers)
+     recolour any page that does not say it handles dark mode itself, and ignore "light only". So the page says it
+     supports both, and its dark styles are simply the same colours again (see type.css). -->
+<meta name="color-scheme" content="light dark">
 <title>Contact Us · The Dinerworkshop</title>
 <meta name="description" content="Concierge &amp; Contact: reach The Dinerworkshop in the Sembawang Colonial Enclave, near Sembawang Park. WhatsApp +65 8071 0506.">
 <link rel="icon" type="image/png" sizes="64x64" href="assets/favicon-logo.png">
@@ -176,7 +178,7 @@ section { position: relative; }
 <link rel="stylesheet" href="assets/foot.css?v=2">
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/type.css?v=16">
+<link rel="stylesheet" href="assets/type.css?v=17">
 <!-- page transitions: each page folds open its own way -->
 <link rel="stylesheet" href="assets/motion.css?v=2">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;

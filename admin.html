@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- the site keeps its own light colours even when the phone is in dark mode -->
-<meta name="color-scheme" content="light only">
+<!-- The site keeps its own colours when the phone is in dark mode. Some browsers (Samsung Internet, in-app browsers)
+     recolour any page that does not say it handles dark mode itself, and ignore "light only". So the page says it
+     supports both, and its dark styles are simply the same colours again (see type.css). -->
+<meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex, nofollow">
 <title>Bookings · The Dinerworkshop</title>
 <link rel="icon" href="assets/logo-ink.png">
@@ -20,7 +22,9 @@
   --sans: "Inter", "Helvetica Neue", Arial, sans-serif; --head: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
 }
 * { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; color-scheme: only light; }
+html { -webkit-text-size-adjust: 100%; color-scheme: light dark; }
+input, textarea, select, button, dialog { color-scheme: only light; }
+@media (prefers-color-scheme: dark) { html, body { background-color: #f1eadf; color: #2a1d16; } }
 body { margin: 0; background: var(--cream); color: var(--ink); font: 300 15px/1.55 var(--sans); }
 button, input, select, textarea { font: inherit; color: inherit; }
 h1, h2, h3 { margin: 0; font-family: var(--head); font-weight: 300; }
@@ -35,7 +39,7 @@ a { color: inherit; }
 .btn--wa { background: #1f7a4a; border-color: #1f7a4a; }
 .btn--wa:hover { background: #17603a; border-color: #17603a; }
 .btn:disabled { opacity: .5; cursor: default; }
-.btn:focus-visible, .tab:focus-visible, .cal__day:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.btn:focus-visible, .tab:focus-visible, .cal__day:focus-visible, .cal__item:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
 
 /* sign in */
 .gate { min-height: 100vh; min-height: 100svh; display: grid; place-items: center; padding: 24px; }
@@ -54,6 +58,8 @@ a { color: inherit; }
 .top { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 14px; padding: 12px clamp(16px, 4vw, 40px); background: rgba(241, 234, 223, .94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
 .top img { height: 28px; }
 .top__sp { flex: 1; }
+.views { display: flex; gap: 6px; }
+.note { margin-top: 16px; padding: 14px 16px; background: var(--paper); border: 1px dashed var(--line); border-radius: 8px; color: var(--muted); }
 .wrap { max-width: 1240px; margin: 0 auto; padding: clamp(22px, 3.4vw, 40px) clamp(16px, 4vw, 40px) 80px; }
 .wrap > h1 { font-size: clamp(32px, 4vw, 52px); text-transform: uppercase; letter-spacing: -.025em; line-height: .95; }
 .stats { margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
@@ -76,6 +82,7 @@ a { color: inherit; }
 .card__date b { display: block; font: 300 36px/1 var(--head); }
 .card__date span { display: block; margin-top: 6px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
 .card__date em { display: block; margin-top: 2px; font-style: normal; font-size: 12.5px; color: var(--muted); }
+.card__date strong { display: block; margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--line); font-weight: 400; font-size: 13.5px; }
 .card__body { padding: 16px 18px 18px; min-width: 0; }
 .card__head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
 .card__head h3 { font-size: 22px; letter-spacing: -.01em; overflow-wrap: anywhere; }
@@ -114,12 +121,23 @@ a { color: inherit; }
 .cal__key { margin-top: 14px; display: grid; gap: 6px; font-size: 12.5px; color: var(--muted); }
 .cal__key span { display: inline-flex; align-items: center; gap: 8px; }
 .cal__key i { width: 14px; height: 14px; border-radius: 4px; display: inline-block; }
+/* the month as a list: every evening with its time */
+.cal__list { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); display: grid; gap: 4px; }
+.cal__list h3 { margin-bottom: 4px; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); font-family: var(--sans); font-weight: 400; }
+.cal__list p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.cal__item { display: grid; grid-template-columns: 62px 70px minmax(0, 1fr); gap: 8px; align-items: baseline; width: 100%; padding: 8px 8px; text-align: left; background: transparent; border: 1px solid transparent; border-radius: 6px; font-size: 13.5px; cursor: pointer; }
+.cal__item:hover, .cal__item[aria-pressed="true"] { border-color: var(--line); background: #fffdf8; }
+.cal__item b { font-weight: 400; }
+.cal__item span { color: var(--muted); }
+.cal__item.is-wait span { color: var(--wait); }
+.cal__item em { font-style: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* add / edit */
 dialog { width: min(560px, calc(100vw - 28px)); max-height: calc(100vh - 28px); padding: 0; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); color: var(--ink); }
 dialog::backdrop { background: rgba(25, 17, 11, .5); }
 .form { padding: 26px 26px 22px; }
-.form h2 { font-size: 26px; text-transform: uppercase; letter-spacing: -.02em; }
+.form h2 { font-size: 26px; text-transform: uppercase; letter-spacing: -.02em; overflow-wrap: anywhere; }
+.form > p { margin: 10px 0 0; color: var(--muted); }
 .form__row { display: grid; grid-template-columns: 1fr 1fr; gap: 0 14px; }
 .form__check { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 18px; }
 .form__check label { display: inline-flex; align-items: center; gap: 8px; }
@@ -140,8 +158,11 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
   .card { grid-template-columns: 1fr; }
   .card__date { display: flex; align-items: baseline; gap: 10px; padding: 12px 18px; text-align: left; border-right: 0; border-bottom: 1px solid var(--line); }
   .card__date b { font-size: 26px; } .card__date span, .card__date em { margin-top: 0; }
+  .card__date strong { margin: 0 0 0 auto; padding: 0; border: 0; }
   .form__row { grid-template-columns: 1fr; }
   .top .btn span.long { display: none; }
+  .top { flex-wrap: wrap; gap: 8px 10px; }
+  .top img { display: none; }
 }
 </style>
 </head>
@@ -158,6 +179,11 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
   const OCCASIONS = ["A celebration", "An evening with friends", "A family gathering", "A private occasion"];
   const STATUS = { pending: "Request", accepted: "Confirmed", declined: "Declined", cancelled: "Cancelled" };
   let session = null, rows = [], tab = "pending", pickedDay = null, loadedAt = 0;
+  // claypot takeaway orders sit beside the dining bookings
+  let view = "bookings", orders = [], otab = "pending", opicked = null, ordersOff = false;
+  const ED = { tasting: { label: "The ‘Tasting’ Edition", short: "Tasting", price: 80 }, grand: { label: "The ‘Grand’ Edition", short: "Grand", price: 150 } };
+  const OSTATUS = { pending: "New order", confirmed: "Confirmed", collected: "Collected", cancelled: "Cancelled" };
+  const edLabel = o => (ED[o.edition] || { label: o.edition }).label;
   let month = new Date(); month.setDate(1);
   try { session = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (_) {}
 
@@ -183,11 +209,14 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
   const fmt = (v, o) => asDate(v).toLocaleDateString("en-SG", o);
   const longDate = v => fmt(v, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const first = name => String(name || "").trim().split(/\s+/)[0] || "there";
+  const DEFAULT_TIME = "19:00";                                       // the site: 7:00 PM til late
+  const hhmm = t => /^\d\d:\d\d/.test(String(t || "")) ? String(t).slice(0, 5) : DEFAULT_TIME;
+  const clock = t => { const [h, m] = hhmm(t).split(":").map(Number); return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`; };
   function waLink(r) {
     let d = String(r.phone || "").replace(/\D/g, "").replace(/^00/, "");
     if (d.length === 8) d = "65" + d;                               // a local Singapore number
     const text = r.status === "accepted"
-      ? `Hi ${first(r.name)}, this is Ian from The Dinerworkshop. I would be delighted to host your group of ${r.guests} on ${longDate(r.dining_date)}.`
+      ? `Hi ${first(r.name)}, this is Ian from The Dinerworkshop. I would be delighted to host your group of ${r.guests} on ${longDate(r.dining_date)} at ${clock(r.dining_time)}.`
       : `Hi ${first(r.name)}, this is Ian from The Dinerworkshop. Thank you for your request for ${r.guests} guests on ${longDate(r.dining_date)}.`;
     return `https://wa.me/${d}?text=${encodeURIComponent(text)}`;
   }
@@ -205,7 +234,7 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
     session = { access_token: d.access_token, refresh_token: d.refresh_token, expires_at: d.expires_at || Math.floor(Date.now() / 1000) + (d.expires_in || 3600) };
     try { localStorage.setItem(KEY, JSON.stringify(session)); } catch (_) {}
   }
-  function forget() { session = null; rows = []; try { localStorage.removeItem(KEY); } catch (_) {} }
+  function forget() { session = null; rows = []; orders = []; try { localStorage.removeItem(KEY); } catch (_) {} }
   async function token() {
     if (!session) { const e = new Error("Signed out"); e.status = 401; throw e; }
     if (session.expires_at * 1000 - Date.now() < 60000)
@@ -255,25 +284,56 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
   /* ── data ── */
   async function load() {
     rows = await api("/rest/v1/bookings?select=*&order=dining_date.asc,created_at.asc") || [];
+    try { orders = await api("/rest/v1/claypot_orders?select=*&order=pickup_date.asc,created_at.asc") || []; ordersOff = false; }
+    catch (e) { if (!session) throw e; orders = []; ordersOff = true; }      // the orders table is not set up yet
     loadedAt = Date.now();
   }
-  async function patch(r, body, done) {
+  async function patch(r, body, done, table = "bookings") {
     try {
-      const out = await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
+      const out = await api(`/rest/v1/${table}?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
       Object.assign(r, (out && out[0]) || body);
       render();
       if (done) done(r);
     } catch (e) { if (session) toast("Could not save: " + e.message); }
   }
   function setStatus(r, status) {
-    if (status === "accepted") {
-      const clash = rows.find(x => x !== r && x.status === "accepted" && x.dining_date === r.dining_date);
-      if (clash && !confirm(`${clash.name} is already confirmed for ${longDate(r.dining_date)}. Confirm ${r.name} as well?`)) return;
-    }
-    patch(r, { status }, row => {
-      if (status === "accepted") toast(`${row.name} is confirmed.`, { href: waLink(row), text: "Message on WhatsApp" });
-      else toast(`${row.name}: ${STATUS[status].toLowerCase()}.`);
-    });
+    patch(r, { status }, row => toast(`${row.name}: ${STATUS[status].toLowerCase()}.`));
+  }
+
+  /* ── accept a request, or move a confirmed one: Ian picks the evening and the time ── */
+  function schedule(r, accepting) {
+    const date = el("input", { type: "date", required: true, value: r.dining_date });
+    const time = el("input", { type: "time", required: true, step: 900, value: hhmm(r.dining_time) });
+    const err = el("p", { class: "err", role: "alert", hidden: true });
+    const save = el("button", { class: "btn", type: "submit", text: accepting ? "Confirm booking" : "Save" });
+    const form = el("form", { class: "form", onsubmit: async e => {
+      e.preventDefault();
+      const body = { dining_date: date.value, dining_time: time.value || DEFAULT_TIME };
+      if (accepting) body.status = "accepted";
+      const clash = rows.find(x => x !== r && x.status === "accepted" && x.dining_date === body.dining_date);
+      if (clash && !confirm(`${clash.name} is already confirmed for ${longDate(body.dining_date)}. Confirm ${r.name} for that evening as well?`)) return;
+      save.disabled = true; err.hidden = true;
+      try {
+        const out = await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
+        Object.assign(r, (out && out[0]) || body);
+        rows.sort((a, b) => a.dining_date < b.dining_date ? -1 : a.dining_date > b.dining_date ? 1 : 0);
+        if (accepting) { tab = "confirmed"; pickedDay = null; }
+        month = asDate(r.dining_date); month.setDate(1);              // show the month it now sits in
+        dlg.close(); render();
+        toast(`${r.name}: ${fmt(r.dining_date, { weekday: "short", day: "numeric", month: "short" })}, ${clock(r.dining_time)}.`, { href: waLink(r), text: "Message on WhatsApp" });
+      } catch (ex) { err.textContent = "Could not save: " + ex.message; err.hidden = false; save.disabled = false; }
+    } },
+      el("h2", { text: accepting ? "Confirm " + r.name : "Change date or time" }),
+      el("p", { text: accepting
+        ? `${r.name} asked for ${longDate(r.dining_date)}, ${r.guests} guests. Set the evening and the time, then message them on WhatsApp.`
+        : `${r.name}, ${r.guests} guests. Tell them on WhatsApp once it is saved.` }),
+      el("div", { class: "form__row" },
+        el("label", { class: "field" }, el("span", { text: "Date" }), date),
+        el("label", { class: "field" }, el("span", { text: "Time" }), time)),
+      err,
+      el("div", { class: "form__acts" }, save, el("button", { class: "btn btn--ghost", type: "button", text: "Close", onclick: () => dlg.close() })));
+    dlg.replaceChildren(form);
+    dlg.showModal();
   }
 
   /* ── the desk ── */
@@ -294,9 +354,10 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
     } });
     const acts = [];
     if (r.status === "pending") acts.push(
-      el("button", { class: "btn", type: "button", text: "Accept", onclick: () => setStatus(r, "accepted") }),
+      el("button", { class: "btn", type: "button", text: "Accept", onclick: () => schedule(r, true) }),
       el("button", { class: "btn btn--ghost", type: "button", text: "Decline", onclick: () => setStatus(r, "declined") }));
     acts.push(el("a", { class: "btn btn--wa", href: waLink(r), target: "_blank", rel: "noopener", text: "WhatsApp" }));
+    if (r.status === "accepted") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Change date or time", onclick: () => schedule(r, false) }));
     if (r.status === "accepted") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Cancel booking", onclick: () => confirm(`Cancel ${r.name}'s booking on ${longDate(r.dining_date)}?`) && setStatus(r, "cancelled") }));
     if (r.status === "declined" || r.status === "cancelled") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Back to requests", onclick: () => setStatus(r, "pending") }));
     acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Edit", onclick: () => edit(r) }));
@@ -306,7 +367,8 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
       el("div", { class: "card__date" },
         el("b", { text: fmt(r.dining_date, { day: "numeric" }) }),
         el("span", { text: fmt(r.dining_date, { month: "short", year: "numeric" }) }),
-        el("em", { text: fmt(r.dining_date, { weekday: "long" }) })),
+        el("em", { text: fmt(r.dining_date, { weekday: "long" }) }),
+        r.status === "accepted" && el("strong", { text: clock(r.dining_time) })),
       el("div", { class: "card__body" },
         el("div", { class: "card__head" },
           el("h3", { text: r.name }),
@@ -340,6 +402,9 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
         onclick: () => { pickedDay = pickedDay === key ? null : key; render(); } }));
     }
     const step = n => () => { month = new Date(y, m + n, 1); render(); };
+    const ym = iso(month).slice(0, 7);
+    const evenings = rows.filter(r => (r.status === "accepted" || r.status === "pending") && String(r.dining_date).slice(0, 7) === ym)
+      .sort((a, b) => (a.dining_date + hhmm(a.dining_time)).localeCompare(b.dining_date + hhmm(b.dining_time)));
     return el("aside", { class: "cal", "aria-label": "Month" },
       el("div", { class: "cal__head" },
         el("button", { class: "cal__nav", type: "button", "aria-label": "Previous month", onclick: step(-1), text: "‹" }),
@@ -349,21 +414,37 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
       el("div", { class: "cal__key" },
         el("span", null, el("i", { style: "background: var(--ink)" }), "Confirmed evening"),
         el("span", null, el("i", { style: "box-shadow: inset 0 0 0 1.5px var(--wait)" }), "Request waiting"),
-        el("span", null, "Tap a day to see only that evening.")));
+        el("span", null, "Tap a day to see only that evening.")),
+      el("div", { class: "cal__list" },
+        el("h3", { text: "Evenings in " + month.toLocaleDateString("en-SG", { month: "long" }) }),
+        evenings.length ? evenings.map(r => el("button", { class: "cal__item" + (r.status === "pending" ? " is-wait" : ""), type: "button", "aria-pressed": r.dining_date === pickedDay ? "true" : "false",
+          onclick: () => { pickedDay = r.dining_date; render(); } },
+          el("b", { text: fmt(r.dining_date, { weekday: "short", day: "numeric" }) }),
+          el("span", { text: r.status === "accepted" ? clock(r.dining_time) : "Request" }),
+          el("em", { text: `${r.name}, ${r.guests}` }))) : el("p", { text: "No evenings booked this month." })));
+  }
+
+  function topBar() {
+    const waiting = { bookings: rows.filter(r => r.status === "pending").length, orders: orders.filter(o => o.status === "pending").length };
+    const sw = (k, label) => el("button", { class: "tab", type: "button", "aria-selected": view === k ? "true" : "false", onclick: () => { if (view !== k) { view = k; render(); scrollTo(0, 0); } } },
+      label, waiting[k] ? el("i", { text: waiting[k] }) : null);
+    return el("header", { class: "top" },
+      el("img", { src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
+      el("nav", { class: "views", "aria-label": "Sections" }, sw("bookings", "Dining"), sw("orders", "Claypot")),
+      el("div", { class: "top__sp" }),
+      el("button", { class: "btn", type: "button", onclick: () => view === "orders" ? editOrder(null) : edit(null) }, "Add ", el("span", { class: "long", text: view === "orders" ? "order" : "booking" })),
+      el("button", { class: "btn btn--ghost", type: "button", text: "Refresh", onclick: refresh }),
+      el("button", { class: "btn btn--ghost", type: "button", text: "Sign out", onclick: signOut }));
   }
 
   function render() {
+    if (view === "orders") return renderOrders();
     const L = lists(), next = L.confirmed[0];
     const showing = pickedDay ? rows.filter(r => r.dining_date === pickedDay) : L[tab];
     const names = { pending: "Requests", confirmed: "Confirmed", past: "Past", declined: "Declined" };
     const keepScroll = scrollY;
     app.replaceChildren(
-      el("header", { class: "top" },
-        el("img", { src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
-        el("div", { class: "top__sp" }),
-        el("button", { class: "btn", type: "button", onclick: () => edit(null) }, "Add ", el("span", { class: "long", text: "booking" })),
-        el("button", { class: "btn btn--ghost", type: "button", text: "Refresh", onclick: refresh }),
-        el("button", { class: "btn btn--ghost", type: "button", text: "Sign out", onclick: signOut })),
+      topBar(),
       el("main", { class: "wrap" },
         el("h1", { text: "Bookings" }),
         el("div", { class: "stats" },
@@ -380,15 +461,168 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
     scrollTo(0, keepScroll);
   }
 
+  /* ── claypot takeaway orders: confirm, WhatsApp, mark collected ── */
+  const potsLine = list => Object.keys(ED).map(k => [list.filter(o => o.edition === k).reduce((n, o) => n + o.qty, 0), ED[k].short]).filter(x => x[0]).map(x => `${x[0]} ${x[1]}`).join(" · ");
+  function orderWa(o) {
+    let d = String(o.phone || "").replace(/\D/g, "").replace(/^00/, "");
+    if (d.length === 8) d = "65" + d;
+    const what = `${o.qty} x ${edLabel(o)}`;
+    const text = o.status === "confirmed"
+      ? `Hi ${first(o.name)}, this is Ian from The Dinerworkshop. Your Claypot Rice order (${what}) is confirmed for collection on ${longDate(o.pickup_date)}.`
+      : `Hi ${first(o.name)}, this is Ian from The Dinerworkshop. Thank you for your Claypot Rice order (${what}) for ${longDate(o.pickup_date)}.`;
+    return `https://wa.me/${d}?text=${encodeURIComponent(text)}`;
+  }
+  function setOrder(o, status) {
+    patch(o, { status }, row => {
+      if (status === "confirmed") toast(`${row.name}'s order is confirmed.`, { href: orderWa(row), text: "Message on WhatsApp" });
+      else toast(`${row.name}: ${OSTATUS[status].toLowerCase()}.`);
+    }, "claypot_orders");
+  }
+  function orderCard(o) {
+    const notes = el("textarea", { value: o.admin_notes || "", placeholder: "Only you can see this", onblur: e => {
+      const v = e.target.value.trim() || null;
+      if (v !== (o.admin_notes || null)) patch(o, { admin_notes: v }, () => toast("Note saved."), "claypot_orders");
+    } });
+    const b = (text, fn, ghost) => el("button", { class: "btn" + (ghost ? " btn--ghost" : ""), type: "button", text, onclick: fn });
+    const acts = [];
+    if (o.status === "pending") acts.push(b("Confirm", () => setOrder(o, "confirmed")), b("Decline", () => setOrder(o, "cancelled"), true));
+    acts.push(el("a", { class: "btn btn--wa", href: orderWa(o), target: "_blank", rel: "noopener", text: "WhatsApp" }));
+    if (o.status === "confirmed") acts.push(b("Mark collected", () => setOrder(o, "collected")), b("Cancel order", () => confirm(`Cancel ${o.name}'s order for ${longDate(o.pickup_date)}?`) && setOrder(o, "cancelled"), true));
+    if (o.status === "collected") acts.push(b("Not collected yet", () => setOrder(o, "confirmed"), true));
+    if (o.status === "cancelled") acts.push(b("Back to new orders", () => setOrder(o, "pending"), true));
+    acts.push(b("Edit", () => editOrder(o), true));
+    const phoneDigits = String(o.phone || "").replace(/[^\d+]/g, "");
+    return el("article", { class: "card" },
+      el("div", { class: "card__date" },
+        el("b", { text: fmt(o.pickup_date, { day: "numeric" }) }),
+        el("span", { text: fmt(o.pickup_date, { month: "short", year: "numeric" }) }),
+        el("em", { text: fmt(o.pickup_date, { weekday: "long" }) }),
+        el("strong", { text: "Collection" })),
+      el("div", { class: "card__body" },
+        el("div", { class: "card__head" },
+          el("h3", { text: o.name }),
+          el("span", { class: "chip chip--" + (o.status === "confirmed" || o.status === "collected" ? "accepted" : o.status), text: OSTATUS[o.status] || o.status }),
+          el("span", { class: "chip", text: o.source === "manual" ? "Added by you" : "From the website" })),
+        el("p", { class: "card__meta", text: `${o.qty} x ${edLabel(o)} · $${o.total}` }),
+        el("p", { class: "card__contact" }, el("a", { href: "tel:" + phoneDigits, text: o.phone })),
+        o.keep_pot && el("dl", null, el("div", null, el("dt", { text: "Also asked about" }), el("dd", { text: "Rent or Keep The Pot" }))),
+        (o.status === "confirmed" || o.status === "collected") && el("div", { class: "paid" },
+          el("label", null, el("input", { type: "checkbox", checked: o.paid, onchange: e => patch(o, { paid: e.target.checked }, null, "claypot_orders") }), "Payment received")),
+        el("label", { class: "field card__notes" }, el("span", { text: "Your notes" }), notes),
+        el("div", { class: "card__acts" }, acts),
+        el("p", { class: "card__when", text: "Received " + new Date(o.created_at).toLocaleString("en-SG", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" }) })));
+  }
+  function renderOrders() {
+    const t = today();
+    const L = {
+      pending: orders.filter(o => o.status === "pending"),
+      confirmed: orders.filter(o => o.status === "confirmed"),
+      collected: orders.filter(o => o.status === "collected").reverse(),
+      cancelled: orders.filter(o => o.status === "cancelled").reverse()
+    };
+    const names = { pending: "New orders", confirmed: "Confirmed", collected: "Collected", cancelled: "Cancelled" };
+    const ahead = orders.filter(o => (o.status === "pending" || o.status === "confirmed") && o.pickup_date >= t);
+    const toCook = L.confirmed.filter(o => o.pickup_date >= t);
+    const days = [...new Set(ahead.map(o => o.pickup_date))].sort();
+    const showing = opicked ? orders.filter(o => o.pickup_date === opicked && o.status !== "cancelled") : L[otab];
+    const keepScroll = scrollY;
+    app.replaceChildren(
+      topBar(),
+      el("main", { class: "wrap" },
+        el("h1", { text: "Claypot orders" }),
+        ordersOff && el("p", { class: "note", text: "The claypot orders table is not set up in the database yet. Run the latest schema.sql in Supabase, then press Refresh." }),
+        el("div", { class: "stats" },
+          el("div", { class: "stat" }, el("b", { text: L.pending.length }), el("span", { text: "New orders waiting for you" })),
+          el("div", { class: "stat" }, el("b", { text: toCook.reduce((n, o) => n + o.qty, 0) }), el("span", { text: "Confirmed pots to prepare" }), toCook.length ? el("small", { text: potsLine(toCook) }) : null),
+          el("div", { class: "stat" }, el("b", { text: days[0] ? fmt(days[0], { day: "numeric", month: "short" }) : "None" }), el("span", { text: "Next collection day" }), days[0] && el("small", { text: potsLine(ahead.filter(o => o.pickup_date === days[0])) }))),
+        el("div", { class: "cols" },
+          el("section", null,
+            el("div", { class: "tabs", role: "tablist" }, Object.keys(names).map(k =>
+              el("button", { class: "tab", type: "button", role: "tab", "aria-selected": !opicked && otab === k ? "true" : "false", onclick: () => { otab = k; opicked = null; render(); } }, names[k], el("i", { text: L[k].length })))),
+            opicked && el("div", { class: "dayline" }, el("span", { text: "Showing collection on " + longDate(opicked) }), el("button", { class: "btn btn--ghost", type: "button", text: "Show all", onclick: () => { opicked = null; render(); } })),
+            el("div", { class: "list" }, showing.length ? showing.map(orderCard) : el("p", { class: "empty", text: opicked ? "No orders for this day." : otab === "pending" ? "No new orders." : "Nothing here yet." }))),
+          el("aside", { class: "cal", "aria-label": "Collection days" },
+            el("div", { class: "cal__head" }, el("h2", { text: "Collection days" })),
+            el("div", { class: "cal__list", style: "margin-top: 12px; padding-top: 0; border-top: 0" },
+              days.length ? days.map(d => { const list = ahead.filter(o => o.pickup_date === d), wait = list.some(o => o.status === "pending");
+                return el("button", { class: "cal__item" + (wait ? " is-wait" : ""), type: "button", "aria-pressed": d === opicked ? "true" : "false", onclick: () => { opicked = opicked === d ? null : d; render(); } },
+                  el("b", { text: fmt(d, { weekday: "short", day: "numeric" }) }),
+                  el("span", { text: fmt(d, { month: "short" }) + (wait ? " · new" : "") }),
+                  el("em", { text: potsLine(list) })); })
+              : el("p", { text: "No collections coming up." })),
+            el("div", { class: "cal__key" }, el("span", null, "Tap a day to see only its orders."))))));
+    scrollTo(0, keepScroll);
+  }
+  function editOrder(o) {
+    const isNew = !o;
+    const v = o || { status: "confirmed", edition: "tasting", qty: 1, pickup_date: opicked || "" };
+    const f = {
+      name: el("input", { type: "text", required: true, maxlength: 120, value: v.name || "" }),
+      phone: el("input", { type: "tel", required: true, maxlength: 40, value: v.phone || "" }),
+      pickup_date: el("input", { type: "date", required: true, value: v.pickup_date || "" }),
+      edition: el("select", null, Object.entries(ED).map(([k, e]) => el("option", { value: k, text: `${e.label} ($${e.price})` }))),
+      qty: el("input", { type: "number", required: true, min: 1, max: 20, value: v.qty || 1 }),
+      total: el("input", { type: "number", required: true, min: 0, value: v.total == null ? ED[v.edition].price * (v.qty || 1) : v.total }),
+      status: el("select", null, Object.entries(OSTATUS).map(([k, t]) => el("option", { value: k, text: t }))),
+      keep_pot: el("input", { type: "checkbox", checked: v.keep_pot }),
+      paid: el("input", { type: "checkbox", checked: v.paid })
+    };
+    f.edition.value = v.edition; f.status.value = v.status;
+    const price = () => { f.total.value = (ED[f.edition.value] || { price: 0 }).price * Math.max(1, Number(f.qty.value) || 1); };
+    f.edition.addEventListener("change", price); f.qty.addEventListener("input", price);
+    const err = el("p", { class: "err", role: "alert", hidden: true });
+    const save = el("button", { class: "btn", type: "submit", text: isNew ? "Add order" : "Save" });
+    const lab = (t, input) => el("label", { class: "field" }, el("span", { text: t }), input);
+    const form = el("form", { class: "form", onsubmit: async e => {
+      e.preventDefault();
+      const body = { name: f.name.value.trim(), phone: f.phone.value.trim(), pickup_date: f.pickup_date.value, edition: f.edition.value,
+        qty: Number(f.qty.value), total: Number(f.total.value), status: f.status.value, keep_pot: f.keep_pot.checked, paid: f.paid.checked };
+      save.disabled = true; err.hidden = true;
+      try {
+        if (isNew) {
+          const out = await api("/rest/v1/claypot_orders", { method: "POST", body: { ...body, source: "manual" }, prefer: "return=representation" });
+          orders.push((out && out[0]) || { ...body, source: "manual", id: String(Date.now()), created_at: new Date().toISOString() });
+          otab = body.status; opicked = null;
+        } else {
+          const out = await api(`/rest/v1/claypot_orders?id=eq.${encodeURIComponent(o.id)}`, { method: "PATCH", body, prefer: "return=representation" });
+          Object.assign(o, (out && out[0]) || body);
+        }
+        orders.sort((a, b) => a.pickup_date < b.pickup_date ? -1 : a.pickup_date > b.pickup_date ? 1 : 0);
+        dlg.close(); render(); toast(isNew ? "Order added." : "Saved.");
+      } catch (ex) { err.textContent = "Could not save: " + ex.message; err.hidden = false; save.disabled = false; }
+    } },
+      el("h2", { text: isNew ? "Add an order" : "Edit order" }),
+      el("div", { class: "form__row" }, lab("Name", f.name), lab("WhatsApp number", f.phone)),
+      el("div", { class: "form__row" }, lab("Collection date", f.pickup_date), lab("Status", f.status)),
+      el("div", { class: "form__row" }, lab("Edition", f.edition), lab("Number of pots", f.qty)),
+      lab("Total ($)", f.total),
+      el("div", { class: "form__check" },
+        el("label", null, f.keep_pot, "Asked about Rent or Keep The Pot"),
+        el("label", null, f.paid, "Payment received")),
+      err,
+      el("div", { class: "form__acts" },
+        save,
+        el("button", { class: "btn btn--ghost", type: "button", text: "Close", onclick: () => dlg.close() }),
+        el("span", { class: "sp" }),
+        !isNew && el("button", { class: "btn btn--ghost", type: "button", text: "Delete", onclick: async () => {
+          if (!confirm(`Delete ${o.name}'s order for good? This cannot be undone.`)) return;
+          try { await api(`/rest/v1/claypot_orders?id=eq.${encodeURIComponent(o.id)}`, { method: "DELETE" }); orders = orders.filter(x => x !== o); dlg.close(); render(); toast("Order deleted."); }
+          catch (ex) { err.textContent = "Could not delete: " + ex.message; err.hidden = false; }
+        } })));
+    dlg.replaceChildren(form);
+    dlg.showModal();
+  }
+
   /* ── add your own booking, or edit one ── */
   function edit(r) {
     const isNew = !r;
-    const v = r || { status: "accepted", guests: 6, dining_date: pickedDay || "" };
+    const v = r || { status: "accepted", guests: 6, dining_date: pickedDay || "", dining_time: DEFAULT_TIME };
     const f = {
       name: el("input", { type: "text", required: true, maxlength: 120, value: v.name || "" }),
       phone: el("input", { type: "tel", required: true, maxlength: 40, value: v.phone || "" }),
       email: el("input", { type: "email", maxlength: 200, value: v.email || "" }),
       dining_date: el("input", { type: "date", required: true, value: v.dining_date || "" }),
+      dining_time: el("input", { type: "time", required: true, step: 900, value: hhmm(v.dining_time) }),
       guests: el("input", { type: "number", required: true, min: 1, max: 30, value: v.guests || 6 }),
       occasion: el("input", { type: "text", list: "occs", maxlength: 120, value: v.occasion || "" }),
       status: el("select", null, Object.entries(STATUS).map(([k, t]) => el("option", { value: k, text: t }))),
@@ -404,7 +638,8 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
       e.preventDefault();
       const body = {
         name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim() || null,
-        dining_date: f.dining_date.value, guests: Number(f.guests.value), occasion: f.occasion.value.trim() || null,
+        dining_date: f.dining_date.value, dining_time: f.dining_time.value || DEFAULT_TIME,
+        guests: Number(f.guests.value), occasion: f.occasion.value.trim() || null,
         status: f.status.value, dietary: f.dietary.value.trim() || null, notes: f.notes.value.trim() || null,
         paid: f.paid.checked
       };
@@ -427,8 +662,9 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
     } },
       el("h2", { text: isNew ? "Add a booking" : "Edit booking" }),
       el("div", { class: "form__row" }, lab("Name", f.name), lab("WhatsApp number", f.phone)),
-      el("div", { class: "form__row" }, lab("Date", f.dining_date), lab("Guests", f.guests)),
-      el("div", { class: "form__row" }, lab("Occasion", f.occasion), lab("Status", f.status)),
+      el("div", { class: "form__row" }, lab("Date", f.dining_date), lab("Time", f.dining_time)),
+      el("div", { class: "form__row" }, lab("Guests", f.guests), lab("Status", f.status)),
+      lab("Occasion", f.occasion),
       lab("Email (optional)", f.email),
       lab("Dietary requirements", f.dietary),
       lab("About their evening", f.notes),

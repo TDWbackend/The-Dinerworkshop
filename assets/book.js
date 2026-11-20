@@ -142,11 +142,12 @@
   const DATE_ERR = "Please choose a Wednesday to Sunday at least 2 weeks from today.";
   const TAKEN_ERR = "That evening is already reserved. Please choose another date.";
   function done(how) {
-    const sub = $("bkDoneSub"), lead = $("bkAltLead"), wa = $("bkWaAgain");
+    const sub = $("bkDoneSub"), lead = $("bkAltLead"), wa = $("bkWaAgain"), alt = root.querySelector(".bk__done .alt");
+    alt.hidden = false;
     if (how === "saved") {
       labels[3] = "Request received";
       sub.textContent = "Your request has been received. Ian will be in touch personally to discuss a suitable evening.";
-      lead.textContent = "Would you rather message Ian yourself?"; wa.textContent = "Open WhatsApp";
+      alt.hidden = true;                                   // nothing for the guest to send: Ian contacts them
     } else if (how === "failed") {
       labels[3] = "Send your request on WhatsApp";
       sub.textContent = "We could not send your request just now. Please send it to Ian on WhatsApp and he will be in touch personally.";
