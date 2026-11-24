@@ -24,7 +24,7 @@ html.bk-lock .wa-float, html.bk-lock .book-float { display: none; }
   document.body.appendChild(a);
   const b = document.createElement("a");
   b.className = "book-float";
-  b.href = "contact.html#book";
+  b.href = "/contact#book";
   b.setAttribute("aria-label", "Book Now");
   b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 2.8v4.2M16 2.8v4.2"/><path d="M9.2 15.3l2 2 3.8-4"/></svg>';
   b.addEventListener("click", e => { if (window.openBooking) window.openBooking(e); });

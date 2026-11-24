@@ -5,8 +5,8 @@
 (() => {
   const root = document.documentElement;
   // where each page's wash starts: c centre, tl top left, tr top right, bl bottom left, br bottom right, b bottom, r right
-  const TX = { "index.html": "c", "about.html": "tl", "dining.html": "br", "claypot.html": "tr", "classes.html": "bl", "contact.html": "b", "404.html": "r" };
-  const txFor = path => { const f = (path.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; return TX[f] || "c"; };
+  const TX = { "": "c", about: "tl", dining: "br", claypot: "tr", classes: "bl", contact: "b", admin: "c" };
+  const txFor = path => { const f = path.replace(/\/+$/, "").split("/").pop().replace(/\.html?$/, ""); return f in TX ? TX[f] : "r"; };
   // the logo has bloomed once this visit, on whichever page the visit began
   if (root.classList.contains("tx-first")) { try { sessionStorage.setItem("heroSeen", "1"); } catch (_) {} }
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;

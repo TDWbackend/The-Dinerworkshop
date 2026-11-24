@@ -1,0 +1,28 @@
+/* preloader: it appears and leaves like a watercolour wash, from the centre. The logo blooms out of an uneven,
+   soft-edged blot that spreads from its middle; then the cream screen dissolves the same way, a wash-shaped
+   opening that spreads from the centre until the page underneath is uncovered. (assets/fx/splash.png is the blot.) */
+.loader { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: 0 var(--pad); background: var(--cream); text-align: center;
+  -webkit-mask-image: url(/assets/fx/splash.png), linear-gradient(#000 0 0); mask-image: url(/assets/fx/splash.png), linear-gradient(#000 0 0);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: 0vmax auto, 100% 100%; mask-size: 0vmax auto, 100% 100%;
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  transition: -webkit-mask-size 1.9s cubic-bezier(.45, 0, .2, 1) .25s, mask-size 1.9s cubic-bezier(.45, 0, .2, 1) .25s, opacity .4s ease 2s; }
+.loader__logo { display: block; width: clamp(120px, 15vw, 190px); height: auto; margin: 0 auto; opacity: 0; transform: scale(1.08);
+  -webkit-mask-image: url(/assets/fx/splash.png); mask-image: url(/assets/fx/splash.png);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: 0% auto; mask-size: 0% auto;
+  /* one continuous bloom (no stages, so it never seems to pause), with the fade-in running alongside */
+  animation: pre-in 1.9s cubic-bezier(.45, .05, .35, 1) .15s forwards, pre-show .9s ease-out .15s forwards; }
+@keyframes pre-in {
+  from { -webkit-mask-size: 0% auto; mask-size: 0% auto; transform: scale(1.08); }
+  to { -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: none; } }
+@keyframes pre-show { to { opacity: 1; } }
+.loader.is-out { -webkit-mask-size: 360vmax auto, 100% 100%; mask-size: 360vmax auto, 100% 100%; opacity: 0; pointer-events: none; }
+.loader.is-out .loader__logo { animation: pre-out .8s var(--ease) forwards; }
+@keyframes pre-out { from { opacity: 1; -webkit-mask-size: 300% auto; mask-size: 300% auto; } to { opacity: 0; -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: scale(1.04); } }
+html.hero-rest .loader, html:not(.preload) .loader:not(.is-out) { display: none; }
+/* while it is up, only the video shows beneath; the shade, header and words wait */
+html.preload { overflow: hidden; }
+html.preload .nav { opacity: 0; pointer-events: none; }
+html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px) !important; }
+.nav { transition: background .4s, padding .4s, box-shadow .4s, opacity .5s var(--ease); }

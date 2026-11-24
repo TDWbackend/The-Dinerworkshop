@@ -30,9 +30,9 @@
       <button class="bk__close" type="button" data-close aria-label="Close"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3l10 10M13 3L3 13"/></svg></button>
       <div class="bk__head">
         <div class="bk__sketch" aria-hidden="true">
-          <img src="assets/book/house.jpg" alt="" class="on"><img src="assets/book/trees.jpg" alt=""><img src="assets/book/gate.jpg" alt="">
+          <img src="/assets/book/house.jpg" alt="" class="on"><img src="/assets/book/trees.jpg" alt=""><img src="/assets/book/gate.jpg" alt="">
         </div>
-        <img class="bk__logo" src="assets/logo-ink.png" alt="The Dinerworkshop">
+        <img class="bk__logo" src="/assets/logo-ink.png" alt="The Dinerworkshop">
         <p class="bk__label" id="bkLabel">01 / 03 · The Occasion</p>
         <div class="bk__bar"><span id="bkBar"></span></div>
       </div>

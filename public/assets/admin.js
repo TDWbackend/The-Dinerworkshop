@@ -148,7 +148,7 @@
         err.hidden = false; go.disabled = false;
       }
     } },
-      el("img", { src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
+      el("img", { src: "/assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
       el("h1", { text: "Bookings" }),
       DB && DB.ready ? [
         el("label", { class: "field" }, el("span", { text: "Email" }), email),
@@ -380,7 +380,7 @@
     const item = k => el("button", { class: "side__item", type: "button", "aria-current": view === k ? "page" : null, onclick: () => { if (view !== k) { view = k; render(); scrollTo(0, 0); } } },
       icon(ICONS[k]), el("span", { text: VIEWS[k] }), waiting[k] ? el("i", { text: waiting[k], "aria-label": waiting[k] + " waiting" }) : null);
     return el("aside", { class: "side" },
-      el("img", { class: "side__logo", src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
+      el("img", { class: "side__logo", src: "/assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
       el("nav", { class: "side__nav", "aria-label": "Sections" }, Object.keys(VIEWS).map(item)),
       el("div", { class: "side__foot" },
         el("button", { class: "side__item", type: "button", onclick: refresh }, icon(ICONS.refresh), el("span", { text: "Refresh" })),
