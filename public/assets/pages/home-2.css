@@ -18,8 +18,9 @@
   to { -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: none; } }
 @keyframes pre-show { to { opacity: 1; } }
 .loader.is-out { -webkit-mask-size: 360vmax auto, 100% 100%; mask-size: 360vmax auto, 100% 100%; opacity: 0; pointer-events: none; }
-.loader.is-out .loader__logo { animation: pre-out .8s var(--ease) forwards; }
-@keyframes pre-out { from { opacity: 1; -webkit-mask-size: 300% auto; mask-size: 300% auto; } to { opacity: 0; -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: scale(1.04); } }
+/* the logo does not leave first: it dissolves as the opening spreads out through it, on the same clock */
+.loader.is-out .loader__logo { animation: pre-out 1.15s cubic-bezier(.45, 0, .2, 1) .25s both; }
+@keyframes pre-out { from { opacity: 1; -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: none; } to { opacity: 0; -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: scale(1.12); } }
 html.hero-rest .loader, html:not(.preload) .loader:not(.is-out) { display: none; }
 /* while it is up, only the video shows beneath; the shade, header and words wait */
 html.preload { overflow: hidden; }

@@ -17,7 +17,7 @@ export default function NotFound() {
       <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/type.css?v=17" precedence="dw" />
-      <link rel="stylesheet" href="/assets/motion.css?v=4" precedence="dw" />
+      <link rel="stylesheet" href="/assets/motion.css?v=5" precedence="dw" />
       <BootScript code={TX_BOOT} />
       <header className="nav" id="nav">
         <a className="nav__logo" href="/" aria-label="The Dinerworkshop, home">

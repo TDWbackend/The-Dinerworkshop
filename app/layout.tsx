@@ -2,6 +2,15 @@ import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL ?? "https://www.thedinerworkshop.com"),
+  // the picture a shared link shows (WhatsApp, iMessage, Facebook...): the home page's opening scene.
+  // Each page's own title and description are used with it.
+  openGraph: {
+    type: "website",
+    siteName: "The Dinerworkshop",
+    locale: "en_SG",
+    images: [{ url: "/assets/og-home.jpg", width: 1200, height: 630, alt: "The Dinerworkshop: where heritage meets culinary curiosity" }],
+  },
+  twitter: { card: "summary_large_image", images: ["/assets/og-home.jpg"] },
   icons: {
     icon: [{ url: "/assets/favicon-logo.png", type: "image/png", sizes: "64x64" }],
     apple: [{ url: "/assets/apple-touch-logo.png", sizes: "180x180" }],

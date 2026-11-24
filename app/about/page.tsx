@@ -12,12 +12,12 @@ export default function AboutPage() {
   return (
     <>
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"} precedence="dw" />
-      <link rel="stylesheet" href="/assets/pages/about.css?v=1" precedence="dw" />
+      <link rel="stylesheet" href="/assets/pages/about.css?v=2" precedence="dw" />
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
       <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/type.css?v=17" precedence="dw" />
-      <link rel="stylesheet" href="/assets/motion.css?v=4" precedence="dw" />
+      <link rel="stylesheet" href="/assets/motion.css?v=5" precedence="dw" />
       <BootScript code={TX_BOOT} />
       {/* ─────────────── nav ─────────────── */}
       <header className="nav" id="nav">
@@ -60,7 +60,7 @@ export default function AboutPage() {
       <section className="estate a-open" id="top">
         <img className="estate__still" src="/assets/estate-zoom-end.jpg" alt="Sketch of The Dinerworkshop’s 1923 Black and White colonial estate" />
         {/* arriving any other way than Home's zoom: the estate draws itself in and stops on the same picture as the still */}
-        <video className="estate__draw" id="aboutDraw" data-src="/assets/about-draw-1440.mp4" data-src-4k="/assets/about-draw-4k.mp4" data-src-small="/assets/about-draw-1080.mp4" muted playsInline preload="none" aria-hidden="true"></video>
+        <video className="estate__draw" id="aboutDraw" data-src="/assets/estate-zoom-1080.mp4" muted playsInline preload="none" aria-hidden="true"></video>
         <div className="estate__wash" aria-hidden="true"></div>
         <div className="inner estate__inner">
           <div className="story__text">
@@ -103,11 +103,10 @@ export default function AboutPage() {
             Why The Dinerworkshop?
           </h2>
           <p id="whyWords">
-            {"At "}
             <strong>
               The Dinerworkshop
             </strong>
-            , cherished family recipes passed down through generations are not merely repeated. They are studied, perfected, and elevated. Here, the warmth of a historic home merges with culinary precision to create an intimate dining journey.
+            {" is private dining in Chef Ian’s historic family home in Sembawang. He cooks his family’s Hainanese recipes, passed down through generations, then studied, perfected and elevated. One sitting an evening, so the only table is yours."}
           </p>
         </div>
       </section>
@@ -428,7 +427,7 @@ export default function AboutPage() {
           "/assets/wa.js?v=2",
           "/assets/btn.js",
           "/assets/motion.js?v=5",
-          "/assets/pages/about-2.js?v=1",
+          "/assets/pages/about-2.js?v=2",
           "/assets/pages/about-3.js?v=1",
         ]}
       />

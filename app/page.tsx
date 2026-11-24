@@ -16,10 +16,10 @@ export default function HomePage() {
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
       <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
       <link rel="stylesheet" href="/assets/reviews.css" precedence="dw" />
-      <link rel="stylesheet" href="/assets/pages/home-2.css?v=1" precedence="dw" />
+      <link rel="stylesheet" href="/assets/pages/home-2.css?v=2" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/type.css?v=17" precedence="dw" />
-      <link rel="stylesheet" href="/assets/motion.css?v=4" precedence="dw" />
+      <link rel="stylesheet" href="/assets/motion.css?v=5" precedence="dw" />
       <BootScript code={PRELOAD_BOOT} />
       <BootScript code={TX_BOOT} />
       {/* preloader: the logo fades in, then the screen fades away to the page */}
