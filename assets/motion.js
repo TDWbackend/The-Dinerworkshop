@@ -1,11 +1,14 @@
-/* Page transitions (styles in motion.css). Each page folds open its own way; following a link to another page
-   folds that page's panel in first, then goes. Links that already have their own hand-off (booking pop-up,
+/* Page transitions (styles in motion.css). Each page opens as a watercolour wash from its own corner; following a
+   link to another page washes that page's cream in first, then goes. Links that already have their own hand-off (booking pop-up,
    claypot fly-through, About zoom) stop the click themselves, so they are left alone.
    Also: release the page's reveals once the panel clears, and wipe rows of cards in from left to right. */
 (() => {
   const root = document.documentElement;
-  const TX = { "about.html": "left", "dining.html": "split", "claypot.html": "iris", "classes.html": "down", "contact.html": "diag", "404.html": "fade" };
-  const txFor = path => { const f = (path.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; return TX[f] || "up"; };
+  // where each page's wash starts: c centre, tl top left, tr top right, bl bottom left, br bottom right, b bottom, r right
+  const TX = { "index.html": "c", "about.html": "tl", "dining.html": "br", "claypot.html": "tr", "classes.html": "bl", "contact.html": "b", "404.html": "r" };
+  const txFor = path => { const f = (path.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; return TX[f] || "c"; };
+  // the logo has bloomed once this visit, on whichever page the visit began
+  if (root.classList.contains("tx-first")) { try { sessionStorage.setItem("heroSeen", "1"); } catch (_) {} }
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if (!still) document.addEventListener("click", e => {
@@ -21,7 +24,7 @@
     cover.className = "tx-cover";
     cover.dataset.tx = txFor(u.pathname);
     document.body.appendChild(cover);
-    setTimeout(() => { location.href = u.href; }, 560);
+    setTimeout(() => { location.href = u.href; }, 780);
   });
   // back/forward from the cache: take the panel away again
   addEventListener("pageshow", ev => { if (ev.persisted) document.querySelectorAll(".tx-cover").forEach(c => c.remove()); });
@@ -40,5 +43,5 @@
     io.unobserve(e.target);
   }), { threshold: .15, rootMargin: "0px 0px -6% 0px" });
   groups.forEach((list, parent) => { list.forEach((el, i) => el.style.setProperty("--mo-i", i % 4)); io.observe(parent); });
-  if (root.classList.contains("mo-hold")) setTimeout(() => root.classList.remove("mo-hold"), 600);
+  if (root.classList.contains("mo-hold")) setTimeout(() => root.classList.remove("mo-hold"), root.classList.contains("tx-first") ? 2700 : 750);
 })();

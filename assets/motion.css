@@ -1,44 +1,70 @@
-/* ══════════════ Page transitions, each page its own
-   Arriving: an espresso panel covers the page and folds away in that page's own way, then the header drops in.
-   Leaving: clicking through to another page folds the next page's panel in first.
-   Home's own preloader (once per browser) and the claypot fly / About zoom hand-offs keep their own openings.
-   Rows of cards still wipe in left to right as they come into view. ══════════════ */
-html.tx-in body::before { content: ""; position: fixed; inset: 0; z-index: 900; background: var(--brown-2, #19110b); pointer-events: none;
-  animation: tx-out-up .85s cubic-bezier(.76, 0, .24, 1) .05s both; }
-html.tx-in[data-tx="left"]  body::before { animation-name: tx-out-left; }
-html.tx-in[data-tx="split"] body::before { animation-name: tx-out-split; }
-html.tx-in[data-tx="iris"]  body::before { animation-name: tx-out-iris; animation-duration: .95s; }
-html.tx-in[data-tx="down"]  body::before { animation-name: tx-out-down; }
-html.tx-in[data-tx="diag"]  body::before { animation-name: tx-out-diag; }
-html.tx-in[data-tx="fade"]  body::before { animation-name: tx-out-fade; animation-timing-function: ease; }
+/* ══════════════ Page transitions: a watercolour wash, each page from its own corner
+   Arriving: a cream screen covers the page and dissolves as an uneven wash spreading from that page's corner
+   (Home from the centre, About top left, Dining bottom right, Claypot top right, Classes bottom left,
+   Contact from the bottom, 404 from the right). The first page of a visit shows the logo blooming first.
+   Leaving: the next page's wash spreads in over this one from the same corner, then the page changes.
+   The wash shapes are assets/fx/splash.png and its corner and edge cuts (o-*.png).
+   Home's own preloader and the claypot fly / About zoom hand-offs keep their own openings. ══════════════ */
+html.tx-in body::before { content: ""; position: fixed; inset: 0; z-index: 900; background: var(--cream, #f1eadf); pointer-events: none;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-size: 0vmax auto, 100% 100%; mask-size: 0vmax auto, 100% 100%;
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  animation: tx-open 1.5s cubic-bezier(.45, 0, .2, 1) .1s forwards; }
+@keyframes tx-open {
+  from { -webkit-mask-size: 0vmax auto, 100% 100%; mask-size: 0vmax auto, 100% 100%; }
+  to { -webkit-mask-size: var(--wash-full) auto, 100% 100%; mask-size: var(--wash-full) auto, 100% 100%; visibility: hidden; } }
 
-@keyframes tx-out-up    { from { transform: translateY(0); } to { transform: translateY(-100%); } }
-@keyframes tx-out-left  { from { transform: translateX(0); } to { transform: translateX(100%); } }
-@keyframes tx-out-down  { from { transform: translateY(0); } to { transform: translateY(100%); } }
-@keyframes tx-out-split { from { clip-path: inset(0 0 0 0); } to { clip-path: inset(50% 0 50% 0); } }
-@keyframes tx-out-iris  { from { clip-path: circle(75% at 50% 50%); } to { clip-path: circle(0% at 50% 50%); } }
-@keyframes tx-out-diag  { from { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } to { clip-path: polygon(100% 0, 100% 0, 100% 0, 100% 0); } }
-@keyframes tx-out-fade  { from { opacity: 1; } to { opacity: 0; } }
+/* the first page of a visit: the logo blooms out of a wash in the middle, then the screen opens */
+html.tx-first body::before { animation-delay: 2.3s; }
+html.tx-first body::after { content: ""; position: fixed; left: 50%; top: 50%; z-index: 901; width: clamp(120px, 15vw, 190px); aspect-ratio: 320 / 332;
+  translate: -50% -50%; pointer-events: none; background: url(logo-ink.png) center / contain no-repeat; opacity: 0;
+  -webkit-mask-image: url(fx/splash.png); mask-image: url(fx/splash.png); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center; -webkit-mask-size: 0% auto; mask-size: 0% auto;
+  animation: tx-logo-in 2s ease-in-out .15s forwards, tx-logo-out .7s cubic-bezier(.16, 1, .3, 1) 2.25s forwards; }
+@keyframes tx-logo-in {
+  0% { opacity: 0; -webkit-mask-size: 0% auto; mask-size: 0% auto; scale: 1.08; }
+  30% { opacity: 1; -webkit-mask-size: 95% auto; mask-size: 95% auto; }
+  65% { -webkit-mask-size: 230% auto; mask-size: 230% auto; }
+  100% { opacity: 1; -webkit-mask-size: 420% auto; mask-size: 420% auto; scale: 1; } }
+@keyframes tx-logo-out { from { opacity: 1; -webkit-mask-size: 420% auto; mask-size: 420% auto; } to { opacity: 0; -webkit-mask-size: 420% auto; mask-size: 420% auto; scale: 1.04; visibility: hidden; } }
 
-/* leaving: the next page's panel folds in over this one */
-.tx-cover { position: fixed; inset: 0; z-index: 900; background: var(--brown-2, #19110b); pointer-events: all;
-  animation: tx-in-up .55s cubic-bezier(.76, 0, .24, 1) both; }
-.tx-cover[data-tx="left"]  { animation-name: tx-in-left; }
-.tx-cover[data-tx="split"] { animation-name: tx-in-split; }
-.tx-cover[data-tx="iris"]  { animation-name: tx-in-iris; }
-.tx-cover[data-tx="down"]  { animation-name: tx-in-down; }
-.tx-cover[data-tx="diag"]  { animation-name: tx-in-diag; }
-.tx-cover[data-tx="fade"]  { animation-name: tx-in-fade; animation-timing-function: ease; }
-@keyframes tx-in-up    { from { transform: translateY(100%); } to { transform: translateY(0); } }
-@keyframes tx-in-left  { from { transform: translateX(-100%); } to { transform: translateX(0); } }
-@keyframes tx-in-down  { from { transform: translateY(-100%); } to { transform: translateY(0); } }
-@keyframes tx-in-split { from { clip-path: inset(50% 0 50% 0); } to { clip-path: inset(0 0 0 0); } }
-@keyframes tx-in-iris  { from { clip-path: circle(0% at 50% 50%); } to { clip-path: circle(75% at 50% 50%); } }
-@keyframes tx-in-diag  { from { clip-path: polygon(0 100%, 0 100%, 0 100%, 0 100%); } to { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); } }
-@keyframes tx-in-fade  { from { opacity: 0; } to { opacity: 1; } }
+/* leaving: the next page's wash spreads in over this one */
+.tx-cover { position: fixed; inset: 0; z-index: 900; background: var(--cream, #f1eadf); pointer-events: all;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-size: 0vmax auto; mask-size: 0vmax auto;
+  animation: tx-close .8s cubic-bezier(.5, 0, .3, 1) forwards; }
+@keyframes tx-close { to { -webkit-mask-size: var(--wash-full) auto; mask-size: var(--wash-full) auto; } }
 
-/* the header comes down as the panel clears */
-html.tx-in .nav { animation: mo-nav .9s cubic-bezier(.16, 1, .3, 1) .55s backwards; }
+html[data-tx="c"] { --wash-full: 380vmax; }
+html.tx-in[data-tx="c"] body::before { -webkit-mask-image: url(fx/splash.png), linear-gradient(#000 0 0); mask-image: url(fx/splash.png), linear-gradient(#000 0 0); -webkit-mask-position: center, 0 0; mask-position: center, 0 0; }
+.tx-cover[data-tx="c"] { -webkit-mask-image: url(fx/splash.png); mask-image: url(fx/splash.png); -webkit-mask-position: center; mask-position: center; --wash-full: 380vmax; }
+html[data-tx="tl"] { --wash-full: 380vmax; }
+html.tx-in[data-tx="tl"] body::before { -webkit-mask-image: url(fx/o-tl.png), linear-gradient(#000 0 0); mask-image: url(fx/o-tl.png), linear-gradient(#000 0 0); -webkit-mask-position: left top, 0 0; mask-position: left top, 0 0; }
+.tx-cover[data-tx="tl"] { -webkit-mask-image: url(fx/o-tl.png); mask-image: url(fx/o-tl.png); -webkit-mask-position: left top; mask-position: left top; --wash-full: 380vmax; }
+html[data-tx="tr"] { --wash-full: 380vmax; }
+html.tx-in[data-tx="tr"] body::before { -webkit-mask-image: url(fx/o-tr.png), linear-gradient(#000 0 0); mask-image: url(fx/o-tr.png), linear-gradient(#000 0 0); -webkit-mask-position: right top, 0 0; mask-position: right top, 0 0; }
+.tx-cover[data-tx="tr"] { -webkit-mask-image: url(fx/o-tr.png); mask-image: url(fx/o-tr.png); -webkit-mask-position: right top; mask-position: right top; --wash-full: 380vmax; }
+html[data-tx="bl"] { --wash-full: 380vmax; }
+html.tx-in[data-tx="bl"] body::before { -webkit-mask-image: url(fx/o-bl.png), linear-gradient(#000 0 0); mask-image: url(fx/o-bl.png), linear-gradient(#000 0 0); -webkit-mask-position: left bottom, 0 0; mask-position: left bottom, 0 0; }
+.tx-cover[data-tx="bl"] { -webkit-mask-image: url(fx/o-bl.png); mask-image: url(fx/o-bl.png); -webkit-mask-position: left bottom; mask-position: left bottom; --wash-full: 380vmax; }
+html[data-tx="br"] { --wash-full: 380vmax; }
+html.tx-in[data-tx="br"] body::before { -webkit-mask-image: url(fx/o-br.png), linear-gradient(#000 0 0); mask-image: url(fx/o-br.png), linear-gradient(#000 0 0); -webkit-mask-position: right bottom, 0 0; mask-position: right bottom, 0 0; }
+.tx-cover[data-tx="br"] { -webkit-mask-image: url(fx/o-br.png); mask-image: url(fx/o-br.png); -webkit-mask-position: right bottom; mask-position: right bottom; --wash-full: 380vmax; }
+html[data-tx="b"] { --wash-full: 600vmax; }
+html.tx-in[data-tx="b"] body::before { -webkit-mask-image: url(fx/o-b.png), linear-gradient(#000 0 0); mask-image: url(fx/o-b.png), linear-gradient(#000 0 0); -webkit-mask-position: center bottom, 0 0; mask-position: center bottom, 0 0; }
+.tx-cover[data-tx="b"] { -webkit-mask-image: url(fx/o-b.png); mask-image: url(fx/o-b.png); -webkit-mask-position: center bottom; mask-position: center bottom; --wash-full: 600vmax; }
+html[data-tx="r"] { --wash-full: 300vmax; }
+html.tx-in[data-tx="r"] body::before { -webkit-mask-image: url(fx/o-r.png), linear-gradient(#000 0 0); mask-image: url(fx/o-r.png), linear-gradient(#000 0 0); -webkit-mask-position: right center, 0 0; mask-position: right center, 0 0; }
+.tx-cover[data-tx="r"] { -webkit-mask-image: url(fx/o-r.png); mask-image: url(fx/o-r.png); -webkit-mask-position: right center; mask-position: right center; --wash-full: 300vmax; }
+html[data-tx="l"] { --wash-full: 300vmax; }
+html.tx-in[data-tx="l"] body::before { -webkit-mask-image: url(fx/o-l.png), linear-gradient(#000 0 0); mask-image: url(fx/o-l.png), linear-gradient(#000 0 0); -webkit-mask-position: left center, 0 0; mask-position: left center, 0 0; }
+.tx-cover[data-tx="l"] { -webkit-mask-image: url(fx/o-l.png); mask-image: url(fx/o-l.png); -webkit-mask-position: left center; mask-position: left center; --wash-full: 300vmax; }
+html[data-tx="t"] { --wash-full: 600vmax; }
+html.tx-in[data-tx="t"] body::before { -webkit-mask-image: url(fx/o-t.png), linear-gradient(#000 0 0); mask-image: url(fx/o-t.png), linear-gradient(#000 0 0); -webkit-mask-position: center top, 0 0; mask-position: center top, 0 0; }
+.tx-cover[data-tx="t"] { -webkit-mask-image: url(fx/o-t.png); mask-image: url(fx/o-t.png); -webkit-mask-position: center top; mask-position: center top; --wash-full: 600vmax; }
+
+/* the header comes down as the wash clears */
+html.tx-in .nav { animation: mo-nav .9s cubic-bezier(.16, 1, .3, 1) .75s backwards; }
+html.tx-first .nav { animation-delay: 2.9s; }
 @keyframes mo-nav { from { opacity: 0; transform: translateY(-110%); } to { opacity: 1; transform: none; } }
 
 /* until the panel clears, nothing reveals underneath it */
@@ -53,4 +79,4 @@ html.mo-hold .rv, html.mo-hold .rv.in { opacity: 0 !important; transition: none 
 .ing.rv.in, .ct-info__item.rv.in, .why.rv.in, .skill.rv.in, .philo__item.rv.in, .how__card.rv.in, .fact.rv.in, .card.rv.in, .policy .row.rv.in {
   opacity: 1; transform: none; clip-path: inset(0 0 0 0);
 }
-@media (prefers-reduced-motion: reduce) { html.tx-in body::before, .tx-cover { display: none; } html.tx-in .nav { animation: none; } }
+@media (prefers-reduced-motion: reduce) { html.tx-in body::before, html.tx-first body::after, .tx-cover { display: none; } html.tx-in .nav { animation: none; } }

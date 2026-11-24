@@ -119,6 +119,11 @@ section { position: relative; }
 /* About: the estate sketch draws itself in full-screen with the story set over it */
 .estate { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: center; overflow: hidden; background: var(--cream); }
 .estate video, .estate__still { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+/* the drawing-in clip sits over the still and is only shown while it plays; its last frame is the still */
+.estate__draw { opacity: 0; }
+html.about-draw .estate__draw { opacity: 1; }
+html.about-draw .estate__still { opacity: 0; }
+html.about-draw.about-hold .a-open .rv { opacity: 0 !important; transform: translateY(26px) !important; }
 
 /* About: the real photo of the estate sits to the right, so the house is clear of the words on the left */
 .estate__wash { position: absolute; inset: 0; pointer-events: none;
@@ -187,6 +192,16 @@ section { position: relative; }
 /* why */
 .a-why { background: var(--cream); }
 .a-why--solo { text-align: center; }
+/* the two dishes at the sides: only on wide screens, half off the edge, brought in by the scroll */
+.a-why--solo { position: relative; overflow: hidden; }
+.a-why--solo .inner { position: relative; z-index: 1; }
+.why-dish { display: none; }
+@media (min-width: 1100px) {
+  .why-dish { --p: 0; display: block; position: absolute; top: 50%; width: clamp(260px, 23vw, 380px); height: auto; pointer-events: none;
+    filter: drop-shadow(0 26px 34px rgba(42, 29, 22, .22)); opacity: calc(var(--p) * 1.4); will-change: transform; }
+  .why-dish--l { left: 0; transform: translate(calc(-58% - (1 - var(--p)) * 60%), -50%) rotate(calc(-50deg + var(--p) * 50deg)); }
+  .why-dish--r { right: 0; transform: translate(calc(58% + (1 - var(--p)) * 60%), -30%) rotate(calc(50deg - var(--p) * 50deg)); }
+}
 .a-why.a-why--solo p { margin-left: auto; margin-right: auto; text-align: center; }
 .a-host { padding-bottom: clamp(30px, 4vw, 60px); }
 .a-why--solo { padding-top: clamp(40px, 5vw, 70px); }
@@ -283,13 +298,13 @@ section { position: relative; }
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/type.css?v=17">
 <!-- page transitions: each page folds open its own way -->
-<link rel="stylesheet" href="assets/motion.css?v=2">
+<link rel="stylesheet" href="assets/motion.css?v=3">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const TX = { "about.html": "left", "dining.html": "split", "claypot.html": "iris", "classes.html": "down", "contact.html": "diag", "404.html": "fade" };
-  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "up";
+  const TX = { "index.html": "c", "about.html": "tl", "dining.html": "br", "claypot.html": "tr", "classes.html": "bl", "contact.html": "b", "404.html": "r" };
+  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "c";
   let skip = r.classList.contains("preload") || r.classList.contains("pot-arrive");
-  try { if (sessionStorage.getItem("txSkip")) { sessionStorage.removeItem("txSkip"); skip = true; } } catch (_) {}
-  if (!skip) r.classList.add("tx-in", "mo-hold"); })();</script>
+  try { if (sessionStorage.getItem("txSkip")) { sessionStorage.removeItem("txSkip"); skip = true; r.classList.add("from-zoom"); } } catch (_) {}
+  if (!skip) { r.classList.add("tx-in", "mo-hold"); try { if (!sessionStorage.getItem("heroSeen")) r.classList.add("tx-first"); } catch (_) {} } })();</script>
 </head>
 <body>
 
@@ -312,6 +327,8 @@ section { position: relative; }
 <!-- ─────────────── about your host & chef: the estate draws itself in ─────────────── -->
 <section class="estate a-open" id="top">
   <img class="estate__still" src="assets/estate-zoom-end.jpg" alt="Sketch of The Dinerworkshop’s 1923 Black and White colonial estate">
+  <!-- arriving any other way than Home's zoom: the estate draws itself in and stops on the same picture as the still -->
+  <video class="estate__draw" id="aboutDraw" data-src="assets/about-draw-1440.mp4" data-src-4k="assets/about-draw-4k.mp4" data-src-small="assets/about-draw-1080.mp4" muted playsinline preload="none" aria-hidden="true"></video>
   <div class="estate__wash" aria-hidden="true"></div>
   <div class="inner estate__inner">
     <div class="story__text">
@@ -337,6 +354,9 @@ section { position: relative; }
 
 <!-- ─────────────── why the dinerworkshop: straight after Chef Ian ─────────────── -->
 <section class="a-why a-why--solo pad" id="why">
+  <!-- desktop: two of Ian's dishes drift in from the edges as the section scrolls in -->
+  <img class="why-dish why-dish--l" src="assets/dishes/side-fish.webp" alt="" aria-hidden="true" loading="lazy">
+  <img class="why-dish why-dish--r" src="assets/dishes/side-beef.webp" alt="" aria-hidden="true" loading="lazy">
   <div class="inner">
     <h2 class="rv">Why The Dinerworkshop?</h2>
     <p id="whyWords">At <strong>The Dinerworkshop</strong>, cherished family recipes passed down through generations are not merely repeated. They are studied, perfected, and elevated. Here, the warmth of a historic home merges with culinary precision to create an intimate dining journey.</p>
@@ -571,6 +591,51 @@ if (estate) {
 <script src="assets/book.js?v=7"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/btn.js"></script>
-<script src="assets/motion.js?v=3"></script>
+<script src="assets/motion.js?v=4"></script>
+<script>
+/* About opening: unless the visitor came through Home's "About Us" zoom (which already ends on this picture),
+   the estate draws itself in, finishing on the same frame as the still. The words come in as it nears the end. */
+(() => {
+  const v = document.getElementById("aboutDraw"), r = document.documentElement;
+  if (!v || r.classList.contains("from-zoom") || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const px = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
+  v.src = innerWidth <= 700 ? v.dataset.srcSmall : px > 2600 ? v.dataset.src4k : v.dataset.src;
+  v.preload = "auto";
+  r.classList.add("about-draw", "about-hold");
+  const done = () => { r.classList.remove("about-hold"); };
+  const giveUp = () => { r.classList.remove("about-draw", "about-hold"); };          // could not play: the still is shown
+  // start once the page's own opening (the wash, or the logo on a first visit) is under way
+  const wait = r.classList.contains("tx-first") ? 2300 : 250;
+  let started = false;
+  const go = () => { if (started) return; started = true; v.play().catch(giveUp); };
+  v.addEventListener("canplay", () => setTimeout(go, Math.max(0, wait - (performance.now() - T0))), { once: true });
+  const T0 = performance.now();
+  v.addEventListener("timeupdate", () => { if (v.duration && v.currentTime > v.duration * .62) done(); });
+  v.addEventListener("ended", done);
+  v.addEventListener("error", giveUp);
+  setTimeout(() => { if (!started) giveUp(); }, 6000);                             // never leave a blank page
+})();
+</script>
+<script>
+/* "Why The Dinerworkshop?": the dishes follow the scroll in from the sides, settling as the section reaches the middle */
+(() => {
+  const sec = document.getElementById("why"), dishes = sec && sec.querySelectorAll(".why-dish");
+  if (!dishes || !dishes.length) return;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let raf = 0;
+  const paint = () => {
+    raf = 0;
+    if (innerWidth < 1100) return;
+    const b = sec.getBoundingClientRect();
+    const p = still ? 1 : Math.min(1, Math.max(0, (innerHeight - b.top) / (innerHeight * .75 + b.height * .25)));
+    const e = 1 - Math.pow(1 - p, 3);                        // eases in, settles gently
+    dishes.forEach(d => d.style.setProperty("--p", e.toFixed(4)));
+  };
+  const kick = () => { if (!raf) raf = requestAnimationFrame(paint); };
+  addEventListener("scroll", kick, { passive: true });
+  addEventListener("resize", kick);
+  paint();
+})();
+</script>
 </body>
 </html>

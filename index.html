@@ -120,19 +120,10 @@ section { position: relative; }
 .hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   transform: translateX(clamp(0px, calc((100vw - 900px) * .4), 22vw));
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 22%); mask-image: linear-gradient(90deg, transparent 0%, #000 22%); }
-.hero__wash { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.4s ease;
-  background: linear-gradient(90deg, rgba(249, 233, 206, .97) 0%, rgba(249, 233, 206, .9) 26%, rgba(249, 233, 206, .5) 44%, rgba(249, 233, 206, 0) 62%),
-              linear-gradient(to top, rgba(240, 216, 182, .7) 0%, rgba(240, 216, 182, 0) 40%); }
-.hero.is-sketch .hero__wash { opacity: 1; }
-.hero.is-sketch .hero__shade { opacity: 0; }
 .hero__copy h1, .hero__copy p.lead { transition: color 1.4s ease; }
 .hero.is-sketch .hero__copy h1 { color: var(--ink); }
 .hero.is-sketch .hero__copy p.lead { color: rgba(42, 29, 22, .78); }
 .hero .btn { transition: background .9s, border-color .9s, color .9s, transform .45s var(--ease), box-shadow .45s; }
-.hero__shade { position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(90deg, rgba(20, 13, 8, .92) 0%, rgba(20, 13, 8, .82) 30%, rgba(20, 13, 8, .55) 50%, rgba(20, 13, 8, 0) 70%),
-              linear-gradient(to top, rgba(20, 13, 8, .72) 0%, rgba(20, 13, 8, 0) 46%),
-              linear-gradient(to bottom, rgba(20, 13, 8, .5) 0%, rgba(20, 13, 8, 0) 22%); }
 .hero__copy { position: relative; z-index: 3; width: 100%; padding: 0 var(--pad); }
 .hero__copy > * { max-width: 600px; }
 .hero__copy .eyebrow { white-space: normal; gap: 0; line-height: 1.9; color: rgba(241, 234, 223, .74); }
@@ -145,11 +136,9 @@ section { position: relative; }
 .hero[data-dark] .btn--ghost { color: var(--cream); border-color: rgba(241, 234, 223, .45); }
 .hero[data-dark] .btn--ghost:hover { background: var(--cream); border-color: var(--cream); color: var(--ink); }
 @media (max-width: 700px) {
-  .hero__shade { background: linear-gradient(to top, rgba(20, 13, 8, .9) 0%, rgba(20, 13, 8, .7) 40%, rgba(20, 13, 8, 0) 70%), linear-gradient(to bottom, rgba(20, 13, 8, .5) 0%, rgba(20, 13, 8, 0) 20%); }
   /* phones: the plate fills the top of the screen, the words sit below it on the same ground */
   .hero__video { top: 64px; bottom: auto; height: 40vh; height: 40svh; transform: none;
     -webkit-mask-image: linear-gradient(180deg, #000 72%, transparent 100%); mask-image: linear-gradient(180deg, #000 72%, transparent 100%); }
-  .hero__wash { background: linear-gradient(to top, rgba(240, 216, 182, .95) 0%, rgba(240, 216, 182, .75) 40%, rgba(240, 216, 182, 0) 66%); }
   .hero__copy .eyebrow { font-size: 10px; letter-spacing: .26em; }
   .hero__copy p.lead { font-size: 15px; }
 }
@@ -461,36 +450,46 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 })();
 </script>
 <style>
-/* preloader: the logo rises in softly the way the hero words do, holds, then lifts away while the whole
-   cream screen fades out like the house drawing, showing the page underneath */
+/* preloader: it appears and leaves like a watercolour wash, from the centre. The logo blooms out of an uneven,
+   soft-edged blot that spreads from its middle; then the cream screen dissolves the same way, a wash-shaped
+   opening that spreads from the centre until the page underneath is uncovered. (assets/fx/splash.png is the blot.) */
 .loader { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: 0 var(--pad); background: var(--cream); text-align: center;
-  transition: opacity 1.4s ease .25s; }
-.loader__logo { display: block; width: clamp(120px, 15vw, 190px); height: auto; margin: 0 auto; opacity: 0; transform: translateY(26px);
-  animation: pre-in 1.3s var(--ease) .15s forwards; }
-@keyframes pre-in { to { opacity: 1; transform: none; } }
-.loader.is-out { opacity: 0; pointer-events: none; }
-.loader.is-out .loader__logo { animation: pre-out .7s var(--ease) forwards; }
-@keyframes pre-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-18px); } }
+  -webkit-mask-image: url(assets/fx/splash.png), linear-gradient(#000 0 0); mask-image: url(assets/fx/splash.png), linear-gradient(#000 0 0);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: 0vmax auto, 100% 100%; mask-size: 0vmax auto, 100% 100%;
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  transition: -webkit-mask-size 1.9s cubic-bezier(.45, 0, .2, 1) .25s, mask-size 1.9s cubic-bezier(.45, 0, .2, 1) .25s, opacity .4s ease 2s; }
+.loader__logo { display: block; width: clamp(120px, 15vw, 190px); height: auto; margin: 0 auto; opacity: 0; transform: scale(1.08);
+  -webkit-mask-image: url(assets/fx/splash.png); mask-image: url(assets/fx/splash.png);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: 0% auto; mask-size: 0% auto;
+  animation: pre-in 2s ease-in-out .15s forwards; }
+@keyframes pre-in {
+  0% { opacity: 0; -webkit-mask-size: 0% auto; mask-size: 0% auto; transform: scale(1.08); }
+  30% { opacity: 1; -webkit-mask-size: 95% auto; mask-size: 95% auto; }
+  65% { -webkit-mask-size: 230% auto; mask-size: 230% auto; }
+  100% { opacity: 1; -webkit-mask-size: 420% auto; mask-size: 420% auto; transform: none; } }
+.loader.is-out { -webkit-mask-size: 360vmax auto, 100% 100%; mask-size: 360vmax auto, 100% 100%; opacity: 0; pointer-events: none; }
+.loader.is-out .loader__logo { animation: pre-out .8s var(--ease) forwards; }
+@keyframes pre-out { from { opacity: 1; -webkit-mask-size: 420% auto; mask-size: 420% auto; } to { opacity: 0; -webkit-mask-size: 420% auto; mask-size: 420% auto; transform: scale(1.04); } }
 html.hero-rest .loader, html:not(.preload) .loader:not(.is-out) { display: none; }
 /* while it is up, only the video shows beneath; the shade, header and words wait */
 html.preload { overflow: hidden; }
 html.preload .nav { opacity: 0; pointer-events: none; }
-html.preload .hero__shade { opacity: 0; }
 html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px) !important; }
 .nav { transition: background .4s, padding .4s, box-shadow .4s, opacity .5s var(--ease); }
-.hero__shade { transition: opacity 1.6s ease; }
 </style>
 <!-- editorial type and button styles, every page -->
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/type.css?v=17">
 <!-- page transitions: each page folds open its own way -->
-<link rel="stylesheet" href="assets/motion.css?v=2">
+<link rel="stylesheet" href="assets/motion.css?v=3">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const TX = { "about.html": "left", "dining.html": "split", "claypot.html": "iris", "classes.html": "down", "contact.html": "diag", "404.html": "fade" };
-  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "up";
+  const TX = { "index.html": "c", "about.html": "tl", "dining.html": "br", "claypot.html": "tr", "classes.html": "bl", "contact.html": "b", "404.html": "r" };
+  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "c";
   let skip = r.classList.contains("preload") || r.classList.contains("pot-arrive");
   try { if (sessionStorage.getItem("txSkip")) { sessionStorage.removeItem("txSkip"); skip = true; } } catch (_) {}
-  if (!skip) r.classList.add("tx-in", "mo-hold"); })();</script>
+  if (!skip) { r.classList.add("tx-in", "mo-hold"); try { if (!sessionStorage.getItem("heroSeen")) r.classList.add("tx-first"); } catch (_) {} } })();</script>
 </head>
 <body>
 
@@ -520,8 +519,6 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
  <div class="hero-scrub__track" id="heroTrack">
  <div class="hero is-sketch" id="heroStage">
   <video class="hero__video" id="heroVideo" data-src="assets/hero-scrub-1080.mp4" data-src-small="assets/hero-scrub-720.mp4" poster="assets/hero-scrub-start.jpg" data-end="assets/hero-scrub-end.jpg" muted playsinline preload="none" aria-label="A sepia drawing of glazed pork belly turns on its plate and comes to life as the real dish"></video>
-  <div class="hero__shade" aria-hidden="true"></div>
-  <div class="hero__wash" aria-hidden="true"></div>
   <div class="hero__copy">
     <div class="hero__says rv d1">
       <div class="hero__say hero__say--sketch">
@@ -723,7 +720,7 @@ const hero = document.getElementById("heroVideo");
 const rootEl = document.documentElement;
 const pre = document.getElementById("pre");
 const stage = document.getElementById("heroStage"), track = document.getElementById("heroTrack");
-const T0 = performance.now(), READ = 2100;   // the logo is seen for this long before anything moves
+const T0 = performance.now(), READ = 2400;   // the logo is seen for this long before anything moves
 const CLIP_END = .8;                          // share of the scroll used by the clip; the rest holds the words
 const REAL_AT = .4;                           // from here on the dish reads as a photo, so the page goes dark
 let revealTimer = 0;
@@ -732,7 +729,7 @@ function revealHero() {
   const left = READ - (performance.now() - T0);
   if (left > 0) { if (!revealTimer) revealTimer = setTimeout(() => { revealTimer = 0; revealHero(); }, left); return; }
   rootEl.classList.remove("preload");
-  if (pre) { pre.classList.add("is-out"); setTimeout(() => pre.remove(), 1900); }
+  if (pre) { pre.classList.add("is-out"); setTimeout(() => pre.remove(), 2600); }
   try { sessionStorage.setItem("heroSeen", "1"); } catch (_) {}
 }
 function setLook(real) {
@@ -990,6 +987,6 @@ if (estate) {
 <script src="assets/fly.js"></script>
 <script src="assets/reviews.js"></script>
 <script src="assets/btn.js"></script>
-<script src="assets/motion.js?v=3"></script>
+<script src="assets/motion.js?v=4"></script>
 </body>
 </html>

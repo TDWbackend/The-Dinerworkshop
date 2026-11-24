@@ -295,13 +295,13 @@ try { if (sessionStorage.getItem("potFly")) { sessionStorage.removeItem("potFly"
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/type.css?v=17">
 <!-- page transitions: each page folds open its own way -->
-<link rel="stylesheet" href="assets/motion.css?v=2">
+<link rel="stylesheet" href="assets/motion.css?v=3">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const TX = { "about.html": "left", "dining.html": "split", "claypot.html": "iris", "classes.html": "down", "contact.html": "diag", "404.html": "fade" };
-  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "up";
+  const TX = { "index.html": "c", "about.html": "tl", "dining.html": "br", "claypot.html": "tr", "classes.html": "bl", "contact.html": "b", "404.html": "r" };
+  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "c";
   let skip = r.classList.contains("preload") || r.classList.contains("pot-arrive");
   try { if (sessionStorage.getItem("txSkip")) { sessionStorage.removeItem("txSkip"); skip = true; } } catch (_) {}
-  if (!skip) r.classList.add("tx-in", "mo-hold"); })();</script>
+  if (!skip) { r.classList.add("tx-in", "mo-hold"); try { if (!sessionStorage.getItem("heroSeen")) r.classList.add("tx-first"); } catch (_) {} } })();</script>
 </head>
 <body>
 
@@ -722,6 +722,6 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
 <script src="assets/wa.js"></script>
 <script src="assets/reviews.js"></script>
 <script src="assets/btn.js"></script>
-<script src="assets/motion.js?v=3"></script>
+<script src="assets/motion.js?v=4"></script>
 </body>
 </html>

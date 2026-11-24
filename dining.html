@@ -297,6 +297,14 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 @property --reach { syntax: "<percentage>"; inherits: false; initial-value: 100%; }
 .how__head--mid { display: block; max-width: 780px; margin: 0 auto; text-align: center; }
 .how__head--mid h2 { margin-top: 0; }
+/* the heading arrives word by word out of a soft blur, then the paragraph follows the same way, quicker */
+.wordrise.rv { opacity: 1; transform: none; }
+.wordrise .w { display: inline-block; opacity: 0; filter: blur(10px); transform: translateY(.55em);
+  transition: opacity 1s var(--ease), filter 1.1s var(--ease), transform 1.1s var(--ease);
+  transition-delay: calc(var(--i) * .09s); }
+.wordrise--quick .w { filter: blur(6px); transform: translateY(.4em); transition-delay: calc(.45s + var(--i) * .022s); }
+.wordrise.in .w { opacity: 1; filter: blur(0); transform: none; }
+@media (prefers-reduced-motion: reduce) { .wordrise .w { opacity: 1; filter: none; transform: none; transition: none; } }
 .how__head--mid > p:not(.pre) { margin: 22px auto 0; max-width: 58ch; color: var(--muted); }
 .jour { margin-top: clamp(56px, 7vw, 100px); display: grid; gap: clamp(56px, 7vw, 110px); overflow: hidden; }
 .jrow { display: grid; grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); align-items: center; }
@@ -335,8 +343,21 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
   .jrow__txt, .jrow--flip .jrow__txt { padding: 0 var(--pad); }
 }
 @media (prefers-reduced-motion: reduce) { .jrow__img { --reach: 100%; opacity: 1; transition: none; } .jrow__img img { transform: none; } .jrow__txt > * { opacity: 1; transform: none; } }
-.d-src { background: var(--cream); }
+.d-src { background: var(--cream-2); padding-top: 0; }   /* same ground as the steps above and the prices below */
 .d-src .sourcing { margin-top: 0; }
+/* sourcing: a small two-line heading over three photo cards, each card's words set on its photo */
+.src__head { max-width: 1000px; }
+.src__head h2 { margin: 0; font-size: clamp(24px, 2.5vw, 36px); line-height: 1.22; letter-spacing: -.005em; text-transform: none; }
+.src__grid { margin-top: clamp(32px, 4vw, 52px); display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 28px); }
+.src__card { position: relative; border-radius: 14px; overflow: hidden; background: var(--brown-2); aspect-ratio: 4 / 4.4; }
+.src__img { position: absolute; inset: 0; }
+.src__img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); transition: transform 1.6s var(--ease); }
+.src__card.in .src__img img { transform: scale(1); }
+.src__card:hover .src__img img { transform: scale(1.04); }
+.src__card::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(to top, rgba(25, 17, 11, .82) 0%, rgba(25, 17, 11, .5) 26%, rgba(25, 17, 11, 0) 50%); }
+.src__card p { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; margin: 0; padding: 22px 24px 24px; font-family: var(--serif); font-size: clamp(19px, 1.6vw, 23px); line-height: 1.3; color: var(--cream); }
+@media (max-width: 900px) { .src__grid { grid-template-columns: 1fr; } .src__card { aspect-ratio: 4 / 3.4; } }
 .booking__cta { margin-top: 34px; }
 
 /* menu: Book Now beside the links */
@@ -352,6 +373,15 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 }
 
 .fact__ic { display: block; width: 32px; height: 32px; margin-bottom: 18px; color: var(--ink); opacity: .78; }
+.facts--booking { margin-top: clamp(28px, 3.5vw, 44px); }
+/* the steps and the policy start on the same line under the facts, each with a small title */
+.booking__title { margin-top: 0 !important; }
+.booking .booking__grid { margin-top: clamp(44px, 5vw, 72px); align-items: start; }
+.booking .ol, .booking .policy { margin-top: 18px; }
+.policy__title, .booking__grid > div:first-child::before { display: block; font-family: var(--sans); font-size: 11.5px; font-weight: 500; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); margin: 0; }
+.booking__grid > div:first-child::before { content: "How to book"; }
+.booking .side h3.policy__title, .booking__grid > div:first-child::before { margin: 0; font-size: 11.5px; line-height: 18px; height: 18px; font-weight: 500; letter-spacing: .24em; }
+.policy .row { padding: 22px 0; }
 </style>
 <link rel="stylesheet" href="assets/book.css?v=2">
 <link rel="stylesheet" href="assets/foot.css?v=2">
@@ -359,13 +389,13 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/type.css?v=17">
 <!-- page transitions: each page folds open its own way -->
-<link rel="stylesheet" href="assets/motion.css?v=2">
+<link rel="stylesheet" href="assets/motion.css?v=3">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  const TX = { "about.html": "left", "dining.html": "split", "claypot.html": "iris", "classes.html": "down", "contact.html": "diag", "404.html": "fade" };
-  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "up";
+  const TX = { "index.html": "c", "about.html": "tl", "dining.html": "br", "claypot.html": "tr", "classes.html": "bl", "contact.html": "b", "404.html": "r" };
+  const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "c";
   let skip = r.classList.contains("preload") || r.classList.contains("pot-arrive");
   try { if (sessionStorage.getItem("txSkip")) { sessionStorage.removeItem("txSkip"); skip = true; } } catch (_) {}
-  if (!skip) r.classList.add("tx-in", "mo-hold"); })();</script>
+  if (!skip) { r.classList.add("tx-in", "mo-hold"); try { if (!sessionStorage.getItem("heroSeen")) r.classList.add("tx-first"); } catch (_) {} } })();</script>
 </head>
 <body>
 
@@ -401,8 +431,8 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
   <div class="inner">
     <div class="how__head how__head--mid">
       <p class="pre rv">How the Personalized Omakase Works</p>
-      <h2 class="rv">No two evenings are identical.</h2>
-      <p class="rv d1">There is no fixed menu at The Dinerworkshop. You are part of the curating process: you share your palate, your occasion and your budget, and Ian builds the menu around your group. With a single sitting per evening, yours is the only table he is cooking for.</p>
+      <h2 class="rv wordrise">No two evenings are identical.</h2>
+      <p class="rv wordrise wordrise--quick">There is no fixed menu at The Dinerworkshop. You are part of the curating process: you share your palate, your occasion and your budget, and Ian builds the menu around your group. With a single sitting per evening, yours is the only table he is cooking for.</p>
     </div>
   </div>
   <div class="jour" id="jour">
@@ -424,27 +454,13 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 <!-- ─────────────── ingredient sourcing ─────────────── -->
 <section class="d-src pad">
   <div class="inner">
-    <div class="sourcing">
-      <div class="rv">
-        <p class="pre">Ingredient Sourcing &amp; Integrity</p>
-        <p>Purity is non-negotiable. We partner directly with boutique importers and local artisanal purveyors to source:</p>
-      </div>
-      <ul>
-        <li class="rv d1">Air-flown seasonal seafood and wild-caught delicacies.</li>
-        <li class="rv d2">Hormone-free meats.</li>
-        <li class="rv d3">Locally sourced pesticide-free greens.</li>
-      </ul>
+    <div class="src__head">
+      <h2 class="rv">Purity is non-negotiable. We partner directly with boutique importers and local artisanal purveyors to source:</h2>
     </div>
-  </div>
-</section>
-
-<!-- ─────────────── group size, days and time ─────────────── -->
-<section class="place pad" id="place">
-  <div class="inner">
-    <div class="facts">
-      <div class="fact rv d1"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="10.5" r="3.6"/><path d="M9.5 25v-2.2a6.5 6.5 0 0 1 13 0V25"/><circle cx="7.6" cy="13" r="2.7"/><path d="M2.5 24v-1.4a5 5 0 0 1 6.4-4.8"/><circle cx="24.4" cy="13" r="2.7"/><path d="M29.5 24v-1.4a5 5 0 0 0-6.4-4.8"/></svg><div class="k">Group Size</div><div class="v">6–10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
-      <div class="fact rv d2"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="7" width="23" height="20" rx="2.5"/><path d="M4.5 13h23M10.5 4v5M21.5 4v5"/><path d="M10 18h2M15 18h2M20 18h2M10 22h2M15 22h2"/></svg><div class="k">Operating Days</div><div class="v">Wed – Sun</div><div class="s">Minimum 2 weeks advance reservation only</div></div>
-      <div class="fact rv d3"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="11.5"/><path d="M16 9.5V16l4.5 3"/></svg><div class="k">Time</div><div class="v">7:00 PM til late</div><div class="s">One sitting per evening</div></div>
+    <div class="src__grid">
+      <article class="src__card rv"><div class="src__img"><img src="assets/sourcing/seafood.jpg" alt="A bowl of large prawns with greens and fried shallots" loading="lazy"></div><p>Air-flown seasonal seafood and wild-caught delicacies.</p></article>
+      <article class="src__card rv d1"><div class="src__img"><img src="assets/sourcing/meats.jpg" alt="Seared beef carved into slices on a leaf-shaped platter" loading="lazy"></div><p>Hormone-free meats.</p></article>
+      <article class="src__card rv d2"><div class="src__img"><img src="assets/sourcing/greens.jpg" alt="Fresh greens, herbs and vegetables laid out on the table" loading="lazy"></div><p>Locally sourced pesticide-free greens.</p></article>
     </div>
   </div>
 </section>
@@ -465,9 +481,16 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 <!-- ─────────────── booking, policy, faq ─────────────── -->
 <section class="booking pad" id="booking">
   <div class="inner">
+    <h2 class="rv d1 booking__title">Reservation Process</h2>
+    <!-- group size, days and time: part of the reservation details -->
+    <div class="facts facts--booking">
+      <div class="fact rv d1"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="10.5" r="3.6"/><path d="M9.5 25v-2.2a6.5 6.5 0 0 1 13 0V25"/><circle cx="7.6" cy="13" r="2.7"/><path d="M2.5 24v-1.4a5 5 0 0 1 6.4-4.8"/><circle cx="24.4" cy="13" r="2.7"/><path d="M29.5 24v-1.4a5 5 0 0 0-6.4-4.8"/></svg><div class="k">Group Size</div><div class="v">6–10 guests</div><div class="s">The entire estate hall, exclusively yours</div></div>
+      <div class="fact rv d2"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="7" width="23" height="20" rx="2.5"/><path d="M4.5 13h23M10.5 4v5M21.5 4v5"/><path d="M10 18h2M15 18h2M20 18h2M10 22h2M15 22h2"/></svg><div class="k">Operating Days</div><div class="v">Wed – Sun</div><div class="s">Minimum 2 weeks advance reservation only</div></div>
+      <div class="fact rv d3"><svg class="fact__ic" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="16" r="11.5"/><path d="M16 9.5V16l4.5 3"/></svg><div class="k">Time</div><div class="v">7:00 PM til late</div><div class="s">One sitting per evening</div></div>
+    </div>
+
     <div class="booking__grid">
       <div>
-        <h2 class="rv d1">Reservation Process</h2>
         <ol class="ol">
           <li class="rv"><div><strong>Inquire</strong><span>Submit your preferred date and group size via our concierge page (minimum 2 weeks in advance).</span></div></li>
           <li class="rv d1"><div><strong>Consultation</strong><span>Complete our brief Culinary Discovery Questionnaire.</span></div></li>
@@ -476,7 +499,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
         <div class="booking__cta rv d3" id="book"><a class="btn" href="#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
       </div>
       <div class="side">
-        <p class="pre rv">Reservation Policy</p>
+        <h3 class="policy__title rv">Reservation Policy</h3>
         <div class="policy">
           <div class="row rv"><strong>At least 7 days notice</strong><span>If you need to postpone your dining experience, the payment will be credited toward a rescheduled date within 90 days.</span></div>
           <div class="row rv d1"><strong>Less than 7 days notice</strong><span>The payment will be forfeited due to the bespoke fresh ingredient sourcing.</span></div>
@@ -574,6 +597,18 @@ document.getElementById("burger").addEventListener("click", () => nav.classList.
 nav.querySelectorAll(".nav__links a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
 
 /* reveal on scroll */
+/* split the heading and paragraph above the steps into words for their entrance */
+document.querySelectorAll(".wordrise").forEach(el => {
+  const words = el.textContent.trim().split(/\s+/);
+  el.setAttribute("aria-label", el.textContent.trim());
+  el.textContent = "";
+  words.forEach((w, i) => {
+    const sp = document.createElement("span");
+    sp.className = "w"; sp.textContent = w; sp.style.setProperty("--i", i); sp.setAttribute("aria-hidden", "true");
+    el.append(sp, i < words.length - 1 ? " " : "");
+  });
+});
+
 const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
 }), { threshold: .12, rootMargin: "0px 0px -6% 0px" });
@@ -584,6 +619,6 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
 <script src="assets/book.js?v=7"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/btn.js"></script>
-<script src="assets/motion.js?v=3"></script>
+<script src="assets/motion.js?v=4"></script>
 </body>
 </html>
