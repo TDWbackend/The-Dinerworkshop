@@ -12,7 +12,7 @@ export default function AboutPage() {
   return (
     <>
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"} precedence="dw" />
-      <link rel="stylesheet" href="/assets/pages/about.css?v=2" precedence="dw" />
+      <link rel="stylesheet" href="/assets/pages/about.css?v=3" precedence="dw" />
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
       <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
@@ -59,8 +59,6 @@ export default function AboutPage() {
       {/* ─────────────── about your host & chef: the estate draws itself in ─────────────── */}
       <section className="estate a-open" id="top">
         <img className="estate__still" src="/assets/estate-zoom-end.jpg" alt="Sketch of The Dinerworkshop’s 1923 Black and White colonial estate" />
-        {/* arriving any other way than Home's zoom: the estate draws itself in and stops on the same picture as the still */}
-        <video className="estate__draw" id="aboutDraw" data-src="/assets/estate-zoom-1080.mp4" muted playsInline preload="none" aria-hidden="true"></video>
         <div className="estate__wash" aria-hidden="true"></div>
         <div className="inner estate__inner">
           <div className="story__text">
@@ -427,7 +425,6 @@ export default function AboutPage() {
           "/assets/wa.js?v=2",
           "/assets/btn.js",
           "/assets/motion.js?v=5",
-          "/assets/pages/about-2.js?v=2",
           "/assets/pages/about-3.js?v=1",
         ]}
       />
