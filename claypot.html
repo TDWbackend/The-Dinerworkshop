@@ -446,11 +446,17 @@ try { if (sessionStorage.getItem("potFly")) { sessionStorage.removeItem("potFly"
           <em class="err">Please add a number we can reach you on.</em>
         </label>
       </div>
+      <!-- shown only when orders are paid online: the invoice and receipt go to this address -->
+      <label class="order__field" id="fEmail" hidden>
+        <span class="order__label">Email address</span>
+        <input type="email" name="email" autocomplete="email">
+        <em class="err">Please add an email address for your receipt.</em>
+      </label>
 
       <div class="order__total"><span>Total</span><strong id="oTotal">$80</strong></div>
       <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <button class="btn" type="submit" id="oBtn">Order on WhatsApp <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      <p class="order__fine">Ian will confirm your order personally on WhatsApp.</p>
+      <p class="order__fine" id="oFine">Ian will confirm your order personally on WhatsApp.</p>
       <p class="order__sent" id="oSent" role="status"><span id="oSentText">Your order is ready in WhatsApp. Press send there to reach Ian. WhatsApp didn’t open?</span> <a id="oAgain" href="#" target="_blank" rel="noopener">Try again</a><span id="oSentDot">.</span></p>
     </form>
   </div>
@@ -579,8 +585,8 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
   [ingPot, ...order.map(el => el.querySelector(".ing__pic"))].forEach(img => img.complete || img.addEventListener("load", setMode, { once: true }));
 })();
 
-/* takeaway order: saved to the booking backend (assets/db.js) for Ian to confirm; if the backend is not
-   set up, or cannot be reached, it builds a WhatsApp message to Ian instead */
+/* takeaway order: paid online through the booking backend (assets/db.js) once payments are switched on;
+   until then, or if the payment page cannot be opened, it builds a WhatsApp message to Ian instead */
 (() => {
   const form = document.getElementById("orderForm");
   const $ = id => document.getElementById(id);
@@ -646,23 +652,36 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
       $("oAgain").hidden = saved; $("oSentDot").hidden = saved;
       $("oSent").classList.add("on");
     };
-    const DB = window.DW_DB && window.DW_DB.ready ? window.DW_DB : null;
+    // online payment (assets/db.js: pay) sends the guest to the Stripe payment page; the order is confirmed
+    // when the payment arrives. Without it the order goes to Ian on WhatsApp as before.
+    const DB = window.DW_DB && window.DW_DB.pay ? window.DW_DB : null;
     if (!DB) { note("wa"); window.open(url, "_blank", "noopener"); return; }
+    if (!flag("fEmail", !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim()))) { form.email.focus(); return; }
     if (busy) return;
-    if (form.company.value) { note("saved"); return; }               // a robot filled the hidden field: accept nothing
     busy = true; $("oBtn").disabled = true;
-    DB.call("/rest/v1/claypot_orders", { method: "POST", prefer: "return=minimal", body: {
+    DB.fn("claypot-checkout", {
       pickup_date: form.date.value, edition: ed.dataset.key, qty, keep_pot: form.keep.checked,
-      name: form.name.value.trim(), phone: form.phone.value.trim()
-    } }).then(() => { note("saved"); form.reset(); qty = 1; sizePot(); total(); }, () => note("failed"))
-      .then(() => { busy = false; $("oBtn").disabled = false; });
+      name: form.name.value.trim(), phone: form.phone.value.trim(), email: form.email.value.trim(), company: form.company.value
+    }).then(out => { if (!out || !out.url) throw 0; location.href = out.url; })
+      .catch(() => { note("failed"); busy = false; $("oBtn").disabled = false; });
   });
-  // with the backend connected the order is placed here, not sent through WhatsApp
+  // with online payment on, the form asks for an email and the button pays instead of opening WhatsApp
   addEventListener("DOMContentLoaded", () => {
-    if (!(window.DW_DB && window.DW_DB.ready)) return;
+    if (!(window.DW_DB && window.DW_DB.pay)) return;
+    $("fEmail").hidden = false;
     const b = $("oBtn");
     [...b.childNodes].forEach(n => { if (n.nodeType === 3 || (n.classList && n.classList.contains("btn__roll"))) n.remove(); });
-    b.prepend(document.createTextNode("Place Order "));
+    b.prepend(document.createTextNode("Pay and Place Order "));
+    $("oFine").textContent = "Secure payment by Stripe. Your invoice and receipt arrive by email.";
+    // back from the payment page
+    const back = new URLSearchParams(location.search).get("paid");
+    if (back === "1" || back === "0") {
+      $("oSentText").textContent = back === "1" ? "Thank you. Your payment has been received and your order is confirmed. Your invoice and receipt are on their way by email."
+        : "The payment was not completed, so no order has been placed. You are welcome to try again.";
+      $("oAgain").hidden = true; $("oSentDot").hidden = true; $("oSent").classList.add("on");
+      history.replaceState(null, "", location.pathname + "#order");
+      setTimeout(() => $("oSent").scrollIntoView({ block: "center" }), 600);     // the message sits under the form
+    }
   });
 })();
 
@@ -698,8 +717,8 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
   }), { threshold: .3 }).observe(stage);
 })();
 </script>
-<script src="assets/db.js"></script>
-<script src="assets/book.js?v=6"></script>
+<script src="assets/db.js?v=2"></script>
+<script src="assets/book.js?v=7"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/reviews.js"></script>
 <script src="assets/btn.js"></script>

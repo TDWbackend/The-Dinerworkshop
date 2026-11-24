@@ -154,7 +154,7 @@ section { position: relative; }
 .k-core { background: var(--cream); }
 .k-core__grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(36px, 6vw, 96px); align-items: center; }
 .k-core__img { aspect-ratio: 4 / 5; overflow: hidden; }
-.k-core__img img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) sepia(.08); }
+.k-core__img img { width: 100%; height: 100%; object-fit: cover; }
 .k-core .pre { font-family: var(--serif); font-style: italic; font-size: 24px; color: var(--red); max-width: none; }
 .k-core h2 { margin-top: 8px; }
 .k-core p.body { margin-top: 24px; font-size: 17px; color: var(--muted); }
@@ -177,9 +177,10 @@ section { position: relative; }
 .step:nth-child(1) { --lift: 0vh; }
 .step:nth-child(2) { --lift: -5vh; }
 .step:nth-child(3) { --lift: -10vh; }
-.step img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.85) sepia(.08); transform: scale(calc(1.12 - var(--e) * .12)); }
-.step::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .94) 0%, rgba(25, 17, 11, .7) 44%, rgba(25, 17, 11, .12) 78%); }
-.step__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(22px, 2.2vw, 34px); opacity: calc((var(--e) - .45) * 2.2); transform: translateY(calc((1 - var(--e)) * 30px)); }
+.step img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1.12 - var(--e) * .12)); }
+/* the shade sits only behind the words, so the photo above stays bright */
+.step__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(22px, 2.2vw, 34px); padding-top: clamp(56px, 6vw, 84px);
+  background: linear-gradient(to top, rgba(25, 17, 11, .9) 0%, rgba(25, 17, 11, .78) 62%, rgba(25, 17, 11, 0) 100%); opacity: calc((var(--e) - .45) * 2.2); transform: translateY(calc((1 - var(--e)) * 30px)); }
 .step__lvl { font-family: var(--serif); font-size: clamp(18px, 1.5vw, 22px); color: var(--gold-2); }
 .step h3 { margin-top: 4px; font-size: clamp(26px, 2.3vw, 34px); color: var(--cream); }
 .step__focus { margin-top: 4px; font-family: var(--serif); font-style: italic; font-size: 19px; color: rgba(241, 234, 223, .78); }
@@ -456,8 +457,8 @@ addEventListener("resize", () => { setMode(); kick(); });
 wide.addEventListener("change", setMode);
 setMode();
 </script>
-<script src="assets/db.js"></script>
-<script src="assets/book.js?v=6"></script>
+<script src="assets/db.js?v=2"></script>
+<script src="assets/book.js?v=7"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/btn.js"></script>
 <script src="assets/motion.js?v=3"></script>

@@ -7,6 +7,9 @@ window.DW_DB = (() => {
   const url = "";
   const key = "";
   const ready = !!(url && key);
+  // Claypot orders are paid online by Stripe. Turn this on only once the claypot-checkout and stripe-webhook
+  // functions are deployed with their Stripe keys; until then the order form hands over to WhatsApp as before.
+  const pay = false;
 
   // one request to the project; `token` is a signed-in admin's access token (visitors send none)
   async function call(path, { method = "GET", body, token, prefer, timeout = 9000 } = {}) {
@@ -33,5 +36,8 @@ window.DW_DB = (() => {
     } finally { clearTimeout(timer); }
   }
 
-  return { url, key, ready, call };
+  // one of the backend's server functions (payment page, emails)
+  const fn = (name, body, token) => call("/functions/v1/" + name, { method: "POST", body, token, timeout: 25000 });
+
+  return { url, key, ready, pay: ready && pay, call, fn };
 })();

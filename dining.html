@@ -135,9 +135,9 @@ section { position: relative; }
 .exp__row { flex: 1; min-height: 0; margin-top: clamp(22px, 4vh, 46px); display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.4vw, 20px); }
 .ecard { --e: 0; position: relative; align-self: end; height: 100%; max-height: 620px; overflow: hidden; background: var(--brown-2); color: var(--cream);
   clip-path: inset(0 calc((1 - var(--e)) * 100%) 0 0); will-change: clip-path; }
-.ecard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.82) sepia(.1);
+.ecard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   transform: translateX(calc((1 - var(--e)) * -10%)) scale(1.1); }
-.ecard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .94) 0%, rgba(25, 17, 11, .72) 40%, rgba(25, 17, 11, .1) 76%, rgba(25, 17, 11, .25) 100%); }
+.ecard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .9) 0%, rgba(25, 17, 11, .74) 26%, rgba(25, 17, 11, .32) 42%, rgba(25, 17, 11, 0) 58%); }
 .ecard__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(20px, 2vw, 30px);
   opacity: calc((var(--e) - .55) * 2.4); transform: translateX(calc((1 - var(--e)) * -28px)); }
 .ecard__n { font-family: var(--serif); font-size: clamp(30px, 2.6vw, 40px); line-height: 1; color: var(--gold-2); }
@@ -259,7 +259,11 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 .d-hero { position: relative; min-height: 100vh; min-height: 100svh; display: flex; align-items: flex-end; overflow: hidden; background: var(--brown-2); color: var(--cream); }
 .d-hero__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; transform: scale(1.06); animation: d-settle 2.4s var(--ease) forwards; }
 @keyframes d-settle { to { transform: scale(1); } }
-/* no overlay or tint: the photo shows as it was shot; a soft shadow keeps the heading readable over it */
+/* the photo shows as it was shot; only the lower part, behind the heading and button, darkens gently so the
+   words stay readable when they fall over the bright food (most of all on a phone) */
+.d-hero::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(25, 17, 11, .82) 0%, rgba(25, 17, 11, .6) 24%, rgba(25, 17, 11, .22) 44%, rgba(25, 17, 11, 0) 60%); }
+@media (max-width: 900px) { .d-hero::after { background: linear-gradient(to top, rgba(25, 17, 11, .9) 0%, rgba(25, 17, 11, .74) 28%, rgba(25, 17, 11, .46) 46%, rgba(25, 17, 11, 0) 66%); } }
 .d-hero h1 { text-shadow: 0 2px 22px rgba(25, 17, 11, .55); }
 .d-hero__inner { position: relative; z-index: 2; width: 100%; padding-top: 140px; padding-bottom: clamp(56px, 9vh, 110px); }
 .d-hero h1 { font-size: clamp(48px, 6.6vw, 104px); line-height: .98; max-width: 12ch; }
@@ -274,9 +278,9 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 .ev h2 { margin-top: 8px; }
 .ev__grid { margin-top: clamp(40px, 5vw, 60px); display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .evc { position: relative; height: clamp(420px, 52vh, 520px); overflow: hidden; color: var(--cream); background: var(--brown-2); }
-.evc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.82) sepia(.1); transform: scale(1.08); transition: transform 1.6s var(--ease); }
+.evc img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.08); transition: transform 1.6s var(--ease); }
 .evc:hover img { transform: scale(1); }
-.evc::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .94) 0%, rgba(25, 17, 11, .72) 40%, rgba(25, 17, 11, .1) 76%, rgba(25, 17, 11, .25) 100%); }
+.evc::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .9) 0%, rgba(25, 17, 11, .74) 26%, rgba(25, 17, 11, .32) 42%, rgba(25, 17, 11, 0) 58%); }
 .evc__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(20px, 2vw, 28px); }
 .evc__n { font-family: var(--serif); font-size: clamp(28px, 2.4vw, 36px); line-height: 1; color: var(--gold-2); }
 .evc h3 { margin-top: 12px; font-size: clamp(23px, 1.8vw, 27px); color: var(--cream); }
@@ -287,6 +291,50 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 /* sections that came from the homepage */
 .d-how { background: var(--cream-2); }
 .d-how .how { margin-top: 0; padding-top: 0; border-top: 0; }
+/* how it works: the heading in the middle, then three rows that swap sides. Each photo runs off the side of the
+   page and ends, toward the words, in a soft curve. It appears the way the estate drawing does on Home: it fades
+   in and spreads from its outer edge in the direction of the words, which then rise in one after another. */
+@property --reach { syntax: "<percentage>"; inherits: false; initial-value: 100%; }
+.how__head--mid { display: block; max-width: 780px; margin: 0 auto; text-align: center; }
+.how__head--mid h2 { margin-top: 0; }
+.how__head--mid > p:not(.pre) { margin: 22px auto 0; max-width: 58ch; color: var(--muted); }
+.jour { margin-top: clamp(56px, 7vw, 100px); display: grid; gap: clamp(56px, 7vw, 110px); overflow: hidden; }
+.jrow { display: grid; grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr); align-items: center; }
+.jrow--flip { grid-template-columns: minmax(0, 1fr) minmax(0, 1.22fr); }
+.jrow--flip .jrow__pic { order: 2; }
+.jrow__pic.rv { opacity: 1; transform: none; }
+.jrow__img { --reach: 30%; position: relative; aspect-ratio: 16 / 10; max-height: 78vh; width: 100%; overflow: hidden; opacity: 0;
+  -webkit-mask-image: radial-gradient(ellipse 97% 80% at 0% 50%, #000 calc(var(--reach) - 26%), transparent var(--reach));
+          mask-image: radial-gradient(ellipse 97% 80% at 0% 50%, #000 calc(var(--reach) - 26%), transparent var(--reach));
+  transition: opacity 1.4s ease, --reach 2.1s var(--ease); }
+.jrow--flip .jrow__img {
+  -webkit-mask-image: radial-gradient(ellipse 97% 80% at 100% 50%, #000 calc(var(--reach) - 26%), transparent var(--reach));
+          mask-image: radial-gradient(ellipse 97% 80% at 100% 50%, #000 calc(var(--reach) - 26%), transparent var(--reach)); }
+.jrow__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); transition: transform 2.8s var(--ease); }
+.jrow__pic.in .jrow__img { --reach: 100%; opacity: 1; }
+.jrow__pic.in .jrow__img img { transform: scale(1); }
+.jrow__txt { padding: 0 max(var(--pad), calc((100vw - 1240px) / 2 + var(--pad))) 0 clamp(28px, 5vw, 84px); }
+.jrow--flip .jrow__txt { padding: 0 clamp(28px, 5vw, 84px) 0 max(var(--pad), calc((100vw - 1240px) / 2 + var(--pad))); }
+.jrow__txt.rv { opacity: 1; transform: none; }
+.jrow__txt > * { opacity: 0; transform: translateY(26px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.jrow__txt.in > * { opacity: 1; transform: none; transition-delay: .45s; }
+.jrow__txt.in > :nth-child(2) { transition-delay: .57s; }
+.jrow__txt.in > :nth-child(3) { transition-delay: .69s; }
+.jrow__txt .num { font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+.jrow__txt h3 { margin-top: 16px; font-size: clamp(30px, 3.3vw, 48px); }
+.jrow__txt p { margin-top: 16px; max-width: 44ch; font-size: 16.5px; color: var(--muted); }
+@media (max-width: 900px) {
+  /* on a phone the photo sits above the words, so its curve points down toward them */
+  .jour { gap: 56px; }
+  .jrow, .jrow--flip { grid-template-columns: 1fr; gap: 26px; }
+  .jrow--flip .jrow__pic { order: 0; }
+  .jrow__img { aspect-ratio: 4 / 3; }
+  .jrow__img, .jrow--flip .jrow__img {
+    -webkit-mask-image: radial-gradient(ellipse 90% 98% at 50% 0%, #000 calc(var(--reach) - 22%), transparent var(--reach));
+            mask-image: radial-gradient(ellipse 90% 98% at 50% 0%, #000 calc(var(--reach) - 22%), transparent var(--reach)); }
+  .jrow__txt, .jrow--flip .jrow__txt { padding: 0 var(--pad); }
+}
+@media (prefers-reduced-motion: reduce) { .jrow__img { --reach: 100%; opacity: 1; transition: none; } .jrow__img img { transform: none; } .jrow__txt > * { opacity: 1; transform: none; } }
 .d-src { background: var(--cream); }
 .d-src .sourcing { margin-top: 0; }
 .booking__cta { margin-top: 34px; }
@@ -349,22 +397,27 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 </section>
 
 <!-- ─────────────── how the personalized omakase works ─────────────── -->
-<section class="d-how pad">
+<section class="d-how pad" id="how">
   <div class="inner">
-    <div class="how">
-      <div class="how__head">
-        <div class="rv">
-          <p class="pre">How the Personalized Omakase Works</p>
-          <h2 style="margin-top:14px">No two evenings are identical.</h2>
-        </div>
-        <p class="rv d1" style="color:var(--muted)">Because every menu is fully bespoke, we seamlessly accommodate vegetarian, pescatarian, gluten-free, or specific dietary requirements with advance consultation.</p>
-      </div>
-      <div class="how__grid">
-        <div class="how__card rv"><div class="num">Step 1</div><h3>The Culinary Discovery</h3><p>Upon booking, we guide you through a preference questionnaire to understand your palate, dietary nuances, occasion, and preferred budget. We recommend a minimum of 2 weeks in advance to avoid disappointment.</p></div>
-        <div class="how__card rv d1"><div class="num">Step 2</div><h3>Artisanal Sourcing</h3><p>We personally select the week's finest seasonal seafood, prime meats, and local botanicals exclusively for your booking.</p></div>
-        <div class="how__card rv d2"><div class="num">Step 3</div><h3>The Omakase Unveiling</h3><p>Arrive to a bespoke menu tailored precisely around your group's tastes.</p></div>
-      </div>
+    <div class="how__head how__head--mid">
+      <p class="pre rv">How the Personalized Omakase Works</p>
+      <h2 class="rv">No two evenings are identical.</h2>
+      <p class="rv d1">There is no fixed menu at The Dinerworkshop. You are part of the curating process: you share your palate, your occasion and your budget, and Ian builds the menu around your group. With a single sitting per evening, yours is the only table he is cooking for.</p>
     </div>
+  </div>
+  <div class="jour" id="jour">
+    <article class="jrow">
+      <div class="jrow__pic rv"><div class="jrow__img"><img src="assets/dining/how-1.jpg" alt="Charcoal-grilled octopus skewers on a clay plate" loading="lazy"></div></div>
+      <div class="jrow__txt rv"><div class="num">Step 1</div><h3>The Culinary Discovery</h3><p>Upon booking, we guide you through a preference questionnaire to understand your palate, dietary nuances, occasion, and preferred budget. We recommend a minimum of 2 weeks in advance to avoid disappointment.</p></div>
+    </article>
+    <article class="jrow jrow--flip">
+      <div class="jrow__pic rv"><div class="jrow__img"><img src="assets/dining/how-2.jpg" alt="Seared beef topped with salmon roe" loading="lazy"></div></div>
+      <div class="jrow__txt rv"><div class="num">Step 2</div><h3>Artisanal Sourcing</h3><p>We personally select the week's finest seasonal seafood, prime meats, and local botanicals exclusively for your booking.</p></div>
+    </article>
+    <article class="jrow">
+      <div class="jrow__pic rv"><div class="jrow__img"><img src="assets/dining/how-3.jpg" alt="Seared steak carved into slices on a wooden board" loading="lazy"></div></div>
+      <div class="jrow__txt rv"><div class="num">Step 3</div><h3>The Omakase Unveiling</h3><p>Arrive to a bespoke menu tailored precisely around your group's tastes.</p></div>
+    </article>
   </div>
 </section>
 
@@ -527,8 +580,8 @@ const io = new IntersectionObserver(es => es.forEach(e => {
 document.querySelectorAll(".rv").forEach(el => io.observe(el));
 
 </script>
-<script src="assets/db.js"></script>
-<script src="assets/book.js?v=6"></script>
+<script src="assets/db.js?v=2"></script>
+<script src="assets/book.js?v=7"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/btn.js"></script>
 <script src="assets/motion.js?v=3"></script>

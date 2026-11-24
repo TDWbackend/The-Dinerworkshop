@@ -280,9 +280,9 @@ section { position: relative; }
 .exp__row { flex: 1; min-height: 0; margin-top: clamp(22px, 4vh, 46px); display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(12px, 1.4vw, 20px); }
 .ecard { --e: 0; position: relative; align-self: end; height: 100%; max-height: 620px; overflow: hidden; background: var(--brown-2); color: var(--cream);
   clip-path: inset(0 calc((1 - var(--e)) * 100%) 0 0); will-change: clip-path; }
-.ecard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.82) sepia(.1);
+.ecard img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   transform: translateX(calc((1 - var(--e)) * -10%)) scale(1.1); }
-.ecard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .94) 0%, rgba(25, 17, 11, .72) 40%, rgba(25, 17, 11, .1) 76%, rgba(25, 17, 11, .25) 100%); }
+.ecard::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .9) 0%, rgba(25, 17, 11, .74) 26%, rgba(25, 17, 11, .32) 42%, rgba(25, 17, 11, 0) 58%); }
 .ecard__body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 1; padding: clamp(20px, 2vw, 30px);
   opacity: calc((var(--e) - .55) * 2.4); transform: translateX(calc((1 - var(--e)) * -28px)); }
 .ecard__n { font-family: var(--serif); font-size: clamp(30px, 2.6vw, 40px); line-height: 1; color: var(--gold-2); }
@@ -452,25 +452,26 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
 <link rel="stylesheet" href="assets/foot.css?v=2">
 <link rel="stylesheet" href="assets/reviews.css">
 <script>
-/* the hero video is the preloader: first visit this session, with motion allowed */
+/* the preloader plays once per visit (each new tab or browser session), with motion allowed */
 (() => {
   let seen = false;
-  try { seen = !!localStorage.getItem("heroSeen"); } catch (_) {}
+  try { seen = !!sessionStorage.getItem("heroSeen"); } catch (_) {}
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.documentElement.classList.add(seen || still ? "hero-rest" : "preload");
 })();
 </script>
 <style>
-/* preloader: the logo and a line rise out of a blur like smoke; the hero video plays underneath,
-   and the whole screen dissolves as the card is mid-drop so nobody waits long */
-.pre { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: 0 var(--pad); background: var(--cream); text-align: center;
-  transition: opacity 1s ease, filter 1s ease, transform 1.2s var(--ease); }
-.pre__logo { display: block; width: clamp(96px, 12vw, 150px); height: auto; margin: 0 auto; opacity: 0; animation: pre-smoke 1.2s var(--ease) .1s forwards; }
-.pre__line { margin: 22px auto 0; max-width: 28ch; font-family: var(--serif); font-size: clamp(21px, 2.4vw, 31px); line-height: 1.3; color: var(--ink); }
-.pre__line span { display: inline-block; opacity: 0; animation: pre-smoke 1.1s var(--ease) forwards; }
-@keyframes pre-smoke { from { opacity: 0; filter: blur(12px); transform: translateY(22px) scale(1.04); } to { opacity: 1; filter: blur(0); transform: none; } }
-.pre.is-out { opacity: 0; filter: blur(16px); transform: translateY(-26px) scale(1.02); pointer-events: none; }
-html.hero-rest .pre, html:not(.preload) .pre:not(.is-out) { display: none; }
+/* preloader: the logo rises in softly the way the hero words do, holds, then lifts away while the whole
+   cream screen fades out like the house drawing, showing the page underneath */
+.loader { position: fixed; inset: 0; z-index: 400; display: grid; place-items: center; padding: 0 var(--pad); background: var(--cream); text-align: center;
+  transition: opacity 1.4s ease .25s; }
+.loader__logo { display: block; width: clamp(120px, 15vw, 190px); height: auto; margin: 0 auto; opacity: 0; transform: translateY(26px);
+  animation: pre-in 1.3s var(--ease) .15s forwards; }
+@keyframes pre-in { to { opacity: 1; transform: none; } }
+.loader.is-out { opacity: 0; pointer-events: none; }
+.loader.is-out .loader__logo { animation: pre-out .7s var(--ease) forwards; }
+@keyframes pre-out { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(-18px); } }
+html.hero-rest .loader, html:not(.preload) .loader:not(.is-out) { display: none; }
 /* while it is up, only the video shows beneath; the shade, header and words wait */
 html.preload { overflow: hidden; }
 html.preload .nav { opacity: 0; pointer-events: none; }
@@ -493,12 +494,9 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 </head>
 <body>
 
-<!-- preloader: the logo and one line rise out of a blur while the hero video starts underneath -->
-<div class="pre" id="pre" aria-hidden="true">
-  <div class="pre__inner">
-    <img class="pre__logo" src="assets/logo-ink.png" alt="">
-    <p class="pre__line"><span style="animation-delay:0.45s">Private</span> <span style="animation-delay:0.53s">dining</span> <span style="animation-delay:0.61s">in</span> <span style="animation-delay:0.69s">a</span> <span style="animation-delay:0.77s">1923</span> <span style="animation-delay:0.85s">Black</span> <span style="animation-delay:0.93s">&amp;</span> <span style="animation-delay:1.01s">White</span> <span style="animation-delay:1.09s">estate,</span> <span style="animation-delay:1.17s">Sembawang.</span></p>
-  </div>
+<!-- preloader: the logo fades in, then the screen fades away to the page -->
+<div class="loader" id="pre" aria-hidden="true">
+  <img class="loader__logo" src="assets/logo-ink.png" alt="">
 </div>
 
 <!-- ─────────────── nav ─────────────── -->
@@ -611,7 +609,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
             <div class="ecard__body"><h3>The Arrival</h3><p>Step off the beaten path into our 1924 colonial sanctuary.</p></div>
           </article>
           <article class="ecard">
-            <img src="assets/experience/living-hall.jpg?v=2" alt="The living hall in warm evening light, with a cream sofa, carved wooden chairs and Persian rugs" loading="lazy" style="object-position: 36% 50%">
+            <img src="assets/experience/living-hall.jpg?v=3" alt="The living hall in warm evening light, with a yellow sofa, carved wooden chairs and Persian rugs" loading="lazy">
             <div class="ecard__body"><h3>Pre-Dinner Drinks</h3><p>Unwind in our living hall with handcrafted welcome drinks.</p></div>
           </article>
           <article class="ecard">
@@ -719,13 +717,13 @@ navState();
 document.getElementById("burger").addEventListener("click", () => nav.classList.toggle("open"));
 nav.querySelectorAll(".nav__links a").forEach(a => a.addEventListener("click", () => nav.classList.remove("open")));
 
-/* hero: the logo line is read first, then the preloader dissolves. The clip does not play by itself:
+/* hero: the logo is seen first, then the preloader fades away. The clip does not play by itself:
    scrolling turns the plate, so the drawing comes to life under the visitor's hand. At the end the words arrive. */
 const hero = document.getElementById("heroVideo");
 const rootEl = document.documentElement;
 const pre = document.getElementById("pre");
 const stage = document.getElementById("heroStage"), track = document.getElementById("heroTrack");
-const T0 = performance.now(), READ = 2000;   // give the line this long to be read before anything moves
+const T0 = performance.now(), READ = 2100;   // the logo is seen for this long before anything moves
 const CLIP_END = .8;                          // share of the scroll used by the clip; the rest holds the words
 const REAL_AT = .4;                           // from here on the dish reads as a photo, so the page goes dark
 let revealTimer = 0;
@@ -734,8 +732,8 @@ function revealHero() {
   const left = READ - (performance.now() - T0);
   if (left > 0) { if (!revealTimer) revealTimer = setTimeout(() => { revealTimer = 0; revealHero(); }, left); return; }
   rootEl.classList.remove("preload");
-  if (pre) { pre.classList.add("is-out"); setTimeout(() => pre.remove(), 1300); }
-  try { localStorage.setItem("heroSeen", "1"); } catch (_) {}
+  if (pre) { pre.classList.add("is-out"); setTimeout(() => pre.remove(), 1900); }
+  try { sessionStorage.setItem("heroSeen", "1"); } catch (_) {}
 }
 function setLook(real) {
   stage.classList.toggle("is-sketch", !real);
@@ -986,8 +984,8 @@ if (estate) {
   });
 })();
 </script>
-<script src="assets/db.js"></script>
-<script src="assets/book.js?v=6"></script>
+<script src="assets/db.js?v=2"></script>
+<script src="assets/book.js?v=7"></script>
 <script src="assets/wa.js"></script>
 <script src="assets/fly.js"></script>
 <script src="assets/reviews.js"></script>

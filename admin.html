@@ -8,7 +8,7 @@
      supports both, and its dark styles are simply the same colours again (see type.css). -->
 <meta name="color-scheme" content="light dark">
 <meta name="robots" content="noindex, nofollow">
-<title>Bookings · The Dinerworkshop</title>
+<title>The desk · The Dinerworkshop</title>
 <link rel="icon" href="assets/logo-ink.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,539 +164,231 @@ dialog::backdrop { background: rgba(25, 17, 11, .5); }
   .top { flex-wrap: wrap; gap: 8px 10px; }
   .top img { display: none; }
 }
+/* more sections: overview, calendar, guests, accounts */
+.views { flex-wrap: wrap; }
+.tab { white-space: nowrap; }
+.mnav { display: flex; align-items: center; gap: 10px; }
+.mnav h2 { min-width: 176px; text-align: center; font-size: 19px; text-transform: uppercase; letter-spacing: -.01em; }
+.wrap > .mnav { margin-top: 20px; }
+.cal__head .mnav { width: 100%; justify-content: space-between; }
+.cal__head .mnav h2 { min-width: 0; }
+.stats--4 { grid-template-columns: repeat(4, 1fr); }
+.stat--go { text-align: left; cursor: pointer; }
+.stat--go:hover { border-color: var(--ink); }
+.cols--even { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
+.panel { padding: 20px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
+.panel h2 { font: 400 11.5px/1.4 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.bars { margin-top: 16px; height: 230px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.bars__col { min-width: 0; height: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.bars__col em { font-style: normal; font-size: 12px; color: var(--muted); white-space: nowrap; min-height: 18px; }
+.bars__stack { flex: 1; min-height: 0; width: 100%; max-width: 56px; display: flex; flex-direction: column; justify-content: flex-end; border-bottom: 1px solid var(--line); }
+.bars__stack i { display: block; flex: none; width: 100%; }
+.bars__dining { background: var(--ink); }
+.bars__claypot { background: var(--gold); }
+.bars__col span { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.bars__col.is-now span { color: var(--ink); font-weight: 500; }
+.cal__key--row { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.rowlist { margin-top: 10px; display: grid; gap: 2px; }
+.rowlist p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.rowlist__item { display: grid; grid-template-columns: 98px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; width: 100%; padding: 9px 8px; text-align: left; background: transparent; border: 1px solid transparent; border-radius: 6px; font-size: 14px; cursor: pointer; }
+.rowlist__item:hover { border-color: var(--line); background: #fffdf8; }
+.rowlist__item b { font-weight: 400; }
+.rowlist__item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rowlist__item em { font-style: normal; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.paid__sum { font-size: 13.5px; color: var(--muted); }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.field--grow { flex: 1; min-width: 220px; margin-top: 0; }
+.rowlist__item:focus-visible, .guest:focus-visible, .ledger__row:focus-visible, .big__item:focus-visible, .big__num:focus-visible, .stat--go:focus-visible, .cal__nav:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.big { margin-top: 16px; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.big__dow { padding: 0 4px 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.big__day { min-width: 0; min-height: 116px; padding: 6px; display: flex; flex-direction: column; gap: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; }
+.big__day.is-blank { background: transparent; border-color: transparent; }
+.big__day.is-closed { background: rgba(247, 242, 232, .45); }
+.big__day.is-today { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.big__day.is-over { background: #fffdf8; border-color: var(--ink); }
+.big__num { align-self: flex-start; min-width: 26px; height: 24px; padding: 0 5px; border: 0; border-radius: 4px; background: transparent; font-size: 13px; color: var(--muted); text-align: left; cursor: pointer; }
+.big__num:hover { background: var(--cream-2); color: var(--ink); }
+.big__item { display: block; width: 100%; padding: 4px 6px; border: 0; border-radius: 4px; background: var(--cream-2); color: var(--ink); font-size: 12px; line-height: 1.3; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; }
+.big__item b { font-weight: 500; }
+.big__item--accepted, .big__item--completed { background: var(--ink); color: var(--cream); }
+.big__item--completed { opacity: .6; }
+.big__item--pending { background: transparent; box-shadow: inset 0 0 0 1.5px var(--wait); color: var(--wait); }
+.big__item--pot { background: var(--gold); color: var(--brown-2); }
+.big__item--bday { background: #c9d8cd; }
+.big__item[draggable="true"] { cursor: grab; }
+.big__hint { flex-basis: 100%; }
+.agenda { display: none; margin-top: 16px; gap: 12px; }
+.agenda__day { padding: 14px; display: grid; gap: 6px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; }
+.agenda__day h3 { font: 400 11.5px/1.4 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.agenda .big__item { padding: 9px 10px; font-size: 14px; white-space: normal; }
+
+.guests { margin-top: 14px; display: grid; gap: 6px; }
+.guest { display: grid; grid-template-columns: minmax(0, 2.2fr) 1fr .7fr .5fr .8fr 1.1fr; gap: 10px; align-items: center; width: 100%; padding: 12px 14px; text-align: left; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; font-size: 14px; cursor: pointer; }
+.guest:hover { border-color: var(--ink); }
+.guest--head { padding-top: 0; padding-bottom: 2px; background: transparent; border-color: transparent; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); cursor: default; }
+.guest--head:hover { border-color: transparent; }
+.guest__who b { display: block; font: 300 18px/1.2 var(--head); }
+.guest__who small { display: block; margin-top: 2px; font-size: 13px; color: var(--muted); overflow-wrap: anywhere; }
+.form .chip { margin-right: 6px; }
+.pop__dl { margin: 12px 0 0; display: grid; gap: 8px; }
+.pop__dl dt { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.pop__dl dd { margin: 1px 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.form .paid { margin-top: 16px; display: flex; flex-wrap: wrap; gap: 8px 18px; }
+.form .paid label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; }
+.form .paid input { width: 17px; height: 17px; accent-color: var(--ink); }
+.history { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+.history h3 { margin-bottom: 6px; font: 400 11.5px/1.4 var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.history p { margin: 4px 0 0; font-size: 14px; }
+.history b { margin-right: 6px; font-weight: 400; color: var(--muted); }
+
+.ledger { margin-top: 14px; display: grid; gap: 4px; }
+.ledger__row { display: grid; grid-template-columns: 76px minmax(0, 1fr) minmax(0, 2fr) 120px 110px; gap: 10px; align-items: baseline; width: 100%; padding: 11px 14px; text-align: left; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; font-size: 14px; cursor: pointer; }
+.ledger__row:hover { border-color: var(--ink); }
+.ledger__row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ledger__row span:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.ledger__row--head, .ledger__row--foot, .ledger__row--head:hover, .ledger__row--foot:hover { background: transparent; border-color: transparent; cursor: default; }
+.ledger__row--head { padding-bottom: 2px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.ledger__row--foot { font-weight: 500; }
+.ledger__row.is-refund span:last-child { color: var(--no); }
+
+@media (max-width: 900px) {
+  .top { flex-wrap: wrap; gap: 8px 10px; }
+  .views { order: 5; flex: 1 0 100%; flex-wrap: nowrap; overflow-x: auto; padding-bottom: 2px; }
+  .stats--4 { grid-template-columns: 1fr 1fr; }
+  .stats--6 .stat:last-child, .stats--4 .stat:last-child { grid-column: auto; }
+  .cols--even { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .big, .cal__key .big__hint { display: none; }
+  .agenda { display: grid; }
+  .guest--head, .ledger__row--head { display: none; }
+  .guest { grid-template-columns: 1fr 1fr; gap: 4px 10px; }
+  .guest__who { grid-column: 1 / -1; }
+  .guest span[data-l]:empty { display: none; }
+  .guest span[data-l]::before { content: attr(data-l) ": "; color: var(--muted); }
+  .ledger__row { grid-template-columns: 62px minmax(0, 1fr) auto; }
+  .ledger__row span:nth-child(3), .ledger__row span:nth-child(4) { display: none; }
+  .rowlist__item { grid-template-columns: 84px minmax(0, 1fr) auto; }
+}
+/* ── the look: a calm, Apple-like desk. Sections down the side, content in soft rounded cards, plain sentence-case type ── */
+:root {
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+  --head: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Inter Tight", "Helvetica Neue", Arial, sans-serif;
+  --card: #fbf7ef; --hair: rgba(42, 29, 22, .09); --r: 12px; --side: 244px;
+}
+body { font: 400 14.5px/1.5 var(--sans); -webkit-font-smoothing: antialiased; }
+.shell { display: grid; grid-template-columns: var(--side) minmax(0, 1fr); min-height: 100vh; }
+.side { position: sticky; top: 0; height: 100vh; height: 100svh; display: flex; flex-direction: column; padding: 22px 12px 14px; background: rgba(233, 226, 213, .6); border-right: 1px solid var(--hair); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+.side__logo { align-self: flex-start; height: 30px; margin: 4px 10px 24px; }
+.side__nav, .side__foot { display: grid; gap: 2px; }
+.side__foot { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--hair); }
+.side__item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 10px; border: 0; border-radius: 8px; background: transparent; color: var(--ink); font-size: 14.5px; font-weight: 500; text-align: left; cursor: pointer; transition: background .15s; }
+.side__item svg, .btn svg { flex: none; width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.side__item:hover { background: rgba(42, 29, 22, .06); }
+.side__item[aria-current="page"] { background: var(--ink); color: var(--cream); }
+.side__item i { margin-left: auto; min-width: 20px; padding: 1px 6px; border-radius: 999px; background: rgba(42, 29, 22, .1); font-style: normal; font-size: 12px; font-weight: 600; text-align: center; }
+.side__item[aria-current="page"] i { background: rgba(241, 234, 223, .22); }
+.side__foot .side__item { font-weight: 400; color: var(--muted); }
+.side__item:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.main { min-width: 0; }
+.head { display: flex; align-items: center; gap: 12px; max-width: 1240px; margin: 0 auto; padding: 30px clamp(18px, 3.4vw, 44px) 0; }
+.head h1 { font: 700 32px/1.1 var(--head); letter-spacing: -.022em; }
+.head__acts { margin-left: auto; display: flex; gap: 8px; }
+.head__acts .btn { white-space: nowrap; }
+.head__acts .only-small { display: none; padding: 7px 9px; }
+.wrap { padding: 4px clamp(18px, 3.4vw, 44px) 80px; }
+
+.btn { gap: 6px; min-height: 36px; padding: 7px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.btn svg { width: 16px; height: 16px; stroke-width: 1.9; }
+.btn--ghost { background: var(--card); border-color: var(--hair); }
+.tabs { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; background: rgba(42, 29, 22, .07); border-radius: 10px; }
+.tab { padding: 6px 13px; border: 0; border-radius: 8px; font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.tab[aria-selected="true"] { background: #fffdf8; color: var(--ink); box-shadow: 0 1px 3px rgba(42, 29, 22, .16); }
+.chip { padding: 2px 9px; font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.stat, .card, .panel, .cal, .guest, .agenda__day, .ledger__row, .big__day { background: var(--card); border-color: var(--hair); }
+.stat, .card, .panel, .cal, .guest, .agenda__day, .empty, .note { border-radius: var(--r); }
+.stat, .card, .panel, .cal { box-shadow: 0 1px 2px rgba(42, 29, 22, .04); }
+.ledger__row, .big__day { border-radius: 10px; }
+.ledger__row--head, .ledger__row--foot, .guest--head, .big__day.is-blank { background: transparent; border-color: transparent; box-shadow: none; }
+.stat b { font: 600 30px/1 var(--head); letter-spacing: -.02em; }
+.stat span, .field > span, .card dt, .pop__dl dt, .cal__dow, .cal__list h3, .panel h2, .bars__col span, .big__dow, .agenda__day h3, .guest--head, .history h3, .ledger__row--head, .card__date span {
+  font-family: var(--sans); font-size: 12.5px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.panel h2 { font-size: 14px; font-weight: 600; color: var(--ink); }
+.cal__head h2, .mnav h2 { font: 600 16px/1.2 var(--head); letter-spacing: -.01em; text-transform: none; }
+.cal__nav { border-color: var(--hair); border-radius: 8px; background: var(--card); }
+.card__date { background: rgba(42, 29, 22, .04); border-right-color: var(--hair); }
+.card__date b { font: 600 32px/1 var(--head); letter-spacing: -.02em; }
+.card__head h3 { font: 600 18px/1.25 var(--head); letter-spacing: -.01em; }
+.guest__who b { font: 600 15.5px/1.25 var(--head); }
+.field input, .field select, .field textarea { border-color: var(--hair); border-radius: 8px; }
+.cal { top: 24px; }
+dialog { border-color: var(--hair); border-radius: 16px; box-shadow: 0 24px 60px rgba(25, 17, 11, .28); }
+.form h2 { font: 700 22px/1.2 var(--head); letter-spacing: -.015em; text-transform: none; }
+.gate__card { border-color: var(--hair); border-radius: 16px; box-shadow: 0 12px 40px rgba(42, 29, 22, .08); }
+.gate__card h1 { font: 700 26px/1.1 var(--head); letter-spacing: -.02em; text-transform: none; }
+.toast { border-radius: 12px; }
+
+@media (max-width: 900px) {
+  /* on a phone the sections become a tab bar along the bottom */
+  .shell { display: block; }
+  .side { position: fixed; inset: auto 0 0 0; z-index: 20; height: auto; flex-direction: row; padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); border-right: 0; border-top: 1px solid var(--hair); background: rgba(241, 234, 223, .9); }
+  .side__logo, .side__foot { display: none; }
+  .side__nav { flex: 1; display: flex; gap: 0; }
+  .side__item { position: relative; flex: 1; min-width: 0; flex-direction: column; gap: 3px; padding: 5px 2px; font-size: 10.5px; color: var(--muted); }
+  .side__item svg { width: 22px; height: 22px; }
+  .side__item:hover { background: transparent; }
+  .side__item[aria-current="page"] { background: transparent; color: var(--ink); }
+  .side__item i, .side__item[aria-current="page"] i { position: absolute; top: 1px; left: calc(50% + 5px); margin: 0; min-width: 16px; padding: 0 4px; background: var(--no); color: #fff; font-size: 10px; line-height: 16px; }
+  .head { padding-top: 18px; }
+  .head h1 { font-size: 28px; }
+  .head__acts .only-small { display: inline-flex; }
+  .wrap { padding-bottom: 110px; }
+  .toast { bottom: 84px; }
+  .cal { top: auto; }
+}
+/* boards, and the delete button at the end of a row */
+.toolbar--split { justify-content: space-between; }
+.toolbar--end { margin-top: 22px; justify-content: flex-end; }
+.kan { margin-top: 12px; padding-bottom: 8px; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(214px, 1fr); gap: 12px; align-items: start; overflow-x: auto; }
+.kan__col { min-height: 240px; padding: 10px; display: grid; gap: 8px; align-content: start; background: rgba(42, 29, 22, .05); border-radius: 14px; transition: background .15s; }
+.kan__col.is-over { background: rgba(42, 29, 22, .1); outline: 2px solid var(--ink); outline-offset: -2px; }
+.kan__col h2 { display: flex; justify-content: space-between; padding: 4px 6px 2px; font: 600 13.5px/1.4 var(--sans); }
+.kan__col h2 i { font-style: normal; font-weight: 500; color: var(--muted); }
+.kan__card { display: block; width: 100%; padding: 11px 12px; text-align: left; background: var(--card); border: 1px solid var(--hair); border-radius: 10px; box-shadow: 0 1px 2px rgba(42, 29, 22, .06); font-size: 13.5px; cursor: grab; }
+.kan__card:hover { border-color: rgba(42, 29, 22, .3); }
+.kan__card:focus-visible, .rowdel:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.kan__card b { display: block; font: 600 14.5px/1.3 var(--head); overflow-wrap: anywhere; }
+.kan__card span { display: block; margin-top: 2px; color: var(--muted); }
+.kan__card em { display: inline-block; margin-top: 8px; padding: 1px 8px; border: 1px solid var(--hair); border-radius: 999px; font-style: normal; font-size: 12px; font-weight: 500; color: var(--muted); }
+.kan__card em.is-ok { color: var(--ok); border-color: currentColor; }
+.kan__card em.is-wait { color: var(--wait); border-color: currentColor; }
+.kan__empty { margin: 0; padding: 14px 8px; text-align: center; font-size: 13px; color: var(--muted); }
+.rowwrap { display: grid; grid-template-columns: minmax(0, 1fr) 38px; gap: 6px; align-items: stretch; }
+.rowdel { display: grid; place-items: center; padding: 0; background: var(--card); border: 1px solid var(--hair); border-radius: 10px; color: var(--muted); cursor: pointer; }
+.rowdel:hover { color: var(--no); border-color: var(--no); }
+.rowdel svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.rowdel--blank { visibility: hidden; }
+@media (max-width: 760px) { .rowwrap:has(.guest--head), .rowwrap:has(.ledger__row--head) { display: none; } }
+/* dragging, and red for anything cancelled */
+:root { --no: #b3261e; }
+.kan__card, .big__item.is-movable { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; cursor: grab; }
+.is-dragging { opacity: .3; }
+.drag-ghost { position: fixed; z-index: 100; margin: 0; pointer-events: none; opacity: .97; box-shadow: 0 18px 40px rgba(25, 17, 11, .3); cursor: grabbing; }
+body.is-dragging-any, body.is-dragging-any * { cursor: grabbing !important; -webkit-user-select: none; user-select: none; }
+.big__day.is-over { background: #fffdf8; border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.kan__col--red h2 { color: var(--no); }
+.kan__col--red.is-over { outline-color: var(--no); background: rgba(179, 38, 30, .08); }
+.kan__card.is-cancelled, .card.is-cancelled { border-color: var(--no); box-shadow: inset 0 0 0 1px var(--no); }
+.kan__card.is-cancelled em { color: var(--no); border-color: currentColor; }
+.card.is-cancelled .card__date { border-right-color: var(--no); }
 </style>
 </head>
 <body>
 <div id="app"></div>
 <dialog id="dlg"></dialog>
 
-<script src="assets/db.js"></script>
-<script>
-(() => {
-  const DB = window.DW_DB;
-  const app = document.getElementById("app"), dlg = document.getElementById("dlg");
-  const KEY = "dwAdminSession";
-  const OCCASIONS = ["A celebration", "An evening with friends", "A family gathering", "A private occasion"];
-  const STATUS = { pending: "Request", accepted: "Confirmed", declined: "Declined", cancelled: "Cancelled" };
-  let session = null, rows = [], tab = "pending", pickedDay = null, loadedAt = 0;
-  // claypot takeaway orders sit beside the dining bookings
-  let view = "bookings", orders = [], otab = "pending", opicked = null, ordersOff = false;
-  const ED = { tasting: { label: "The ‘Tasting’ Edition", short: "Tasting", price: 80 }, grand: { label: "The ‘Grand’ Edition", short: "Grand", price: 150 } };
-  const OSTATUS = { pending: "New order", confirmed: "Confirmed", collected: "Collected", cancelled: "Cancelled" };
-  const edLabel = o => (ED[o.edition] || { label: o.edition }).label;
-  let month = new Date(); month.setDate(1);
-  try { session = JSON.parse(localStorage.getItem(KEY) || "null"); } catch (_) {}
-
-  /* ── small helpers ── */
-  // builds DOM with text nodes only, so nothing a guest typed can ever run as markup
-  function el(tag, props, ...kids) {
-    const n = document.createElement(tag);
-    for (const [k, v] of Object.entries(props || {})) {
-      if (v == null || v === false) continue;
-      if (k === "class") n.className = v;
-      else if (k === "text") n.textContent = v;
-      else if (k === "value") n.value = v;
-      else if (k === "checked") n.checked = !!v;
-      else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
-      else n.setAttribute(k, v === true ? "" : v);
-    }
-    for (const c of kids.flat()) if (c != null && c !== false) n.append(c.nodeType ? c : document.createTextNode(String(c)));
-    return n;
-  }
-  const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  const today = () => iso(new Date());
-  const asDate = v => { const [y, m, d] = String(v).slice(0, 10).split("-").map(Number); return new Date(y, m - 1, d); };
-  const fmt = (v, o) => asDate(v).toLocaleDateString("en-SG", o);
-  const longDate = v => fmt(v, { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-  const first = name => String(name || "").trim().split(/\s+/)[0] || "there";
-  const DEFAULT_TIME = "19:00";                                       // the site: 7:00 PM til late
-  const hhmm = t => /^\d\d:\d\d/.test(String(t || "")) ? String(t).slice(0, 5) : DEFAULT_TIME;
-  const clock = t => { const [h, m] = hhmm(t).split(":").map(Number); return `${h % 12 || 12}:${String(m).padStart(2, "0")} ${h < 12 ? "AM" : "PM"}`; };
-  function waLink(r) {
-    let d = String(r.phone || "").replace(/\D/g, "").replace(/^00/, "");
-    if (d.length === 8) d = "65" + d;                               // a local Singapore number
-    const text = r.status === "accepted"
-      ? `Hi ${first(r.name)}, this is Ian from The Dinerworkshop. I would be delighted to host your group of ${r.guests} on ${longDate(r.dining_date)} at ${clock(r.dining_time)}.`
-      : `Hi ${first(r.name)}, this is Ian from The Dinerworkshop. Thank you for your request for ${r.guests} guests on ${longDate(r.dining_date)}.`;
-    return `https://wa.me/${d}?text=${encodeURIComponent(text)}`;
-  }
-  let toastTimer = 0;
-  function toast(msg, link) {
-    document.querySelectorAll(".toast").forEach(t => t.remove());
-    const t = el("div", { class: "toast", role: "status" }, el("span", { text: msg }), link && el("a", { href: link.href, target: "_blank", rel: "noopener", text: link.text }));
-    document.body.append(t);
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.remove(), link ? 9000 : 4200);
-  }
-
-  /* ── signing in: Supabase Auth; the database decides what a signed-in account may see ── */
-  function keep(d) {
-    session = { access_token: d.access_token, refresh_token: d.refresh_token, expires_at: d.expires_at || Math.floor(Date.now() / 1000) + (d.expires_in || 3600) };
-    try { localStorage.setItem(KEY, JSON.stringify(session)); } catch (_) {}
-  }
-  function forget() { session = null; rows = []; orders = []; try { localStorage.removeItem(KEY); } catch (_) {} }
-  async function token() {
-    if (!session) { const e = new Error("Signed out"); e.status = 401; throw e; }
-    if (session.expires_at * 1000 - Date.now() < 60000)
-      keep(await DB.call("/auth/v1/token?grant_type=refresh_token", { method: "POST", body: { refresh_token: session.refresh_token } }));
-    return session.access_token;
-  }
-  async function api(path, opts = {}) {
-    try { return await DB.call(path, { ...opts, token: await token() }); }
-    catch (e) { if (e.status === 401 || e.status === 403 && /jwt/i.test(e.message)) { forget(); gate("Please sign in again."); } throw e; }
-  }
-  async function signOut() {
-    const t = session && session.access_token;
-    forget(); gate();
-    if (t) DB.call("/auth/v1/logout", { method: "POST", token: t }).catch(() => {});
-  }
-
-  function gate(note) {
-    dlg.open && dlg.close();
-    const err = el("p", { class: "err", role: "alert", text: note || "", hidden: !note });
-    const email = el("input", { type: "email", autocomplete: "username", required: true });
-    const pass = el("input", { type: "password", autocomplete: "current-password", required: true });
-    const go = el("button", { class: "btn", type: "submit", text: "Sign in" });
-    const form = el("form", { class: "gate__card", onsubmit: async e => {
-      e.preventDefault();
-      go.disabled = true; err.hidden = true;
-      try {
-        keep(await DB.call("/auth/v1/token?grant_type=password", { method: "POST", body: { email: email.value.trim(), password: pass.value } }));
-        const ok = await DB.call("/rest/v1/rpc/is_admin", { method: "POST", body: {}, token: session.access_token });
-        if (ok !== true) { forget(); throw new Error("This account is not allowed to manage bookings."); }
-        await start();
-      } catch (ex) {
-        err.textContent = /invalid/i.test(ex.message) ? "That email or password is not right." : ex.message;
-        err.hidden = false; go.disabled = false;
-      }
-    } },
-      el("img", { src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
-      el("h1", { text: "Bookings" }),
-      DB && DB.ready ? [
-        el("label", { class: "field" }, el("span", { text: "Email" }), email),
-        el("label", { class: "field" }, el("span", { text: "Password" }), pass),
-        go, err
-      ] : el("p", { text: "The booking backend is not connected yet. Add the Supabase project URL and publishable key to assets/db.js." })
-    );
-    app.replaceChildren(el("div", { class: "gate" }, form));
-  }
-
-  /* ── data ── */
-  async function load() {
-    rows = await api("/rest/v1/bookings?select=*&order=dining_date.asc,created_at.asc") || [];
-    try { orders = await api("/rest/v1/claypot_orders?select=*&order=pickup_date.asc,created_at.asc") || []; ordersOff = false; }
-    catch (e) { if (!session) throw e; orders = []; ordersOff = true; }      // the orders table is not set up yet
-    loadedAt = Date.now();
-  }
-  async function patch(r, body, done, table = "bookings") {
-    try {
-      const out = await api(`/rest/v1/${table}?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
-      Object.assign(r, (out && out[0]) || body);
-      render();
-      if (done) done(r);
-    } catch (e) { if (session) toast("Could not save: " + e.message); }
-  }
-  function setStatus(r, status) {
-    patch(r, { status }, row => toast(`${row.name}: ${STATUS[status].toLowerCase()}.`));
-  }
-
-  /* ── accept a request, or move a confirmed one: Ian picks the evening and the time ── */
-  function schedule(r, accepting) {
-    const date = el("input", { type: "date", required: true, value: r.dining_date });
-    const time = el("input", { type: "time", required: true, step: 900, value: hhmm(r.dining_time) });
-    const err = el("p", { class: "err", role: "alert", hidden: true });
-    const save = el("button", { class: "btn", type: "submit", text: accepting ? "Confirm booking" : "Save" });
-    const form = el("form", { class: "form", onsubmit: async e => {
-      e.preventDefault();
-      const body = { dining_date: date.value, dining_time: time.value || DEFAULT_TIME };
-      if (accepting) body.status = "accepted";
-      const clash = rows.find(x => x !== r && x.status === "accepted" && x.dining_date === body.dining_date);
-      if (clash && !confirm(`${clash.name} is already confirmed for ${longDate(body.dining_date)}. Confirm ${r.name} for that evening as well?`)) return;
-      save.disabled = true; err.hidden = true;
-      try {
-        const out = await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
-        Object.assign(r, (out && out[0]) || body);
-        rows.sort((a, b) => a.dining_date < b.dining_date ? -1 : a.dining_date > b.dining_date ? 1 : 0);
-        if (accepting) { tab = "confirmed"; pickedDay = null; }
-        month = asDate(r.dining_date); month.setDate(1);              // show the month it now sits in
-        dlg.close(); render();
-        toast(`${r.name}: ${fmt(r.dining_date, { weekday: "short", day: "numeric", month: "short" })}, ${clock(r.dining_time)}.`, { href: waLink(r), text: "Message on WhatsApp" });
-      } catch (ex) { err.textContent = "Could not save: " + ex.message; err.hidden = false; save.disabled = false; }
-    } },
-      el("h2", { text: accepting ? "Confirm " + r.name : "Change date or time" }),
-      el("p", { text: accepting
-        ? `${r.name} asked for ${longDate(r.dining_date)}, ${r.guests} guests. Set the evening and the time, then message them on WhatsApp.`
-        : `${r.name}, ${r.guests} guests. Tell them on WhatsApp once it is saved.` }),
-      el("div", { class: "form__row" },
-        el("label", { class: "field" }, el("span", { text: "Date" }), date),
-        el("label", { class: "field" }, el("span", { text: "Time" }), time)),
-      err,
-      el("div", { class: "form__acts" }, save, el("button", { class: "btn btn--ghost", type: "button", text: "Close", onclick: () => dlg.close() })));
-    dlg.replaceChildren(form);
-    dlg.showModal();
-  }
-
-  /* ── the desk ── */
-  function lists() {
-    const t = today();
-    return {
-      pending: rows.filter(r => r.status === "pending"),
-      confirmed: rows.filter(r => r.status === "accepted" && r.dining_date >= t),
-      past: rows.filter(r => r.status === "accepted" && r.dining_date < t).reverse(),
-      declined: rows.filter(r => r.status === "declined" || r.status === "cancelled").reverse()
-    };
-  }
-
-  function card(r) {
-    const notes = el("textarea", { value: r.admin_notes || "", placeholder: "Only you can see this", onblur: e => {
-      const v = e.target.value.trim() || null;
-      if (v !== (r.admin_notes || null)) patch(r, { admin_notes: v }, () => toast("Note saved."));
-    } });
-    const acts = [];
-    if (r.status === "pending") acts.push(
-      el("button", { class: "btn", type: "button", text: "Accept", onclick: () => schedule(r, true) }),
-      el("button", { class: "btn btn--ghost", type: "button", text: "Decline", onclick: () => setStatus(r, "declined") }));
-    acts.push(el("a", { class: "btn btn--wa", href: waLink(r), target: "_blank", rel: "noopener", text: "WhatsApp" }));
-    if (r.status === "accepted") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Change date or time", onclick: () => schedule(r, false) }));
-    if (r.status === "accepted") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Cancel booking", onclick: () => confirm(`Cancel ${r.name}'s booking on ${longDate(r.dining_date)}?`) && setStatus(r, "cancelled") }));
-    if (r.status === "declined" || r.status === "cancelled") acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Back to requests", onclick: () => setStatus(r, "pending") }));
-    acts.push(el("button", { class: "btn btn--ghost", type: "button", text: "Edit", onclick: () => edit(r) }));
-
-    const phoneDigits = String(r.phone || "").replace(/[^\d+]/g, "");
-    return el("article", { class: "card" },
-      el("div", { class: "card__date" },
-        el("b", { text: fmt(r.dining_date, { day: "numeric" }) }),
-        el("span", { text: fmt(r.dining_date, { month: "short", year: "numeric" }) }),
-        el("em", { text: fmt(r.dining_date, { weekday: "long" }) }),
-        r.status === "accepted" && el("strong", { text: clock(r.dining_time) })),
-      el("div", { class: "card__body" },
-        el("div", { class: "card__head" },
-          el("h3", { text: r.name }),
-          el("span", { class: "chip chip--" + r.status, text: STATUS[r.status] || r.status }),
-          el("span", { class: "chip", text: r.source === "manual" ? "Added by you" : "From the website" })),
-        el("p", { class: "card__meta", text: `${r.guests} guests${r.occasion ? " · " + r.occasion : ""}` }),
-        el("p", { class: "card__contact" },
-          el("a", { href: "tel:" + phoneDigits, text: r.phone }),
-          r.email && [" · ", el("a", { href: "mailto:" + encodeURIComponent(r.email).replace("%40", "@"), text: r.email })]),
-        (r.dietary || r.notes) && el("dl", null,
-          r.dietary && el("div", null, el("dt", { text: "Dietary requirements" }), el("dd", { text: r.dietary })),
-          r.notes && el("div", null, el("dt", { text: "About their evening" }), el("dd", { text: r.notes }))),
-        r.status === "accepted" && el("div", { class: "paid" },
-          el("label", null, el("input", { type: "checkbox", checked: r.paid, onchange: e => patch(r, { paid: e.target.checked }) }), "Full payment received")),
-        el("label", { class: "field card__notes" }, el("span", { text: "Your notes" }), notes),
-        el("div", { class: "card__acts" }, acts),
-        el("p", { class: "card__when", text: "Received " + new Date(r.created_at).toLocaleString("en-SG", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" }) })));
-  }
-
-  function calendar() {
-    const y = month.getFullYear(), m = month.getMonth();
-    const by = {};
-    rows.forEach(r => { if (r.status === "pending" || r.status === "accepted") (by[r.dining_date] = by[r.dining_date] || {})[r.status] = true; });
-    const lead = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m + 1, 0).getDate(), t = today();
-    const cells = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"].map(d => el("div", { class: "cal__dow", text: d }));
-    for (let i = 0; i < lead; i++) cells.push(el("span"));
-    for (let d = 1; d <= days; d++) {
-      const key = iso(new Date(y, m, d)), dow = new Date(y, m, d).getDay(), has = by[key] || {};
-      const cls = ["cal__day", (dow === 1 || dow === 2) && "is-closed", key === t && "is-today", has.pending && "has-pending", has.accepted && "has-accepted", key === pickedDay && "is-picked"].filter(Boolean).join(" ");
-      cells.push(el("button", { class: cls, type: "button", text: d, "aria-label": longDate(key) + (has.accepted ? ", confirmed" : has.pending ? ", request waiting" : ""), "aria-pressed": key === pickedDay ? "true" : "false",
-        onclick: () => { pickedDay = pickedDay === key ? null : key; render(); } }));
-    }
-    const step = n => () => { month = new Date(y, m + n, 1); render(); };
-    const ym = iso(month).slice(0, 7);
-    const evenings = rows.filter(r => (r.status === "accepted" || r.status === "pending") && String(r.dining_date).slice(0, 7) === ym)
-      .sort((a, b) => (a.dining_date + hhmm(a.dining_time)).localeCompare(b.dining_date + hhmm(b.dining_time)));
-    return el("aside", { class: "cal", "aria-label": "Month" },
-      el("div", { class: "cal__head" },
-        el("button", { class: "cal__nav", type: "button", "aria-label": "Previous month", onclick: step(-1), text: "‹" }),
-        el("h2", { text: month.toLocaleDateString("en-SG", { month: "long", year: "numeric" }) }),
-        el("button", { class: "cal__nav", type: "button", "aria-label": "Next month", onclick: step(1), text: "›" })),
-      el("div", { class: "cal__grid" }, cells),
-      el("div", { class: "cal__key" },
-        el("span", null, el("i", { style: "background: var(--ink)" }), "Confirmed evening"),
-        el("span", null, el("i", { style: "box-shadow: inset 0 0 0 1.5px var(--wait)" }), "Request waiting"),
-        el("span", null, "Tap a day to see only that evening.")),
-      el("div", { class: "cal__list" },
-        el("h3", { text: "Evenings in " + month.toLocaleDateString("en-SG", { month: "long" }) }),
-        evenings.length ? evenings.map(r => el("button", { class: "cal__item" + (r.status === "pending" ? " is-wait" : ""), type: "button", "aria-pressed": r.dining_date === pickedDay ? "true" : "false",
-          onclick: () => { pickedDay = r.dining_date; render(); } },
-          el("b", { text: fmt(r.dining_date, { weekday: "short", day: "numeric" }) }),
-          el("span", { text: r.status === "accepted" ? clock(r.dining_time) : "Request" }),
-          el("em", { text: `${r.name}, ${r.guests}` }))) : el("p", { text: "No evenings booked this month." })));
-  }
-
-  function topBar() {
-    const waiting = { bookings: rows.filter(r => r.status === "pending").length, orders: orders.filter(o => o.status === "pending").length };
-    const sw = (k, label) => el("button", { class: "tab", type: "button", "aria-selected": view === k ? "true" : "false", onclick: () => { if (view !== k) { view = k; render(); scrollTo(0, 0); } } },
-      label, waiting[k] ? el("i", { text: waiting[k] }) : null);
-    return el("header", { class: "top" },
-      el("img", { src: "assets/wordmark-ink.png", alt: "The Dinerworkshop" }),
-      el("nav", { class: "views", "aria-label": "Sections" }, sw("bookings", "Dining"), sw("orders", "Claypot")),
-      el("div", { class: "top__sp" }),
-      el("button", { class: "btn", type: "button", onclick: () => view === "orders" ? editOrder(null) : edit(null) }, "Add ", el("span", { class: "long", text: view === "orders" ? "order" : "booking" })),
-      el("button", { class: "btn btn--ghost", type: "button", text: "Refresh", onclick: refresh }),
-      el("button", { class: "btn btn--ghost", type: "button", text: "Sign out", onclick: signOut }));
-  }
-
-  function render() {
-    if (view === "orders") return renderOrders();
-    const L = lists(), next = L.confirmed[0];
-    const showing = pickedDay ? rows.filter(r => r.dining_date === pickedDay) : L[tab];
-    const names = { pending: "Requests", confirmed: "Confirmed", past: "Past", declined: "Declined" };
-    const keepScroll = scrollY;
-    app.replaceChildren(
-      topBar(),
-      el("main", { class: "wrap" },
-        el("h1", { text: "Bookings" }),
-        el("div", { class: "stats" },
-          el("div", { class: "stat" }, el("b", { text: L.pending.length }), el("span", { text: "Requests waiting for you" })),
-          el("div", { class: "stat" }, el("b", { text: L.confirmed.length }), el("span", { text: "Confirmed evenings ahead" })),
-          el("div", { class: "stat" }, el("b", { text: next ? fmt(next.dining_date, { day: "numeric", month: "short" }) : "None" }), el("span", { text: "Next evening" }), next && el("small", { text: `${next.name}, ${next.guests} guests` }))),
-        el("div", { class: "cols" },
-          el("section", null,
-            el("div", { class: "tabs", role: "tablist" }, Object.keys(names).map(k =>
-              el("button", { class: "tab", type: "button", role: "tab", "aria-selected": !pickedDay && tab === k ? "true" : "false", onclick: () => { tab = k; pickedDay = null; render(); } }, names[k], el("i", { text: L[k].length })))),
-            pickedDay && el("div", { class: "dayline" }, el("span", { text: "Showing " + longDate(pickedDay) }), el("button", { class: "btn btn--ghost", type: "button", text: "Show all", onclick: () => { pickedDay = null; render(); } })),
-            el("div", { class: "list" }, showing.length ? showing.map(card) : el("p", { class: "empty", text: pickedDay ? "Nothing on this evening." : tab === "pending" ? "No requests waiting." : "Nothing here yet." }))),
-          calendar())));
-    scrollTo(0, keepScroll);
-  }
-
-  /* ── claypot takeaway orders: confirm, WhatsApp, mark collected ── */
-  const potsLine = list => Object.keys(ED).map(k => [list.filter(o => o.edition === k).reduce((n, o) => n + o.qty, 0), ED[k].short]).filter(x => x[0]).map(x => `${x[0]} ${x[1]}`).join(" · ");
-  function orderWa(o) {
-    let d = String(o.phone || "").replace(/\D/g, "").replace(/^00/, "");
-    if (d.length === 8) d = "65" + d;
-    const what = `${o.qty} x ${edLabel(o)}`;
-    const text = o.status === "confirmed"
-      ? `Hi ${first(o.name)}, this is Ian from The Dinerworkshop. Your Claypot Rice order (${what}) is confirmed for collection on ${longDate(o.pickup_date)}.`
-      : `Hi ${first(o.name)}, this is Ian from The Dinerworkshop. Thank you for your Claypot Rice order (${what}) for ${longDate(o.pickup_date)}.`;
-    return `https://wa.me/${d}?text=${encodeURIComponent(text)}`;
-  }
-  function setOrder(o, status) {
-    patch(o, { status }, row => {
-      if (status === "confirmed") toast(`${row.name}'s order is confirmed.`, { href: orderWa(row), text: "Message on WhatsApp" });
-      else toast(`${row.name}: ${OSTATUS[status].toLowerCase()}.`);
-    }, "claypot_orders");
-  }
-  function orderCard(o) {
-    const notes = el("textarea", { value: o.admin_notes || "", placeholder: "Only you can see this", onblur: e => {
-      const v = e.target.value.trim() || null;
-      if (v !== (o.admin_notes || null)) patch(o, { admin_notes: v }, () => toast("Note saved."), "claypot_orders");
-    } });
-    const b = (text, fn, ghost) => el("button", { class: "btn" + (ghost ? " btn--ghost" : ""), type: "button", text, onclick: fn });
-    const acts = [];
-    if (o.status === "pending") acts.push(b("Confirm", () => setOrder(o, "confirmed")), b("Decline", () => setOrder(o, "cancelled"), true));
-    acts.push(el("a", { class: "btn btn--wa", href: orderWa(o), target: "_blank", rel: "noopener", text: "WhatsApp" }));
-    if (o.status === "confirmed") acts.push(b("Mark collected", () => setOrder(o, "collected")), b("Cancel order", () => confirm(`Cancel ${o.name}'s order for ${longDate(o.pickup_date)}?`) && setOrder(o, "cancelled"), true));
-    if (o.status === "collected") acts.push(b("Not collected yet", () => setOrder(o, "confirmed"), true));
-    if (o.status === "cancelled") acts.push(b("Back to new orders", () => setOrder(o, "pending"), true));
-    acts.push(b("Edit", () => editOrder(o), true));
-    const phoneDigits = String(o.phone || "").replace(/[^\d+]/g, "");
-    return el("article", { class: "card" },
-      el("div", { class: "card__date" },
-        el("b", { text: fmt(o.pickup_date, { day: "numeric" }) }),
-        el("span", { text: fmt(o.pickup_date, { month: "short", year: "numeric" }) }),
-        el("em", { text: fmt(o.pickup_date, { weekday: "long" }) }),
-        el("strong", { text: "Collection" })),
-      el("div", { class: "card__body" },
-        el("div", { class: "card__head" },
-          el("h3", { text: o.name }),
-          el("span", { class: "chip chip--" + (o.status === "confirmed" || o.status === "collected" ? "accepted" : o.status), text: OSTATUS[o.status] || o.status }),
-          el("span", { class: "chip", text: o.source === "manual" ? "Added by you" : "From the website" })),
-        el("p", { class: "card__meta", text: `${o.qty} x ${edLabel(o)} · $${o.total}` }),
-        el("p", { class: "card__contact" }, el("a", { href: "tel:" + phoneDigits, text: o.phone })),
-        o.keep_pot && el("dl", null, el("div", null, el("dt", { text: "Also asked about" }), el("dd", { text: "Rent or Keep The Pot" }))),
-        (o.status === "confirmed" || o.status === "collected") && el("div", { class: "paid" },
-          el("label", null, el("input", { type: "checkbox", checked: o.paid, onchange: e => patch(o, { paid: e.target.checked }, null, "claypot_orders") }), "Payment received")),
-        el("label", { class: "field card__notes" }, el("span", { text: "Your notes" }), notes),
-        el("div", { class: "card__acts" }, acts),
-        el("p", { class: "card__when", text: "Received " + new Date(o.created_at).toLocaleString("en-SG", { day: "numeric", month: "short", year: "numeric", hour: "numeric", minute: "2-digit" }) })));
-  }
-  function renderOrders() {
-    const t = today();
-    const L = {
-      pending: orders.filter(o => o.status === "pending"),
-      confirmed: orders.filter(o => o.status === "confirmed"),
-      collected: orders.filter(o => o.status === "collected").reverse(),
-      cancelled: orders.filter(o => o.status === "cancelled").reverse()
-    };
-    const names = { pending: "New orders", confirmed: "Confirmed", collected: "Collected", cancelled: "Cancelled" };
-    const ahead = orders.filter(o => (o.status === "pending" || o.status === "confirmed") && o.pickup_date >= t);
-    const toCook = L.confirmed.filter(o => o.pickup_date >= t);
-    const days = [...new Set(ahead.map(o => o.pickup_date))].sort();
-    const showing = opicked ? orders.filter(o => o.pickup_date === opicked && o.status !== "cancelled") : L[otab];
-    const keepScroll = scrollY;
-    app.replaceChildren(
-      topBar(),
-      el("main", { class: "wrap" },
-        el("h1", { text: "Claypot orders" }),
-        ordersOff && el("p", { class: "note", text: "The claypot orders table is not set up in the database yet. Run the latest schema.sql in Supabase, then press Refresh." }),
-        el("div", { class: "stats" },
-          el("div", { class: "stat" }, el("b", { text: L.pending.length }), el("span", { text: "New orders waiting for you" })),
-          el("div", { class: "stat" }, el("b", { text: toCook.reduce((n, o) => n + o.qty, 0) }), el("span", { text: "Confirmed pots to prepare" }), toCook.length ? el("small", { text: potsLine(toCook) }) : null),
-          el("div", { class: "stat" }, el("b", { text: days[0] ? fmt(days[0], { day: "numeric", month: "short" }) : "None" }), el("span", { text: "Next collection day" }), days[0] && el("small", { text: potsLine(ahead.filter(o => o.pickup_date === days[0])) }))),
-        el("div", { class: "cols" },
-          el("section", null,
-            el("div", { class: "tabs", role: "tablist" }, Object.keys(names).map(k =>
-              el("button", { class: "tab", type: "button", role: "tab", "aria-selected": !opicked && otab === k ? "true" : "false", onclick: () => { otab = k; opicked = null; render(); } }, names[k], el("i", { text: L[k].length })))),
-            opicked && el("div", { class: "dayline" }, el("span", { text: "Showing collection on " + longDate(opicked) }), el("button", { class: "btn btn--ghost", type: "button", text: "Show all", onclick: () => { opicked = null; render(); } })),
-            el("div", { class: "list" }, showing.length ? showing.map(orderCard) : el("p", { class: "empty", text: opicked ? "No orders for this day." : otab === "pending" ? "No new orders." : "Nothing here yet." }))),
-          el("aside", { class: "cal", "aria-label": "Collection days" },
-            el("div", { class: "cal__head" }, el("h2", { text: "Collection days" })),
-            el("div", { class: "cal__list", style: "margin-top: 12px; padding-top: 0; border-top: 0" },
-              days.length ? days.map(d => { const list = ahead.filter(o => o.pickup_date === d), wait = list.some(o => o.status === "pending");
-                return el("button", { class: "cal__item" + (wait ? " is-wait" : ""), type: "button", "aria-pressed": d === opicked ? "true" : "false", onclick: () => { opicked = opicked === d ? null : d; render(); } },
-                  el("b", { text: fmt(d, { weekday: "short", day: "numeric" }) }),
-                  el("span", { text: fmt(d, { month: "short" }) + (wait ? " · new" : "") }),
-                  el("em", { text: potsLine(list) })); })
-              : el("p", { text: "No collections coming up." })),
-            el("div", { class: "cal__key" }, el("span", null, "Tap a day to see only its orders."))))));
-    scrollTo(0, keepScroll);
-  }
-  function editOrder(o) {
-    const isNew = !o;
-    const v = o || { status: "confirmed", edition: "tasting", qty: 1, pickup_date: opicked || "" };
-    const f = {
-      name: el("input", { type: "text", required: true, maxlength: 120, value: v.name || "" }),
-      phone: el("input", { type: "tel", required: true, maxlength: 40, value: v.phone || "" }),
-      pickup_date: el("input", { type: "date", required: true, value: v.pickup_date || "" }),
-      edition: el("select", null, Object.entries(ED).map(([k, e]) => el("option", { value: k, text: `${e.label} ($${e.price})` }))),
-      qty: el("input", { type: "number", required: true, min: 1, max: 20, value: v.qty || 1 }),
-      total: el("input", { type: "number", required: true, min: 0, value: v.total == null ? ED[v.edition].price * (v.qty || 1) : v.total }),
-      status: el("select", null, Object.entries(OSTATUS).map(([k, t]) => el("option", { value: k, text: t }))),
-      keep_pot: el("input", { type: "checkbox", checked: v.keep_pot }),
-      paid: el("input", { type: "checkbox", checked: v.paid })
-    };
-    f.edition.value = v.edition; f.status.value = v.status;
-    const price = () => { f.total.value = (ED[f.edition.value] || { price: 0 }).price * Math.max(1, Number(f.qty.value) || 1); };
-    f.edition.addEventListener("change", price); f.qty.addEventListener("input", price);
-    const err = el("p", { class: "err", role: "alert", hidden: true });
-    const save = el("button", { class: "btn", type: "submit", text: isNew ? "Add order" : "Save" });
-    const lab = (t, input) => el("label", { class: "field" }, el("span", { text: t }), input);
-    const form = el("form", { class: "form", onsubmit: async e => {
-      e.preventDefault();
-      const body = { name: f.name.value.trim(), phone: f.phone.value.trim(), pickup_date: f.pickup_date.value, edition: f.edition.value,
-        qty: Number(f.qty.value), total: Number(f.total.value), status: f.status.value, keep_pot: f.keep_pot.checked, paid: f.paid.checked };
-      save.disabled = true; err.hidden = true;
-      try {
-        if (isNew) {
-          const out = await api("/rest/v1/claypot_orders", { method: "POST", body: { ...body, source: "manual" }, prefer: "return=representation" });
-          orders.push((out && out[0]) || { ...body, source: "manual", id: String(Date.now()), created_at: new Date().toISOString() });
-          otab = body.status; opicked = null;
-        } else {
-          const out = await api(`/rest/v1/claypot_orders?id=eq.${encodeURIComponent(o.id)}`, { method: "PATCH", body, prefer: "return=representation" });
-          Object.assign(o, (out && out[0]) || body);
-        }
-        orders.sort((a, b) => a.pickup_date < b.pickup_date ? -1 : a.pickup_date > b.pickup_date ? 1 : 0);
-        dlg.close(); render(); toast(isNew ? "Order added." : "Saved.");
-      } catch (ex) { err.textContent = "Could not save: " + ex.message; err.hidden = false; save.disabled = false; }
-    } },
-      el("h2", { text: isNew ? "Add an order" : "Edit order" }),
-      el("div", { class: "form__row" }, lab("Name", f.name), lab("WhatsApp number", f.phone)),
-      el("div", { class: "form__row" }, lab("Collection date", f.pickup_date), lab("Status", f.status)),
-      el("div", { class: "form__row" }, lab("Edition", f.edition), lab("Number of pots", f.qty)),
-      lab("Total ($)", f.total),
-      el("div", { class: "form__check" },
-        el("label", null, f.keep_pot, "Asked about Rent or Keep The Pot"),
-        el("label", null, f.paid, "Payment received")),
-      err,
-      el("div", { class: "form__acts" },
-        save,
-        el("button", { class: "btn btn--ghost", type: "button", text: "Close", onclick: () => dlg.close() }),
-        el("span", { class: "sp" }),
-        !isNew && el("button", { class: "btn btn--ghost", type: "button", text: "Delete", onclick: async () => {
-          if (!confirm(`Delete ${o.name}'s order for good? This cannot be undone.`)) return;
-          try { await api(`/rest/v1/claypot_orders?id=eq.${encodeURIComponent(o.id)}`, { method: "DELETE" }); orders = orders.filter(x => x !== o); dlg.close(); render(); toast("Order deleted."); }
-          catch (ex) { err.textContent = "Could not delete: " + ex.message; err.hidden = false; }
-        } })));
-    dlg.replaceChildren(form);
-    dlg.showModal();
-  }
-
-  /* ── add your own booking, or edit one ── */
-  function edit(r) {
-    const isNew = !r;
-    const v = r || { status: "accepted", guests: 6, dining_date: pickedDay || "", dining_time: DEFAULT_TIME };
-    const f = {
-      name: el("input", { type: "text", required: true, maxlength: 120, value: v.name || "" }),
-      phone: el("input", { type: "tel", required: true, maxlength: 40, value: v.phone || "" }),
-      email: el("input", { type: "email", maxlength: 200, value: v.email || "" }),
-      dining_date: el("input", { type: "date", required: true, value: v.dining_date || "" }),
-      dining_time: el("input", { type: "time", required: true, step: 900, value: hhmm(v.dining_time) }),
-      guests: el("input", { type: "number", required: true, min: 1, max: 30, value: v.guests || 6 }),
-      occasion: el("input", { type: "text", list: "occs", maxlength: 120, value: v.occasion || "" }),
-      status: el("select", null, Object.entries(STATUS).map(([k, t]) => el("option", { value: k, text: t }))),
-      dietary: el("input", { type: "text", maxlength: 1000, value: v.dietary || "" }),
-      notes: el("textarea", { maxlength: 2000, value: v.notes || "" }),
-      paid: el("input", { type: "checkbox", checked: v.paid })
-    };
-    f.status.value = v.status;
-    const err = el("p", { class: "err", role: "alert", hidden: true });
-    const save = el("button", { class: "btn", type: "submit", text: isNew ? "Add booking" : "Save" });
-    const lab = (t, input) => el("label", { class: "field" }, el("span", { text: t }), input);
-    const form = el("form", { class: "form", onsubmit: async e => {
-      e.preventDefault();
-      const body = {
-        name: f.name.value.trim(), phone: f.phone.value.trim(), email: f.email.value.trim() || null,
-        dining_date: f.dining_date.value, dining_time: f.dining_time.value || DEFAULT_TIME,
-        guests: Number(f.guests.value), occasion: f.occasion.value.trim() || null,
-        status: f.status.value, dietary: f.dietary.value.trim() || null, notes: f.notes.value.trim() || null,
-        paid: f.paid.checked
-      };
-      const clash = body.status === "accepted" && rows.find(x => x !== r && x.status === "accepted" && x.dining_date === body.dining_date);
-      if (clash && !confirm(`${clash.name} is already confirmed for ${longDate(body.dining_date)}. Save this one as confirmed too?`)) return;
-      save.disabled = true; err.hidden = true;
-      try {
-        if (isNew) {
-          const out = await api("/rest/v1/bookings", { method: "POST", body: { ...body, source: "manual" }, prefer: "return=representation" });
-          rows.push((out && out[0]) || { ...body, source: "manual", id: String(Date.now()), created_at: new Date().toISOString() });
-          rows.sort((a, b) => a.dining_date < b.dining_date ? -1 : a.dining_date > b.dining_date ? 1 : 0);
-          tab = body.status === "accepted" ? (body.dining_date >= today() ? "confirmed" : "past") : body.status === "pending" ? "pending" : "declined";
-          pickedDay = null;
-        } else {
-          const out = await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "PATCH", body, prefer: "return=representation" });
-          Object.assign(r, (out && out[0]) || body);
-        }
-        dlg.close(); render(); toast(isNew ? "Booking added." : "Saved.");
-      } catch (ex) { err.textContent = "Could not save: " + ex.message; err.hidden = false; save.disabled = false; }
-    } },
-      el("h2", { text: isNew ? "Add a booking" : "Edit booking" }),
-      el("div", { class: "form__row" }, lab("Name", f.name), lab("WhatsApp number", f.phone)),
-      el("div", { class: "form__row" }, lab("Date", f.dining_date), lab("Time", f.dining_time)),
-      el("div", { class: "form__row" }, lab("Guests", f.guests), lab("Status", f.status)),
-      lab("Occasion", f.occasion),
-      lab("Email (optional)", f.email),
-      lab("Dietary requirements", f.dietary),
-      lab("About their evening", f.notes),
-      el("datalist", { id: "occs" }, OCCASIONS.map(o => el("option", { value: o }))),
-      el("div", { class: "form__check" },
-        el("label", null, f.paid, "Full payment received")),
-      err,
-      el("div", { class: "form__acts" },
-        save,
-        el("button", { class: "btn btn--ghost", type: "button", text: "Close", onclick: () => dlg.close() }),
-        el("span", { class: "sp" }),
-        !isNew && el("button", { class: "btn btn--ghost", type: "button", text: "Delete", onclick: async () => {
-          if (!confirm(`Delete ${r.name}'s booking for good? This cannot be undone.`)) return;
-          try { await api(`/rest/v1/bookings?id=eq.${encodeURIComponent(r.id)}`, { method: "DELETE" }); rows = rows.filter(x => x !== r); dlg.close(); render(); toast("Booking deleted."); }
-          catch (ex) { err.textContent = "Could not delete: " + ex.message; err.hidden = false; }
-        } })));
-    dlg.replaceChildren(form);
-    dlg.showModal();
-  }
-
-  async function refresh() {
-    try { await load(); render(); } catch (e) { if (session) toast("Could not load bookings: " + e.message); }
-  }
-  async function start() {
-    app.replaceChildren(el("div", { class: "gate" }, el("p", { text: "Loading bookings…" })));
-    try { await load(); render(); }
-    catch (e) { if (session) app.replaceChildren(el("div", { class: "gate" }, el("div", { class: "gate__card" }, el("h1", { text: "Bookings" }), el("p", { class: "err", text: "Could not load bookings: " + e.message }), el("button", { class: "btn", type: "button", text: "Try again", onclick: start })))); }
-  }
-  addEventListener("focus", () => { if (session && rows && Date.now() - loadedAt > 60000 && !dlg.open) refresh(); });
-
-  if (session && DB && DB.ready) start(); else gate();
-})();
-</script>
+<script src="assets/db.js?v=2"></script>
+<script src="assets/admin.js?v=5"></script>
 </body>
 </html>

@@ -100,6 +100,11 @@
             <input type="email" name="email" autocomplete="email">
             <em class="bk__err">That email doesn’t look right.</em>
           </label>
+          <label class="bk__field bk__line" id="bkBdayF">
+            <span>Birthday <small>Optional</small></span>
+            <input type="date" name="birthday" autocomplete="bday" min="1900-01-01">
+            <em class="bk__err">That date doesn’t look right.</em>
+          </label>
           <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
           <p class="bk__personal">Ian will be in touch personally to discuss a suitable evening.</p>
         </section>
@@ -265,7 +270,9 @@
     const okPhone = flag("bkPhoneF", form.phone.value.replace(/\D/g, "").length < 8);
     const e = form.email.value.trim();
     const okMail = flag("bkEmailF", !!e && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e));
-    return okName && okPhone && okMail;
+    const bd = form.birthday.value;
+    const okBday = flag("bkBdayF", !!bd && (bd < "1900-01-01" || bd > iso(new Date())));
+    return okName && okPhone && okMail && okBday;
   }
   form.addEventListener("input", e => { const f = e.target.closest(".bk__field"); if (f) f.classList.remove("is-bad"); });
 
@@ -285,6 +292,7 @@
     if (form.notes.value.trim()) lines.push("About our evening: " + form.notes.value.trim());
     lines.push("", "Name: " + form.name.value.trim(), "WhatsApp: " + form.phone.value.trim());
     if (form.email.value.trim()) lines.push("Email: " + form.email.value.trim());
+    if (form.birthday.value) { const [, bm, bdd] = form.birthday.value.split("-").map(Number); lines.push("Birthday: " + new Date(2000, bm - 1, bdd).toLocaleDateString("en-SG", { day: "numeric", month: "long" })); }
     return lines.join("\n");
   }
 
@@ -309,7 +317,7 @@
       DB.call("/rest/v1/bookings", { method: "POST", prefer: "return=minimal", body: {
         dining_date: form.date.value, guests, occasion: form.occasion.value || null,
         name: form.name.value.trim(), phone: form.phone.value.trim(),
-        email: val("email"), dietary: val("dietary"), notes: val("notes")
+        email: val("email"), birthday: form.birthday.value || null, dietary: val("dietary"), notes: val("notes")
       } }).then(() => done("saved"), () => done("failed")).then(() => { busy = false; go(4); });
       return;
     }
