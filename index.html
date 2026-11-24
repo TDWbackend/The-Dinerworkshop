@@ -463,15 +463,15 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 62ch; }
   -webkit-mask-image: url(assets/fx/splash.png); mask-image: url(assets/fx/splash.png);
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; -webkit-mask-position: center; mask-position: center;
   -webkit-mask-size: 0% auto; mask-size: 0% auto;
-  animation: pre-in 2s ease-in-out .15s forwards; }
+  /* one continuous bloom (no stages, so it never seems to pause), with the fade-in running alongside */
+  animation: pre-in 1.9s cubic-bezier(.45, .05, .35, 1) .15s forwards, pre-show .9s ease-out .15s forwards; }
 @keyframes pre-in {
-  0% { opacity: 0; -webkit-mask-size: 0% auto; mask-size: 0% auto; transform: scale(1.08); }
-  30% { opacity: 1; -webkit-mask-size: 95% auto; mask-size: 95% auto; }
-  65% { -webkit-mask-size: 230% auto; mask-size: 230% auto; }
-  100% { opacity: 1; -webkit-mask-size: 420% auto; mask-size: 420% auto; transform: none; } }
+  from { -webkit-mask-size: 0% auto; mask-size: 0% auto; transform: scale(1.08); }
+  to { -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: none; } }
+@keyframes pre-show { to { opacity: 1; } }
 .loader.is-out { -webkit-mask-size: 360vmax auto, 100% 100%; mask-size: 360vmax auto, 100% 100%; opacity: 0; pointer-events: none; }
 .loader.is-out .loader__logo { animation: pre-out .8s var(--ease) forwards; }
-@keyframes pre-out { from { opacity: 1; -webkit-mask-size: 420% auto; mask-size: 420% auto; } to { opacity: 0; -webkit-mask-size: 420% auto; mask-size: 420% auto; transform: scale(1.04); } }
+@keyframes pre-out { from { opacity: 1; -webkit-mask-size: 300% auto; mask-size: 300% auto; } to { opacity: 0; -webkit-mask-size: 300% auto; mask-size: 300% auto; transform: scale(1.04); } }
 html.hero-rest .loader, html:not(.preload) .loader:not(.is-out) { display: none; }
 /* while it is up, only the video shows beneath; the shade, header and words wait */
 html.preload { overflow: hidden; }
@@ -483,7 +483,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/type.css?v=17">
 <!-- page transitions: each page folds open its own way -->
-<link rel="stylesheet" href="assets/motion.css?v=3">
+<link rel="stylesheet" href="assets/motion.css?v=4">
 <script>(() => { const r = document.documentElement; if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const TX = { "index.html": "c", "about.html": "tl", "dining.html": "br", "claypot.html": "tr", "classes.html": "bl", "contact.html": "b", "404.html": "r" };
   const f = (location.pathname.split("/").pop() || "index").replace(/\.html?$/, "") + ".html"; r.dataset.tx = TX[f] || "c";
@@ -720,7 +720,7 @@ const hero = document.getElementById("heroVideo");
 const rootEl = document.documentElement;
 const pre = document.getElementById("pre");
 const stage = document.getElementById("heroStage"), track = document.getElementById("heroTrack");
-const T0 = performance.now(), READ = 2400;   // the logo is seen for this long before anything moves
+const T0 = performance.now(), READ = 2150;   // the logo is seen for this long before anything moves
 const CLIP_END = .8;                          // share of the scroll used by the clip; the rest holds the words
 const REAL_AT = .4;                           // from here on the dish reads as a photo, so the page goes dark
 let revealTimer = 0;
