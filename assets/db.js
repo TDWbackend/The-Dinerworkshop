@@ -4,8 +4,8 @@
    request and ask which evenings are taken. Never put the service_role / secret key in this file.
    While both are empty the booking form simply works through WhatsApp, as before. */
 window.DW_DB = (() => {
-  const url = "";
-  const key = "";
+  const url = "https://onhobpfdquzcnvazccck.supabase.co";
+  const key = "sb_publishable_bt3PwVF2Gv1eNlgGGZuuqQ_abO3CUu8";
   const ready = !!(url && key);
   // Claypot orders are paid online by Stripe. Turn this on only once the claypot-checkout and stripe-webhook
   // functions are deployed with their Stripe keys; until then the order form hands over to WhatsApp as before.
