@@ -369,29 +369,6 @@ a.edition:hover { border-color: rgba(122, 35, 32, .45); transform: translateY(-4
 .card li::before { content: "✦"; font-size: 11px; color: var(--gold); }
 @media (max-width: 900px) { .invest__grid { grid-template-columns: 1fr; } }
 
-/* ══════════════ cooking class teaser ══════════════ */
-.classes { background: var(--cream); overflow: hidden; }
-.classes__grid { display: grid; grid-template-columns: 1fr 1fr; min-height: min(760px, 88vh); }
-.classes__text { display: flex; flex-direction: column; justify-content: center; padding: clamp(70px, 9vw, 120px) clamp(28px, 5vw, 80px) clamp(70px, 9vw, 120px) var(--pad); }
-.classes h2 { margin-top: 18px; font-size: clamp(42px, 4.8vw, 68px); }
-.classes .sub { margin-top: 14px; font-family: var(--serif); font-style: italic; font-size: clamp(20px, 1.8vw, 24px); color: var(--gold); max-width: none; }
-.classes .body { margin-top: 24px; max-width: 50ch; font-size: 16.5px; color: var(--muted); }
-.classes__cta { margin-top: 34px; }
-.classes__photo { position: relative; min-height: 420px; }
-.classes__photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: saturate(.86) sepia(.08); }
-@media (max-width: 900px) {
-  .classes { color: var(--cream); }
-  .classes__grid { grid-template-columns: 1fr; min-height: 0; }
-  .classes__photo { grid-area: 1 / 1; min-height: 0; }
-  .classes__photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(25, 17, 11, .9) 0%, rgba(25, 17, 11, .72) 45%, rgba(25, 17, 11, .35) 100%); }
-  .classes__text { grid-area: 1 / 1; position: relative; z-index: 1; min-height: 100svh; padding: 110px var(--pad) 70px; justify-content: flex-end; }
-  .classes .eyebrow { color: var(--gold-2); }
-  .classes h2 { color: var(--cream); }
-  .classes .sub { color: var(--gold-2); }
-  .classes .body { color: rgba(241, 234, 223, .82); }
-  .classes .btn { background: var(--cream); border-color: var(--cream); color: var(--ink); }
-}
-
 /* ══════════════ closing band ══════════════ */
 .cta { background: var(--cream-2); text-align: center; }
 /* the reserve scene: scrolling walks the camera from the living room to the dining table, then the invitation comes out */
@@ -551,7 +528,6 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
     <div class="hero__says rv d1">
       <div class="hero__say hero__say--sketch">
         <h1><span>Where Heritage Meets</span> <span>Culinary Curiosity.</span></h1>
-        <p class="hero__sub">Private dining in a 1923 Black &amp; White estate, Sembawang.</p>
       </div>
       <div class="hero__say hero__say--real" aria-hidden="true">
         <p class="hero__h"><span>The Bespoke</span> <span>Dining Experience</span></p>
@@ -582,7 +558,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
       <article class="dish">
         <div class="dish__name rv"><h2>Hainanese Heritage Pork Chop</h2></div>
         <div class="dish__plate rv"><img src="assets/dishes/pork-chop.webp?v=4" alt="Sliced roast pork with tomato pepper sauce on a black plate" loading="lazy"></div>
-        <div class="dish__text rv"><p>Tender, thick-cut pork finished with a slow-reduced sweet-and-sour pineapple jus.</p></div>
+        <div class="dish__text rv"><p>Tender, thick-cut pork finished with slow-reduced roasted tomato &amp; pepper jam.</p></div>
       </article>
 
       <article class="dish">
@@ -635,7 +611,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
             <div class="ecard__body"><h3>The Arrival</h3><p>Step off the beaten path into our 1924 colonial sanctuary.</p></div>
           </article>
           <article class="ecard">
-            <img src="assets/experience/living-hall.jpg" alt="The living hall in warm evening light, with a cream sofa, carved wooden chairs and Persian rugs" loading="lazy" style="object-position: 36% 50%">
+            <img src="assets/experience/living-hall.jpg?v=2" alt="The living hall in warm evening light, with a cream sofa, carved wooden chairs and Persian rugs" loading="lazy" style="object-position: 36% 50%">
             <div class="ecard__body"><h3>Pre-Dinner Drinks</h3><p>Unwind in our living hall with handcrafted welcome drinks.</p></div>
           </article>
           <article class="ecard">
@@ -671,20 +647,6 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
   </div>
 </section>
 
-<!-- ─────────────── cooking class: words left, the children right; on phones the photo carries the words ─────────────── -->
-<section class="classes" id="classes">
-  <div class="classes__grid">
-    <div class="classes__text">
-      <p class="eyebrow rv">Cooking Class</p>
-      <h2 class="rv d1">Our Sensory Kitchen</h2>
-      <p class="sub rv d2">Empowering Children with Essential Culinary Life Skills</p>
-      <p class="body rv d3">“Our Sensory Kitchen” is a hands-on culinary workshop designed to teach children meal preparation as a vital, empowering life skill. By exploring raw ingredients, kitchen tools, and flavour building, young chefs develop fine motor control, confidence, and independence in the kitchen.</p>
-      <div class="classes__cta rv d4"><a class="btn" href="classes.html">Discover Our Sensory Kitchen <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    </div>
-    <div class="classes__photo rv d1"><img src="assets/classes/philosophy.jpg?v=2" alt="Children in chef hats working at bowls along the long wooden table" loading="lazy"></div>
-  </div>
-</section>
-
 <!-- ─────────────── closing: reserve ─────────────── -->
 <section class="tour" id="reserve">
  <div class="tour__track" id="tourTrack">
@@ -693,7 +655,7 @@ html.preload .hero__copy .rv { opacity: 0 !important; transform: translateY(36px
     <div class="tour__shade" aria-hidden="true"></div>
     <div class="inner tour__words">
       <h2>Reserve your <em>private sitting.</em></h2>
-      <p class="lead">Submit your preferred date and group size via WhatsApp, at least 2 weeks in advance.</p>
+      <p class="lead">Submit your preferred date and group size via WhatsApp, minimum 2 weeks in advance.</p>
       <div class="cta__btns"><a class="btn" href="contact.html#book" data-book>Book Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     </div>
   </div>
@@ -934,8 +896,7 @@ if (estate) {
   if (!track) return;
   const dishes = [...track.querySelectorAll(".dish")];
   const N = dishes.length;
-  const TURN = 140;
-  const ROLL = 170;                                  // degrees a plate turns while rolling the full arc                                  // degrees the plate turns per dish
+  const TURN = 140;                                  // degrees the plate turns per dish
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const clamp01 = v => Math.min(1, Math.max(0, v));
   const smooth = t => { t = clamp01(t); return t * t * (3 - 2 * t); };
@@ -948,33 +909,15 @@ if (estate) {
     const k = Math.min(N - 2, Math.floor(raw));
     return k + smooth((raw - k - .25) / .5);
   }
-  // the last step (into the claypot) does not turn: the plates ride round a big wheel whose top is the
-  // centre of the screen, so the plate before it rolls off to the left and the claypot rolls in from the right
-  function wheel(theta) {
-    const wide = innerWidth > 900, R = innerWidth * (wide ? .9 : 1.4);
-    return `translate(${(R * Math.sin(theta)).toFixed(1)}px, ${(R * (1 - Math.cos(theta))).toFixed(1)}px)`;
-  }
   function paint(p) {
     const at = pos(p), k = Math.floor(at), f = at - k;
-    const rolling = k === N - 2 && f > 0;                     // between the last plate and the claypot
-    const SWING = Math.asin(innerWidth > 900 ? .55 / .9 : .9 / 1.4);
     dishes.forEach((d, i) => {
       const [name, plate, text] = d.children;
-      let spin;
-      if (rolling && (i === k || i === k + 1)) {
-        // rolling round the arc: the plate turns like a wheel, the one leaving turns away, the claypot turns into place
-        const theta = i === k ? -f * SWING : (1 - f) * SWING;
-        plate.style.transform = wheel(theta);
-        plate.style.opacity = (1 - smooth((Math.abs(theta) / SWING - .35) / .65)).toFixed(3);
-        spin = theta / SWING * ROLL;
-      } else {
-        plate.style.transform = "";
-        // the dish on the plate now stays put underneath; the next one fades in over it as the plate turns
-        plate.style.opacity = i === k ? 1 : i === k + 1 ? smooth(f * 1.15 - .08).toFixed(3) : 0;
-        // each dish sits upright, exactly as plated, when it is the one showing; it turns in and out around that
-        const turns = i === N - 1 ? 0 : i === N - 2 ? Math.min(0, at - i) : at - i;
-        spin = turns * TURN;
-      }
+      plate.style.transform = "";
+      // the dish on the plate now stays put underneath; the next one fades in over it as the plate turns
+      plate.style.opacity = i === k ? 1 : i === k + 1 ? smooth(f * 1.15 - .08).toFixed(3) : 0;
+      // every dish, the claypot included, sits upright when it is the one showing and turns in and out around that
+      const spin = (at - i) * TURN;
       plate.firstElementChild.style.transform = `rotate(${spin.toFixed(2)}deg)`;
       const t = clamp01(1 - Math.abs(at - i) * 2.4);
       name.style.opacity = text.style.opacity = t.toFixed(3);
