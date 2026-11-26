@@ -273,7 +273,7 @@ export default function ClaypotPage() {
               Our signature Chicken Claypot Rice is available for private takeaway in two sizes.
             </p>
             <p className="rv d2">
-              You need to place an order one week in advance. Pick up is every Tuesday.
+              You need to place an order one week in advance. Pick up is every Monday.
             </p>
             <img className="rv d3" src="/assets/dishes/claypot.webp" alt="" loading="lazy" />
           </div>
@@ -352,13 +352,13 @@ export default function ClaypotPage() {
             </div>
             <label className="order__field" id="fDate">
               <span className="order__label">
-                Pick-up Tuesday
+                Pick-up Monday
               </span>
               {" "}
               <input type="date" name="date" id="oDate" required />
               {" "}
               <em className="err">
-                Please choose a Tuesday at least one week from today.
+                Please choose a Monday at least one week from today.
               </em>
             </label>
             <div className="order__two">
@@ -533,7 +533,7 @@ export default function ClaypotPage() {
       </footer>
       <Scripts
         srcs={[
-          "/assets/pages/claypot.js?v=1",
+          "/assets/pages/claypot.js?v=2",
           "/assets/db.js?v=4",
           "/assets/book.js?v=9",
           "/assets/wa.js?v=2",

@@ -350,18 +350,18 @@ export default function DiningPage() {
               <div className="policy">
                 <div className="row rv">
                   <strong>
-                    At least 7 days notice
+                    14 days or more notice
                   </strong>
                   <span>
-                    If you need to postpone your dining experience, the payment will be credited toward a rescheduled date within 90 days.
+                    If you need to postpone your dining experience, the 50% deposit will be credited toward a rescheduled date within 90 days.
                   </span>
                 </div>
                 <div className="row rv d1">
                   <strong>
-                    Less than 7 days notice
+                    Within 7 days of the event
                   </strong>
                   <span>
-                    The payment will be forfeited due to the bespoke fresh ingredient sourcing.
+                    The deposit will be forfeited due to the bespoke fresh ingredient sourcing.
                   </span>
                 </div>
               </div>

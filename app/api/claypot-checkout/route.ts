@@ -35,10 +35,10 @@ export async function POST(req: Request) {
   if (phone.replace(/\D/g, "").length < 8 || phone.length > 40) return json(400, { error: "Please add a number we can reach you on." });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 200) return json(400, { error: "Please add an email address for your receipt." });
   if (!Number.isInteger(qty) || qty < 1 || qty > MAX_POTS) return json(400, { error: "Please choose between 1 and " + MAX_POTS + " pots." });
-  if (!/^\d{4}-\d\d-\d\d$/.test(pickup) || isNaN(Date.parse(pickup + "T00:00:00Z"))) return json(400, { error: "Please choose a pick-up Tuesday." });
-  // orders need a week, and pick-up is every Tuesday
-  if (new Date(pickup + "T00:00:00Z").getUTCDay() !== 2 || pickup < addDays(sgToday(), 7)) {
-    return json(400, { error: "Please choose a Tuesday at least one week from today." });
+  if (!/^\d{4}-\d\d-\d\d$/.test(pickup) || isNaN(Date.parse(pickup + "T00:00:00Z"))) return json(400, { error: "Please choose a pick-up Monday." });
+  // orders need a week, and pick-up is every Monday
+  if (new Date(pickup + "T00:00:00Z").getUTCDay() !== 1 || pickup < addDays(sgToday(), 7)) {
+    return json(400, { error: "Please choose a Monday at least one week from today." });
   }
 
   try {

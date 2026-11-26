@@ -82,7 +82,7 @@ export function bookingConfirmed(r: Booking, site: string): Mail {
     intro: [`Dear ${first(r.name)},`, "Your private dining evening at The Dinerworkshop is confirmed."],
     rows,
     button: { text: "WhatsApp Ian", url: WA_LINK },
-    outro: ["If you need to postpone your dining experience with at least 7 days notice, the payment will be credited toward a rescheduled date within 90 days. With less than 7 days notice, the payment will be forfeited due to the bespoke fresh ingredient sourcing.",
+    outro: ["If you need to postpone your dining experience with 14 days or more notice, the 50% deposit will be credited toward a rescheduled date within 90 days. Within 7 days of the event, the deposit will be forfeited due to the bespoke fresh ingredient sourcing.",
       `For anything at all, reach Ian on WhatsApp at ${WHATSAPP}.`],
   }) };
 }

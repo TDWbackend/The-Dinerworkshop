@@ -87,9 +87,9 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
   let qty = 1, busy = false;
   const MAX = 10;
   const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  // orders need a week; pick-up is on Tuesdays, so the earliest date is the first Tuesday a week or more away
-  const tomorrow = () => { const d = new Date(); d.setDate(d.getDate() + 7); while (d.getDay() !== 2) d.setDate(d.getDate() + 1); return iso(d); };
-  const isTuesday = v => new Date(v + "T12:00:00").getDay() === 2;
+  // orders need a week; pick-up is on Mondays, so the earliest date is the first Monday a week or more away
+  const tomorrow = () => { const d = new Date(); d.setDate(d.getDate() + 7); while (d.getDay() !== 1) d.setDate(d.getDate() + 1); return iso(d); };
+  const isMonday = v => new Date(v + "T12:00:00").getDay() === 1;
   $("oDate").min = tomorrow(); $("oDate").step = 7;
 
   // a link like claypot.html?edition=grand#order or ?keep=1 preselects
@@ -118,7 +118,7 @@ document.querySelectorAll(".rv").forEach(el => io.observe(el));
   const flag = (id, bad) => { $(id).classList.toggle("is-bad", bad); return !bad; };
   form.addEventListener("submit", e => {
     e.preventDefault();
-    const okD = flag("fDate", !form.date.value || form.date.value < tomorrow() || !isTuesday(form.date.value));
+    const okD = flag("fDate", !form.date.value || form.date.value < tomorrow() || !isMonday(form.date.value));
     const okN = flag("fName", !form.name.value.trim());
     const okP = flag("fPhone", form.phone.value.replace(/\D/g, "").length < 8);
     if (!(okD && okN && okP)) { const bad = form.querySelector(".order__field.is-bad input"); if (bad) bad.focus(); return; }
