@@ -14,7 +14,7 @@ export default function ClassesPage() {
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/pages/classes.css?v=1" precedence="dw" />
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
-      <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
+      <link rel="stylesheet" href="/assets/foot.css?v=4" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/type.css?v=17" precedence="dw" />
       <link rel="stylesheet" href="/assets/motion.css?v=5" precedence="dw" />
@@ -130,7 +130,7 @@ export default function ClassesPage() {
                   </div>
                 </article>
                 <article className="step">
-                  <img src="/assets/classes/level-2.jpg?v=4" alt="A boy cutting strawberries with a child-safe knife on a chopping board" loading="lazy" />
+                  <img src="/assets/classes/level-2.jpg?v=5" alt="A boy cutting strawberries with a child-safe knife on a chopping board" loading="lazy" />
                   <div className="step__body">
                     <p className="step__lvl">
                       Level 2
@@ -229,10 +229,6 @@ export default function ClassesPage() {
                     <path d="M5 12h14M13 6l6 6-6 6" />
                   </svg>
                 </a>
-                {" "}
-                <a className="btn btn--gold" href="mailto:thedinerworkshop@gmail.com?subject=Our%20Sensory%20Kitchen">
-                  Email the concierge
-                </a>
               </div>
             </div>
             <dl className="contact__list rv d2">
@@ -259,9 +255,9 @@ export default function ClassesPage() {
                   Email
                 </dt>
                 <dd>
-                  <a href="mailto:thedinerworkshop@gmail.com">
-                    thedinerworkshop@gmail.com
-                  </a>
+                  <span>
+                  thedinerworkshop@gmail.com
+                </span>
                 </dd>
               </div>
               <div>
@@ -287,15 +283,6 @@ export default function ClassesPage() {
             <p className="foot__line">
               Where Heritage Meets Culinary Curiosity.
             </p>
-            <div className="foot__social">
-              <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4.2" />
-                  <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-            </div>
           </div>
           <div className="foot__cols">
             <div className="foot__col">
@@ -358,8 +345,17 @@ export default function ClassesPage() {
                   +65 8071 0506
                 </a>
                 {" "}
-                <a href="mailto:thedinerworkshop@gmail.com">
+                <span>
                   thedinerworkshop@gmail.com
+                </span>
+                {" "}
+                <a className="foot__ig" href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram, @thedinerworkshop">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                  @thedinerworkshop
                 </a>
               </div>
             </div>
@@ -372,13 +368,16 @@ export default function ClassesPage() {
           <span>
             © 2026 The Dinerworkshop. All rights reserved.
           </span>
+          <a href="/terms">
+            Terms &amp; Conditions
+          </a>
         </div>
       </footer>
       <Scripts
         srcs={[
           "/assets/pages/classes.js?v=1",
           "/assets/db.js?v=4",
-          "/assets/book.js?v=8",
+          "/assets/book.js?v=9",
           "/assets/wa.js?v=2",
           "/assets/btn.js",
           "/assets/motion.js?v=5",

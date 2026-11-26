@@ -21,12 +21,12 @@ const stage = document.getElementById("heroStage"), track = document.getElementB
 const T0 = performance.now(), READ = 2150;   // the logo is seen for this long before anything moves
 const CLIP_END = .8;                          // share of the scroll used by the clip; the rest holds the words
 const REAL_AT = .4;                           // from here on the dish reads as a photo, so the page goes dark
-let revealTimer = 0;
+let revealTimer = 0, shownAt = T0;
 function revealHero() {
   if (!rootEl.classList.contains("preload")) return;
   const left = READ - (performance.now() - T0);
   if (left > 0) { if (!revealTimer) revealTimer = setTimeout(() => { revealTimer = 0; revealHero(); }, left); return; }
-  rootEl.classList.remove("preload");
+  rootEl.classList.remove("preload"); shownAt = performance.now();
   if (pre) { pre.classList.add("is-out"); setTimeout(() => pre.remove(), 2600); }
   try { sessionStorage.setItem("heroSeen", "1"); } catch (_) {}
 }
@@ -36,6 +36,39 @@ function setLook(real) {
   stage.querySelector(".hero__say--real").setAttribute("aria-hidden", real ? "false" : "true");
   if (real) stage.setAttribute("data-dark", ""); else stage.removeAttribute("data-dark");
   navState();
+}
+/* phones: scrubbing a clip with the finger stutters, so there the two clips (this one and the walk to the table)
+   play through by themselves. The class is set before the page paints (lib/boot.ts): their sections are one
+   screen tall and nothing pins. While a clip plays the page holds still; it scrolls again once the clip ends. */
+const TAP_PLAY = rootEl.classList.contains("tap-play");
+let holds = 0;
+function holdPage(on) { holds = Math.max(0, holds + (on ? 1 : -1)); rootEl.classList.toggle("play-lock", holds > 0); }
+if (TAP_PLAY) {
+  const stop = e => { if (holds && e.cancelable && !(e.target.closest && e.target.closest(".bk, .nav"))) e.preventDefault(); };
+  addEventListener("touchmove", stop, { passive: false });
+  addEventListener("wheel", stop, { passive: false });
+}
+// show a clip's last picture without playing it
+function toEnd(v) {
+  v.poster = v.dataset.end;
+  const seek = () => { try { v.currentTime = Math.max(0, v.duration - .04); } catch (_) {} };
+  if (v.readyState >= 1) seek(); else v.addEventListener("loadedmetadata", seek, { once: true });
+}
+// play a clip once from the start: step(share played) runs every frame, done() once at the end or if it cannot play
+function playThrough(v, step, done) {
+  let over = false, guard = 0;
+  const end = () => {
+    if (over) return; over = true; clearTimeout(guard);
+    if (v.paused && !v.ended) toEnd(v);
+    step(1); done();
+  };
+  const frame = () => { if (over) return; const d = v.duration; if (d && isFinite(d)) step(Math.min(1, v.currentTime / d)); requestAnimationFrame(frame); };
+  v.addEventListener("ended", end, { once: true });
+  try { v.currentTime = 0; } catch (_) {}
+  const p = v.play();
+  if (p && p.catch) p.catch(end);
+  guard = setTimeout(end, ((isFinite(v.duration) && v.duration) || 6) * 1000 + 2500);
+  requestAnimationFrame(frame);
 }
 (() => {
   if (!hero || !track) { revealHero(); return; }
@@ -48,6 +81,31 @@ function setLook(real) {
     .catch(() => { hero.preload = "auto"; hero.src = src; });
   hero.addEventListener("loadeddata", revealHero, { once: true });
   setTimeout(revealHero, 3800);
+
+  if (TAP_PLAY) {
+    // arriving part-way down the page (a reload, the back button): the finished dish, and nothing holds the page
+    if (scrollY > innerHeight * .5) { toEnd(hero); setLook(true); stage.classList.add("is-moving", "is-told"); return; }
+    let state = "wait", armedAt = 0;                   // wait, armed (touched), playing, done
+    const names = ["pointerdown", "touchstart", "wheel", "keydown"];
+    const finish = () => { state = "done"; setLook(true); stage.classList.add("is-moving", "is-told"); holdPage(false); };
+    const begin = () => {
+      if (state !== "armed") return;
+      if (performance.now() - armedAt > 6000) { toEnd(hero); finish(); return; }          // the clip never arrived
+      // wait for the preloader to clear and the clip to be ready, so the drawing is seen before it moves
+      if (rootEl.classList.contains("preload") || hero.readyState < 2 || performance.now() - shownAt < 900) { setTimeout(begin, 80); return; }
+      state = "playing";
+      playThrough(hero, p => { stage.classList.toggle("is-moving", p > .02); if (p > REAL_AT && !stage.hasAttribute("data-dark")) setLook(true); }, finish);
+    };
+    const touch = () => {
+      if (state !== "wait") return;
+      state = "armed"; armedAt = performance.now();
+      names.forEach(n => removeEventListener(n, touch));
+      begin();
+    };
+    holdPage(true);
+    names.forEach(n => addEventListener(n, touch, { passive: true }));
+    return;
+  }
 
   const clamp01 = v => Math.min(1, Math.max(0, v));
   let cur = 0, raf = 0;
@@ -86,7 +144,28 @@ function setLook(real) {
     const src = innerWidth <= 700 ? v.dataset.srcSmall : v.dataset.src;
     fetch(src).then(r => { if (!r.ok) throw 0; return r.blob(); }).then(b => { v.src = URL.createObjectURL(b); v.load(); })
       .catch(() => { v.preload = "auto"; v.src = src; });
-  }), { rootMargin: "1200px 0px" }).observe(track);
+  }), { rootMargin: TAP_PLAY ? "2600px 0px" : "1200px 0px" }).observe(track);
+
+  if (TAP_PLAY) {
+    // phones: once the scene comes up the screen it settles into place and the walk plays to the end by itself
+    let played = false, lastY = scrollY;
+    const check = () => {
+      if (played) return;
+      const r = stage.getBoundingClientRect(), down = scrollY >= lastY;
+      lastY = scrollY;
+      if (r.bottom < innerHeight * .5) { played = true; toEnd(v); stage.classList.add("is-told"); return; }   // already past it
+      if (!down || r.top > innerHeight * .4 || r.top < -innerHeight * .4) return;
+      played = true;
+      if (v.readyState < 2) { toEnd(v); stage.classList.add("is-told"); return; }                            // not loaded in time
+      holdPage(true);
+      scrollTo({ top: scrollY + r.top, behavior: "smooth" });
+      playThrough(v, () => {}, () => { stage.classList.add("is-told"); holdPage(false); });
+    };
+    addEventListener("scroll", check, { passive: true });
+    check();
+    return;
+  }
+
   const progress = () => { const r = track.getBoundingClientRect(); return clamp01(-r.top / Math.max(1, r.height - innerHeight)); };
   function paint() {
     const p = progress(), target = clamp01(p / END);
@@ -207,8 +286,9 @@ if (estate) {
     dishes.forEach((d, i) => {
       const [name, plate, text] = d.children;
       plate.style.transform = "";
-      // the dish on the plate now stays put underneath; the next one fades in over it as the plate turns
-      plate.style.opacity = i === k ? 1 : i === k + 1 ? smooth(f * 1.15 - .08).toFixed(3) : 0;
+      // the dish on the plate now holds while the next one fades in over it as the plate turns, then lets go,
+      // so nothing is left showing underneath (the claypot is a different shape from the plates)
+      plate.style.opacity = i === k ? (1 - smooth((f - .45) / .5)).toFixed(3) : i === k + 1 ? smooth(f * 1.15 - .08).toFixed(3) : 0;
       // every dish, the claypot included, sits upright when it is the one showing and turns in and out around that
       const spin = (at - i) * TURN;
       plate.firstElementChild.style.transform = `rotate(${spin.toFixed(2)}deg)`;

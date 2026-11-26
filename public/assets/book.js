@@ -106,19 +106,19 @@
             <em class="bk__err">That date doesn’t look right.</em>
           </label>
           <input type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
-          <p class="bk__personal">Ian will be in touch personally to discuss a suitable evening.</p>
+          <p class="bk__personal">Ian will be in touch personally to discuss your preferred evening.</p>
         </section>
 
         <section class="bk__step bk__done" data-step="4">
           <h2 id="bkDoneTitle">Thank you.</h2>
           <p class="bk__sub" id="bkDoneSub"></p>
-          <p class="alt"><span id="bkAltLead"></span> <a id="bkWaAgain" href="#" target="_blank" rel="noopener"></a> or <a id="bkMail" href="#">send it by email</a>.</p>
+          <p class="alt"><span id="bkAltLead"></span> <a id="bkWaAgain" href="#" target="_blank" rel="noopener"></a>.</p>
         </section>
       </div>
 
       <div class="bk__foot">
         <button class="btn" type="submit" id="bkNext">Continue</button>
-        <p class="bk__fine" id="bkFine" hidden>A full non-refundable payment secures your exclusive evening on the calendar.</p>
+        <p class="bk__fine" id="bkFine" hidden>A 50% non-refundable payment secures your exclusive evening on the calendar. Remaining 50% payment on the day of dining.</p>
         <button class="bk__back" type="button" id="bkBack" hidden>Back</button>
       </div>
     </form>
@@ -151,7 +151,7 @@
     alt.hidden = false;
     if (how === "saved") {
       labels[3] = "Request received";
-      sub.textContent = "Your request has been received. Ian will be in touch personally to discuss a suitable evening.";
+      sub.textContent = "Your request has been received. Ian will be in touch personally to discuss your preferred evening.";
       alt.hidden = true;                                   // nothing for the guest to send: Ian contacts them
     } else if (how === "failed") {
       labels[3] = "Send your request on WhatsApp";
@@ -159,7 +159,7 @@
       lead.textContent = ""; wa.textContent = "Open WhatsApp";
     } else {
       labels[3] = "Request sent to WhatsApp";
-      sub.textContent = "Your request is ready in WhatsApp. Press send there and Ian will be in touch personally to discuss a suitable evening.";
+      sub.textContent = "Your request is ready in WhatsApp. Press send there and Ian will be in touch personally to discuss your preferred evening.";
       lead.textContent = "WhatsApp didn’t open?"; wa.textContent = "Try again";
     }
   }
@@ -305,7 +305,6 @@
       const text = message();
       waUrl = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
       $("bkWaAgain").href = waUrl;
-      $("bkMail").href = `mailto:${MAIL}?subject=${encodeURIComponent("Private sitting request")}&body=${encodeURIComponent(text)}`;
       $("bkDoneTitle").textContent = "Thank you, " + form.name.value.trim().split(" ")[0] + ".";
       if (!DB) { window.open(waUrl, "_blank", "noopener"); done("wa"); go(4); return; }
       if (busy) return;

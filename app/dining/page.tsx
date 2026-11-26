@@ -14,7 +14,7 @@ export default function DiningPage() {
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/pages/dining.css?v=1" precedence="dw" />
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
-      <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
+      <link rel="stylesheet" href="/assets/foot.css?v=4" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/type.css?v=17" precedence="dw" />
       <link rel="stylesheet" href="/assets/motion.css?v=5" precedence="dw" />
@@ -112,7 +112,7 @@ export default function DiningPage() {
           <article className="jrow jrow--flip">
             <div className="jrow__pic rv">
               <div className="jrow__img">
-                <img src="/assets/dining/how-2.jpg" alt="Seared beef topped with salmon roe" loading="lazy" />
+                <img src="/assets/dining/how-2.jpg?v=2" alt="Golden roast chicken pieces with cracked pepper and herbs on a bed of roasted nuts" loading="lazy" />
               </div>
             </div>
             <div className="jrow__txt rv">
@@ -307,7 +307,7 @@ export default function DiningPage() {
                       Inquire
                     </strong>
                     <span>
-                      Submit your preferred date and group size via our concierge page (minimum 2 weeks in advance).
+                      Submit your preferred date and group size via our concierge page (at least 2 weeks in advance).
                     </span>
                   </div>
                 </li>
@@ -327,7 +327,9 @@ export default function DiningPage() {
                       Confirmation
                     </strong>
                     <span>
-                      A full non-refundable payment secures your exclusive evening on the calendar.
+                      A 50% non-refundable payment secures your exclusive evening on the calendar.
+                      <br />
+                      Remaining 50% payment on the day of dining.
                     </span>
                   </div>
                 </li>
@@ -381,7 +383,7 @@ export default function DiningPage() {
                   <i></i>
                 </summary>
                 <p>
-                  Absolutely. We offer complimentary corkage for the 1st bottle.
+                  Absolutely. We offer complimentary corkage for the 1st bottle. No cakeage fee too as we simply love celebrations!
                 </p>
               </details>
               <details className="rv d1">
@@ -427,7 +429,7 @@ export default function DiningPage() {
                 </em>
               </h2>
               <p className="lead rv d1">
-                Submit your preferred date and group size via WhatsApp, minimum 2 weeks in advance.
+                Submit your preferred date and group size via our concierge page (at least 2 weeks in advance).
               </p>
               <div className="contact__cta rv d2">
                 <a className="btn" href="#book" data-book="">
@@ -466,9 +468,9 @@ export default function DiningPage() {
                   Email
                 </dt>
                 <dd>
-                  <a href="mailto:thedinerworkshop@gmail.com">
-                    thedinerworkshop@gmail.com
-                  </a>
+                  <span>
+                  thedinerworkshop@gmail.com
+                </span>
                 </dd>
               </div>
               <div>
@@ -492,15 +494,6 @@ export default function DiningPage() {
             <p className="foot__line">
               Where Heritage Meets Culinary Curiosity.
             </p>
-            <div className="foot__social">
-              <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4.2" />
-                  <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-            </div>
           </div>
           <div className="foot__cols">
             <div className="foot__col">
@@ -563,8 +556,17 @@ export default function DiningPage() {
                   +65 8071 0506
                 </a>
                 {" "}
-                <a href="mailto:thedinerworkshop@gmail.com">
+                <span>
                   thedinerworkshop@gmail.com
+                </span>
+                {" "}
+                <a className="foot__ig" href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram, @thedinerworkshop">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                  @thedinerworkshop
                 </a>
               </div>
             </div>
@@ -577,13 +579,16 @@ export default function DiningPage() {
           <span>
             © 2026 The Dinerworkshop. All rights reserved.
           </span>
+          <a href="/terms">
+            Terms &amp; Conditions
+          </a>
         </div>
       </footer>
       <Scripts
         srcs={[
           "/assets/pages/dining.js?v=1",
           "/assets/db.js?v=4",
-          "/assets/book.js?v=8",
+          "/assets/book.js?v=9",
           "/assets/wa.js?v=2",
           "/assets/btn.js",
           "/assets/motion.js?v=5",

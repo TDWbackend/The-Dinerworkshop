@@ -12,9 +12,9 @@ export default function HomePage() {
   return (
     <>
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"} precedence="dw" />
-      <link rel="stylesheet" href="/assets/pages/home.css?v=1" precedence="dw" />
+      <link rel="stylesheet" href="/assets/pages/home.css?v=3" precedence="dw" />
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
-      <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
+      <link rel="stylesheet" href="/assets/foot.css?v=4" precedence="dw" />
       <link rel="stylesheet" href="/assets/reviews.css" precedence="dw" />
       <link rel="stylesheet" href="/assets/pages/home-2.css?v=2" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
@@ -338,7 +338,7 @@ export default function HomePage() {
                 </em>
               </h2>
               <p className="lead">
-                Submit your preferred date and group size via WhatsApp, minimum 2 weeks in advance.
+                Submit your preferred date and group size via our concierge page (at least 2 weeks in advance).
               </p>
               <div className="cta__btns">
                 <a className="btn" href="/contact#book" data-book="">
@@ -361,15 +361,6 @@ export default function HomePage() {
             <p className="foot__line">
               Where Heritage Meets Culinary Curiosity.
             </p>
-            <div className="foot__social">
-              <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4.2" />
-                  <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-            </div>
           </div>
           <div className="foot__cols">
             <div className="foot__col">
@@ -432,8 +423,17 @@ export default function HomePage() {
                   +65 8071 0506
                 </a>
                 {" "}
-                <a href="mailto:thedinerworkshop@gmail.com">
+                <span>
                   thedinerworkshop@gmail.com
+                </span>
+                {" "}
+                <a className="foot__ig" href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram, @thedinerworkshop">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                  @thedinerworkshop
                 </a>
               </div>
             </div>
@@ -446,15 +446,18 @@ export default function HomePage() {
           <span>
             © 2026 The Dinerworkshop. All rights reserved.
           </span>
+          <a href="/terms">
+            Terms &amp; Conditions
+          </a>
         </div>
       </footer>
       <Scripts
         srcs={[
-          "/assets/pages/home.js?v=1",
+          "/assets/pages/home.js?v=2",
           "/assets/db.js?v=4",
-          "/assets/book.js?v=8",
+          "/assets/book.js?v=9",
           "/assets/wa.js?v=2",
-          "/assets/fly.js",
+          "/assets/fly.js?v=2",
           "/assets/reviews.js",
           "/assets/btn.js",
           "/assets/motion.js?v=5",

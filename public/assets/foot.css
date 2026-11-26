@@ -20,6 +20,9 @@
 .foot__col .foot__muted { color: var(--muted); }
 .foot__list a { width: fit-content; border-bottom: 1px solid transparent; transition: border-color .3s; }
 .foot__list a:hover { border-color: currentColor; }
+.foot__list span { font-size: 15.5px; line-height: 1.6; color: var(--ink); overflow-wrap: anywhere; }
+.foot__list .foot__ig { display: inline-flex; align-items: center; gap: 8px; }
+.foot__ig svg { width: 18px; height: 18px; flex: none; }
 
 /* the name, very large and quiet, filling the width */
 .foot__mark { margin-top: clamp(56px, 7vw, 100px); padding: 0 var(--pad); font-family: var(--serif); font-weight: 300; text-transform: uppercase;
@@ -30,6 +33,12 @@
 .foot__base a { color: var(--muted); }
 .foot__base a:hover { color: var(--ink); }
 
+/* wide screens: the contact column is as wide as the email address, so it stays on one line */
+@media (min-width: 901px) {
+  .foot__top { grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr); }
+  .foot__cols { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) max-content; }
+  .foot__list span { overflow-wrap: normal; white-space: nowrap; }
+}
 @media (max-width: 900px) {
   .foot__top { grid-template-columns: 1fr; }
   .foot__cols { grid-template-columns: 1fr 1fr; }

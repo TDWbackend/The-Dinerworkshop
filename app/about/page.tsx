@@ -14,7 +14,7 @@ export default function AboutPage() {
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/pages/about.css?v=3" precedence="dw" />
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
-      <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
+      <link rel="stylesheet" href="/assets/foot.css?v=4" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/type.css?v=17" precedence="dw" />
       <link rel="stylesheet" href="/assets/motion.css?v=5" precedence="dw" />
@@ -98,13 +98,10 @@ export default function AboutPage() {
         <img className="why-dish why-dish--r" src="/assets/dishes/side-beef.webp" alt="" aria-hidden="true" loading="lazy" />
         <div className="inner">
           <h2 className="rv">
-            Why The Dinerworkshop?
+            Why “The Dinerworkshop”?
           </h2>
           <p id="whyWords">
-            <strong>
-              The Dinerworkshop
-            </strong>
-            {" is private dining in Chef Ian’s historic family home in Sembawang. He cooks his family’s Hainanese recipes, passed down through generations, then studied, perfected and elevated. One sitting an evening, so the only table is yours."}
+            Cherished family recipes passed down through generations are not merely repeated—they are studied, perfected, and elevated. Here, the warmth of a historic home merges with culinary precision to create an intimate dining journey. One exclusive sitting each evening with a personalised bespoke menu.
           </p>
         </div>
       </section>
@@ -237,7 +234,7 @@ export default function AboutPage() {
             <article className="ch ch--l">
               <span className="ch__dot" aria-hidden="true"></span>
               <div className="ch__img">
-                <img src="/assets/experience/house-dusk.jpg" alt="The Dinerworkshop’s Black and White colonial house at dusk, its windows lit" loading="lazy" />
+                <img src="/assets/experience/house-dusk.jpg?v=2" alt="The Dinerworkshop’s Black and White colonial house at dusk, its windows lit" loading="lazy" />
               </div>
               <div className="ch__text">
                 <h3>
@@ -263,7 +260,7 @@ export default function AboutPage() {
                 </em>
               </h2>
               <p className="lead rv d1">
-                Submit your preferred date and group size via WhatsApp, minimum 2 weeks in advance.
+                Submit your preferred date and group size via our concierge page (at least 2 weeks in advance).
               </p>
               <div className="contact__cta rv d2">
                 <a className="btn" href="/#enquire" data-book="">
@@ -302,9 +299,9 @@ export default function AboutPage() {
                   Email
                 </dt>
                 <dd>
-                  <a href="mailto:thedinerworkshop@gmail.com">
-                    thedinerworkshop@gmail.com
-                  </a>
+                  <span>
+                  thedinerworkshop@gmail.com
+                </span>
                 </dd>
               </div>
               <div>
@@ -330,15 +327,6 @@ export default function AboutPage() {
             <p className="foot__line">
               Where Heritage Meets Culinary Curiosity.
             </p>
-            <div className="foot__social">
-              <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4.2" />
-                  <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-            </div>
           </div>
           <div className="foot__cols">
             <div className="foot__col">
@@ -401,8 +389,17 @@ export default function AboutPage() {
                   +65 8071 0506
                 </a>
                 {" "}
-                <a href="mailto:thedinerworkshop@gmail.com">
+                <span>
                   thedinerworkshop@gmail.com
+                </span>
+                {" "}
+                <a className="foot__ig" href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram, @thedinerworkshop">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                  @thedinerworkshop
                 </a>
               </div>
             </div>
@@ -415,13 +412,16 @@ export default function AboutPage() {
           <span>
             © 2026 The Dinerworkshop. All rights reserved.
           </span>
+          <a href="/terms">
+            Terms &amp; Conditions
+          </a>
         </div>
       </footer>
       <Scripts
         srcs={[
           "/assets/pages/about.js?v=1",
           "/assets/db.js?v=4",
-          "/assets/book.js?v=8",
+          "/assets/book.js?v=9",
           "/assets/wa.js?v=2",
           "/assets/btn.js",
           "/assets/motion.js?v=5",

@@ -14,7 +14,7 @@ export default function ContactPage() {
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/pages/contact.css?v=1" precedence="dw" />
       <link rel="stylesheet" href="/assets/book.css?v=2" precedence="dw" />
-      <link rel="stylesheet" href="/assets/foot.css?v=2" precedence="dw" />
+      <link rel="stylesheet" href="/assets/foot.css?v=4" precedence="dw" />
       <link rel="stylesheet" href={"https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400&family=Inter:wght@300;400;500&display=swap"} precedence="dw" />
       <link rel="stylesheet" href="/assets/type.css?v=17" precedence="dw" />
       <link rel="stylesheet" href="/assets/motion.css?v=5" precedence="dw" />
@@ -66,7 +66,7 @@ export default function ContactPage() {
               Submit your preferred date and group size via our concierge page or WhatsApp (minimum 2 weeks in advance).
             </p>
             <p className="lead rv d2">
-              Ian will be in touch personally to discuss a suitable evening.
+              Ian will be in touch personally to discuss your preferred evening.
             </p>
           </div>
           <div className="ct-top__book rv d1" id="book">
@@ -101,9 +101,9 @@ export default function ContactPage() {
                 Email
               </p>
               <p className="v">
-                <a href="mailto:thedinerworkshop@gmail.com">
+                <span>
                   thedinerworkshop@gmail.com
-                </a>
+                </span>
               </p>
             </div>
             <div className="ct-info__item rv">
@@ -161,15 +161,6 @@ export default function ContactPage() {
             <p className="foot__line">
               Where Heritage Meets Culinary Curiosity.
             </p>
-            <div className="foot__social">
-              <a href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-                  <rect x="3" y="3" width="18" height="18" rx="5" />
-                  <circle cx="12" cy="12" r="4.2" />
-                  <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-            </div>
           </div>
           <div className="foot__cols">
             <div className="foot__col">
@@ -232,8 +223,17 @@ export default function ContactPage() {
                   +65 8071 0506
                 </a>
                 {" "}
-                <a href="mailto:thedinerworkshop@gmail.com">
+                <span>
                   thedinerworkshop@gmail.com
+                </span>
+                {" "}
+                <a className="foot__ig" href="https://instagram.com/TheDinerworkshop" target="_blank" rel="noopener" aria-label="Instagram, @thedinerworkshop">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.2" />
+                    <circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none" />
+                  </svg>
+                  @thedinerworkshop
                 </a>
               </div>
             </div>
@@ -246,13 +246,16 @@ export default function ContactPage() {
           <span>
             © 2026 The Dinerworkshop. All rights reserved.
           </span>
+          <a href="/terms">
+            Terms &amp; Conditions
+          </a>
         </div>
       </footer>
       <Scripts
         srcs={[
           "/assets/pages/contact.js?v=1",
           "/assets/db.js?v=4",
-          "/assets/book.js?v=8",
+          "/assets/book.js?v=9",
           "/assets/wa.js?v=2",
           "/assets/btn.js",
           "/assets/motion.js?v=5",

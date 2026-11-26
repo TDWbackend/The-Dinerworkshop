@@ -136,6 +136,8 @@ section { position: relative; }
 .hero__say { transition: opacity .8s var(--ease), transform .9s var(--ease); }
 .hero.is-sketch .hero__say--real, .hero:not(.is-sketch) .hero__say--sketch { position: absolute; left: 0; right: 0; top: 0; opacity: 0; transform: translateY(18px); pointer-events: none; }
 .hero__sub.hero__sub--long { max-width: 66ch; font-size: 16px; line-height: 1.6; }
+/* wide screens: the paragraph stops short of the dish, so every line sits on the dark ground */
+@media (min-width: 701px) { .hero__sub.hero__sub--long { max-width: min(66ch, 40vw); } }
 .hero__copy > .hero__says { max-width: 780px; }
 /* the two buttons share one line, close under the words */
 .hero__copy .hero__cta { margin-top: 26px; max-width: none; flex-wrap: nowrap; }
@@ -174,7 +176,8 @@ section { position: relative; }
   .sig__track { height: 370vh; }
   .sig__label { top: 92px; left: 0; right: 0; max-width: none; margin: 0; padding: 0 var(--pad); text-align: center; font-size: 19px; }
   .dish { grid-template-columns: 1fr; grid-template-rows: auto auto 1fr; align-items: start; justify-items: center; gap: 14px; padding: 130px var(--pad) 28px; text-align: center; }
-  .dish__name { text-align: center; }
+  /* every name takes two lines' room, so all the plates (and the claypot) sit at the same height */
+  .dish__name { text-align: center; display: grid; align-content: end; min-height: calc(2.04 * clamp(26px, 7.2vw, 34px)); }
   .dish h2 { font-size: clamp(26px, 7.2vw, 34px); }
   .dish__sub { margin-top: 6px; font-size: 17px; }
   .dish__plate { width: min(66vw, 36svh); }
@@ -359,6 +362,11 @@ a.edition:hover { border-color: rgba(122, 35, 32, .45); transform: translateY(-4
 .tour__words .lead { margin: 24px auto 0; max-width: 46ch; color: rgba(241, 234, 223, .86); }
 .tour__words .cta__btns { margin-top: 30px; display: flex; justify-content: center; }
 @media (prefers-reduced-motion: reduce) { .tour__track { height: auto; } .tour__stage { position: relative; } }
+/* phones (html.tap-play, set in lib/boot.ts): the hero clip and the walk play through by themselves, so their
+   sections are one screen tall and nothing pins; the page holds still while a clip plays */
+.tap-play .hero-scrub__track, .tap-play .tour__track { height: auto; }
+.tap-play .hero-scrub .hero, .tap-play .tour__stage { position: relative; }
+html.play-lock, html.play-lock body { overflow: hidden; overscroll-behavior: none; }
 .cta__inner { max-width: 760px; }
 .cta h2 { font-size: clamp(42px, 5.4vw, 72px); line-height: 1.02; }
 .cta h2 em { font-style: italic; font-weight: 400; color: var(--gold); }

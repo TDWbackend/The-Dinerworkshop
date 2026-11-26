@@ -7,6 +7,9 @@ export const PRELOAD_BOOT = `(() => {
   try { seen = !!sessionStorage.getItem("heroSeen"); } catch (_) {}
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   document.documentElement.classList.add(seen || still ? "hero-rest" : "preload");
+  // phones: the two scroll-driven clips play through by themselves instead (public/assets/pages/home.js)
+  const touch = matchMedia("(pointer: coarse)").matches || navigator.maxTouchPoints > 0;
+  if (!still && touch && matchMedia("(max-width: 900px)").matches) document.documentElement.classList.add("tap-play");
 })();`;
 
 // Claypot: arriving from the homepage's claypot fly-through, the pot is already in place and the rest fades in.

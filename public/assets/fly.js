@@ -9,8 +9,8 @@
   function target() {
     const vw = innerWidth, vh = innerHeight, cw = document.documentElement.clientWidth;
     if (vw > 900) {
-      const w = Math.min(vh * .88, vw * .58);
-      return { x: cw + vw * .04 - w / 2, y: vh * .52, w };
+      const w = Math.min(vh * .76, vw * .50);
+      return { x: cw - vw * .04 - w / 2, y: vh * .54, w };
     }
     const w = Math.min(vw * .82, vh * .52);
     return { x: cw / 2, y: 96 + w / 2, w };
